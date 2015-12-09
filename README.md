@@ -3,7 +3,7 @@
 Scoop
 =====
 
-Scoop is micro framework for building view based modular Android applications.
+Scoop is a micro framework for building view based modular Android applications.
 
 What do I get?
 ==============
@@ -29,11 +29,11 @@ router.goTo(screen);
 
 We provide 5 primary navigation methods:
 
-1. goTo - Go to specified screen and add it to backstack.
-2. replaceWith - Go to specified screen and replace top of the backstack with it.
-3. resetTo - Go to specified screen and remove all screens after it from backstack. If specified screen is not in backstack remove all and make this screen top of backstack.
-4. goBack - navigate to previous screen.
-5. goUp - Go to parent view controller specified in ParentController attribute of current view controller.
+1. `goTo` - Go to specified screen and add it to backstack.
+2. `replaceWith` - Go to specified screen and replace top of the backstack with it.
+3. `resetTo` - Go to specified screen and remove all screens after it from backstack. If specified screen is not in backstack remove all and make this screen top of backstack.
+4. `goBack` - navigate to previous screen.
+5. `goUp` - Go to parent view controller specified in ParentController attribute of current view controller.
 
 Router do not render views. Router just emit an event that you can listen to render specified screen. Within Scoop we provide extensible view SimpleUIContainer that you can use to render view controllers and transitions.
 
