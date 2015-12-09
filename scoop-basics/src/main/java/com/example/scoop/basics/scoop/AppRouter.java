@@ -1,0 +1,25 @@
+package com.example.scoop.basics.scoop;
+
+import com.lyft.scoop.Router;
+import com.lyft.scoop.RouteChange;
+import com.lyft.scoop.ScreenScooper;
+import rx.Observable;
+import rx.subjects.BehaviorSubject;
+
+public class AppRouter extends Router {
+
+    private final BehaviorSubject<RouteChange> screenChangeSubject = BehaviorSubject.create();
+
+    public AppRouter(ScreenScooper screenScooper) {
+        super(screenScooper);
+    }
+
+    public Observable<RouteChange> observeScreenChange() {
+        return screenChangeSubject.asObservable();
+    }
+
+    @Override
+    protected void onScoopChanged(RouteChange change) {
+        screenChangeSubject.onNext(change);
+    }
+}

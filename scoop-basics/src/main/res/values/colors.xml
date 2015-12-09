@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--https://www.google.com/design/spec/style/color.html#color-color-palette-->
+
+    <color name="primary">#7E9BA8</color>
+    <color name="primary_dark">#333D47</color>
+    <color name="accent">#EA0B8C</color>
+    <color name="window_background">#F4F5F5</color>
+
+    <color name="green">#33D9C2</color>
+    <color name="orange">#FAA33B</color>
+    <color name="yellow">#FCEE22</color>
+    <color name="dark_pink">#AE005E</color>
+    <color name="blue">#2AACE3</color>
+</resources>

@@ -1,0 +1,25 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+configurations {
+    provided
+}
+
+sourceSets {
+    main.compileClasspath += [configurations.provided]
+    test.compileClasspath += [configurations.provided]
+    test.runtimeClasspath += [configurations.provided]
+}
+
+idea.module {
+    scopes.PROVIDED.plus += [configurations.provided]
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+    testCompile "org.robolectric:robolectric:3.0"
+
+    provided 'com.google.android:android:4.1.1.4'
+}
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

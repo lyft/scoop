@@ -1,0 +1,28 @@
+<resources>
+
+    <!-- This styles need SOME LOVE -->
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:colorButtonNormal">@color/accent</item>
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="android:buttonStyle">@style/Button</item>
+        <item name="android:editTextStyle">@style/EditText</item>
+        <item name="android:textViewStyle">@style/TextView</item>
+    </style>
+
+    <style name="Button" parent="Widget.AppCompat.Button">
+        <item name="android:textSize">22sp</item>
+    </style>
+
+
+    <style name="EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textSize">36sp</item>
+    </style>
+
+    <style name="TextView" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">36sp</item>
+    </style>
+</resources>

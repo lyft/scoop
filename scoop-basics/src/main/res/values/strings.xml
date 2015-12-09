@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Scoop Basics</string>
+    <string name="action_settings">Settings</string>
+    <string name="menu_profile_item">Profile</string>
+    <string name="logout_button">Logout</string>
+    <string name="set_pickup_button">Set pickup</string>
+    <string name="set_dropoff_button">Set dropoff</string>
+    <string name="request_ride_button">Request ride</string>
+    <string name="cancel_ride_button">Cancel ride</string>
+    <string name="menu_cancel_ride_button">Cancel ride</string>
+    <string name="menu_accept_ride_button">Accept ride</string>
+    <string name="edit_profile_button">Edit profile</string>
+    <string name="save_button">Save</string>
+
+</resources>
