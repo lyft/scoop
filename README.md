@@ -207,7 +207,7 @@ Download
 compile 'com.lyft:scoop:0.1.0'
 ```
 
-Snapshots of development version are available in [Sonatype's `snapshots` repository][snap].
+Snapshots of development version are available in [Sonatype's `snapshots` repository](https://oss.sonatype.org/content/repositories/snapshots/com/lyft/scoop/).
 
 License
 -------
