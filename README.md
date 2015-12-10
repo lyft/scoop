@@ -35,7 +35,7 @@ We provide 5 primary navigation methods:
 4. `goBack` - navigate to previous screen.
 5. `goUp` - Go to parent view controller specified in the ParentController attribute of the current view controller.
 
-Router does not render views. Router just emits an event that you can listen to in order to render the specified screen. Within Scoop we provide the extensible view SimpleUIContainer that you can use to render view controllers and transitions.
+Router does not render views. Router just emits an event that you can listen to in order to render the specified screen. Within Scoop we provide the extensible view UIContainer that you can use to render view controllers and transitions.
 
 View controller
 ===============
@@ -111,7 +111,7 @@ To control child scoop creation you should extend ScreenScooper class. By defaul
 Instead of adding individual services to your scoops, we recommend implementing dagger integration. In this case the only added service will be the dagger injector.
 
 ```java
-public class DaggerScreenScooper extends SimpleScreenScooper {
+public class DaggerScreenScooper extends ScreenScooper {
 
     @Override
     protected Scoop.Builder addServices(Scoop.Builder scoopBuilder, Screen screen, Scoop parentScoop) {
