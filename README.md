@@ -10,15 +10,15 @@ What do I get?
 
 1. [Router](#router). Object that allows you to navigate between screens and maintain backstack.
 2. [View controllers](#view-controller). A new building block that you will use instead of Activity and Fragments.
-3. [Scoops ("Scopes")](#scoops). Hierarchical scopes that allows you organize your application dependencies and their lifetime.
-4. [Transitions](#transitions). Animations played between moving from one view to another. We provide a set of build in transitions like slide left and right and allow you to create your own.
+3. [Scoops ("Scopes")](#scoops). Hierarchical scopes that allows you organize your application dependencies and their lifespan.
+4. [Transitions](#transitions). Animations played between moving from one view to another. We provide a set of basic transitions such as sliding right, left, etc. Additionally, you are able to create your own custom transitions.
 
 Navigation
 ==========
 
-Our navigation is based on lightweight objects called Screens.
+Our navigation is based on lightweight objects called `Screen`.
 
-Screen is a meta data that specifies which view controller you want to show and optional data you want to pass. You can think of them as Android Intents with a much simpler API.
+`Screen` is a meta data object that specifies which view controller you want to show and optional data you want to pass to your view controller. You can think of them as Android Intents with a much simpler API.
 
 ```java
 Screen screen = Screen.create(MyController.class)
@@ -29,18 +29,18 @@ router.goTo(screen);
 
 We provide 5 primary navigation methods:
 
-1. `goTo` - Go to specified screen and add it to the backstack.
-2. `replaceWith` - Go to specified screen and replace the top of the backstack with it.
-3. `resetTo` - Go to specified screen and remove all screens after it from the backstack. If the specified screen is not in the backstack, remove all and make this screen the top of the backstack.
-4. `goBack` - navigate to previous screen.
-5. `goUp` - Go to parent view controller specified in the ParentController attribute of the current view controller.
+1. `goTo` - Go to specified `Screen` and add it to the backstack.
+2. `replaceWith` - Go to specified `Screen` and replace the top of the backstack with it.
+3. `resetTo` - Go to specified `Screen` and remove all `Screen`s after it from the backstack. If the specified screen is not in the backstack, remove all and make this `Screen` the top of the backstack.
+4. `goBack` - Navigate to previous `Screen`.
+5. `goUp` - Go to parent view controller specified in the `ParentController` attribute of the current view controller.
 
-Router does not render views. Router just emits an event that you can listen to in order to render the specified screen. Within Scoop we provide the extensible view UIContainer that you can use to render view controllers and transitions.
+`Router` does not render views. `Router` just emits an event that you can listen to in order to render the specified `Screen`. Within Scoop we provide the extensible view `UIContainer` that you can use to render view controllers and transitions.
 
-View controller
+ViewController
 ===============
 
-Class that manages a portion of the user interface as well as the interactions between that interface and the underlying data. Similar to activity and fragment, ViewController requires you to specify the layout and has a lifecycle. However its lifecycle consists of two states: "attached" and "detached".
+This class manages a portion of the user interface as well as the interactions between that interface and the underlying data. Similar to an activity or a fragment, `ViewController` requires you to specify the layout id and has lifecycle methods. However, a `ViewController` lifecycle only has two states: "attached" and "detached".
 
 It also automatically applies view binders like [Butterknife](https://github.com/JakeWharton/butterknife). So you don't need to explicitly call ButterKnife.bind.
 
@@ -72,12 +72,12 @@ public class MyController extends ViewController {
 }
 ```
 
-The big difference from Android fragments and activities is that in Scoop we don't keep the view controller alive after it was detached. Whenever you move to a new screen the view controller detaches and disposes together with the view.
+The big difference from Android fragments and activities is that in Scoop we don't keep the `ViewController` in memory after it was detached. Whenever you move to a new `Screen` the `ViewController` detaches and is disposed together with the view.
 
 Scoops
 =======
 
-Scoop's namesake is the word "scope". You can think of app scopes as icecream scoops: going deeper in the navigation stack is an extra scoop on the top with another flavour.
+Scoop's namesake is the word "scope". You can think of app scopes as ice cream scoops: going deeper in the navigation stack is an extra scoop on the top with another flavor.
 
 Primary purpose of scoops is providing access to named services. When you create a scoop you have to specify its parent (except root) and services.
 
@@ -92,7 +92,7 @@ Scoop childScoop = new Scoop.Builder("child", rootScoop)
         .build();
 ```
 
-When you try to find a service within scoop it first tries to find it within itself and if nothing was found it goes up in the scoop heirarhy.
+Internally, when trying to find a service within scoop, scoop will first try to find the service within itself. If the service is not within itself, scoop will iteratively go up in its scoop heirarchy to try to find the service.
 
 ```java
 MyService service = childScoop.findService(MyService.SERVICE_NAME);
@@ -104,9 +104,9 @@ When a scoop is no longer needed you can destroy it, which will remove reference
 childScoop.destroy();
 ```
 
-Typcally you only need to create the root scoop manually. All child scoops will be created by Router whenever you advance in navigation. Created child scoops will be destroyed whenever you navigate to a previous item in the backstack.
+You are only required to create the root scoop manually. All child scoops will be created by `Router` whenever you advance in navigation. Created child scoops will be destroyed whenever you navigate to a previous item in the backstack.
 
-To control child scoop creation you should extend ScreenScooper class. By default screen scooper only adds Screen to each child scoop.
+To control child scoop creation you should extend `ScreenScooper` class. By default `ScreenScooper` only adds `Screen` to each child scoop.
 
 Instead of adding individual services to your scoops, we recommend implementing dagger integration. In this case the only added service will be the dagger injector.
 
@@ -138,7 +138,7 @@ public class DaggerScreenScooper extends ScreenScooper {
 Transitions
 ==========
 
-Transitions are animations played between moving from one view controller to another. Within Scoop we provide the following built in transitions:
+Transitions are animations played between moving from one `ViewController` to another. Within `Scoop` we provide the following built in transitions:
 
 1. Backward slide
 2. Forward slide
@@ -146,7 +146,7 @@ Transitions are animations played between moving from one view controller to ano
 4. Upward slide
 5. Fade
 
-To apply a transition you have to specify it for your view controller using EnterTranstion/ExitTransition attributes.
+To apply a transition you have to specify it for your `ViewController` using `EnterTranstion`/`ExitTransition` attributes.
 
 ```java
 @EnterTransition(FadeTransition.class)
@@ -158,7 +158,7 @@ public class MyController extends ViewController {
 
 If a transition is not specified, views will be swapped instantly.
 
-You can also implement custom transitions by implementing the ScreenTransition interface.
+You can also implement custom transitions by implementing the `ScreenTransition` interface.
 
 ```java
 public class AutoTransition implements ScreenTransition {
@@ -192,7 +192,7 @@ public class AutoTransition implements ScreenTransition {
 Samples
 =======
 
-- [Basics](https://github.com/lyft/scoop/tree/master/scoop-basics) - app that showcase basics of scoop (navigation, parameter passing, dependency injection)
+- [Basics](https://github.com/lyft/scoop/tree/master/scoop-basics) - App that showcases the basics of Scoop (navigation, parameter passing, dependency injection)
 - Micro Lyft - advanced sample based on Lyft's public api to showcase real world usage [COMING SOON].
 
 
