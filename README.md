@@ -8,8 +8,8 @@ Scoop is a micro framework for building view based modular Android applications.
 What do I get?
 ==============
 
-1. [Router](#router). Object that allows you to navigate between screens and maintain backstack.
-2. [View controllers](#view-controller). A new building block that you will use instead of Activity and Fragments.
+1. [Router](#navigation). Object that allows you to navigate between screens and maintain backstack.
+2. [View controllers](#viewcontroller). A new building block that you will use instead of Activity and Fragments.
 3. [Scoops ("Scopes")](#scoops). Hierarchical scopes that allows you organize your application dependencies and their lifespan.
 4. [Transitions](#transitions). Animations played between moving from one view to another. We provide a set of basic transitions such as sliding right, left, etc. Additionally, you are able to create your own custom transitions.
 
