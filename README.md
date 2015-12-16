@@ -1,6 +1,6 @@
 <img src="art/scoop_logo.png" width="190" align="right" hspace="20" />
 
-Scoop
+Scoop [![Build Status](https://travis-ci.org/lyft/scoop.svg)](https://travis-ci.org/lyft/scoop)
 =====
 
 Scoop is a micro framework for building view based modular Android applications.
