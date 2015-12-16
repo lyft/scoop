@@ -32,10 +32,10 @@ public class RouterTest {
     }
 
     @Test
-    public void goToSameInstance() {
+    public void goToSameController() {
 
-        Screen screen1 = Screen.create(SingleInstanceViewController.class);
-        Screen screen2 = Screen.create(SingleInstanceViewController.class);
+        Screen screen1 = Screen.create(ViewController1.class);
+        Screen screen2 = Screen.create(ViewController1.class);
 
         router.goTo(screen1);
 
@@ -49,7 +49,7 @@ public class RouterTest {
     @Test
     public void goBack() {
         Screen screen1 = Screen.create(ViewController1.class);
-        Screen screen2 = Screen.create(ViewController1.class);
+        Screen screen2 = Screen.create(ViewController2.class);
 
         router.goTo(screen1);
         router.goTo(screen2);
@@ -117,10 +117,10 @@ public class RouterTest {
     }
 
     @Test
-    public void replaceToSameInstance() {
+    public void replaceToSameController() {
 
-        Screen screen1 = Screen.create(SingleInstanceViewController.class);
-        Screen screen2 = Screen.create(SingleInstanceViewController.class);
+        Screen screen1 = Screen.create(ViewController1.class);
+        Screen screen2 = Screen.create(ViewController1.class);
 
         router.replaceWith(screen1);
 
@@ -133,19 +133,21 @@ public class RouterTest {
 
     private void checkIfRouterBackstackIsEmpty() {Assert.assertEquals(false, router.goBack());}
 
+
     @Test
-    public void sameSingleInstance() {
-        Screen previous = Screen.create(SingleInstanceViewController.class);
-        Screen next = Screen.create(SingleInstanceViewController.class);
-        Assert.assertTrue(Router.sameSingleInstanceController(previous, next));
+    public void sameController() {
+
+        Screen previous = Screen.create(ViewController1.class);
+        Screen next = Screen.create(ViewController1.class);
+        Assert.assertTrue(Router.sameController(previous, next));
     }
 
     @Test
-    public void notSameInstance() {
+    public void differentController() {
 
-        Screen previous = Screen.create(MultiInstanceViewController.class);
-        Screen next = Screen.create(MultiInstanceViewController.class);
-        Assert.assertFalse(Router.sameSingleInstanceController(previous, next));
+        Screen previous = Screen.create(ViewController1.class);
+        Screen next = Screen.create(ViewController2.class);
+        Assert.assertFalse(Router.sameController(previous, next));
     }
 
     static class ViewController1 extends ViewController {
@@ -175,23 +177,6 @@ public class RouterTest {
         @Override
         protected void onScoopChanged(RouteChange routeChange) {
             lastScreenChange = routeChange;
-        }
-    }
-
-    @SingleInstance
-    static class SingleInstanceViewController extends ViewController {
-
-        @Override
-        protected int layoutId() {
-            return 0;
-        }
-    }
-
-    static class MultiInstanceViewController extends ViewController {
-
-        @Override
-        protected int layoutId() {
-            return 0;
         }
     }
 }
