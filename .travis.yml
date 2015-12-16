@@ -2,9 +2,13 @@ language: android
 
 android:
   components:
-    - build-tools-22.0.1
+    - build-tools-23.0.1
     - android-22
     - extra-android-m2repository
+    - extra-google-m2repository
+
+script:
+  - ./gradlew clean build check
 
 after_success:
   - gradle/deploy_snapshot.sh
