@@ -25,7 +25,7 @@ public class MainUiContainer extends UiContainer {
             return;
         }
 
-        DaggerInjector.fromView(this).inject(this);
+        //Dagger.fromView(this).inject(this);
     }
 
     @Override

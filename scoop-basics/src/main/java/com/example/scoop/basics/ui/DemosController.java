@@ -1,13 +1,11 @@
 package com.example.scoop.basics.ui;
 
-import android.transition.Fade;
 import android.view.View;
 import butterknife.OnClick;
-import com.example.scoop.basics.MainActivityModule;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.rx.ViewSubscriptions;
 import com.example.scoop.basics.scoop.AppRouter;
-import com.example.scoop.basics.scoop.ControllerModule;
+import com.example.scoop.basics.scoop.InjectThat;
 import com.example.scoop.basics.ui.customtransition.AutoTransitionStartController;
 import com.example.scoop.basics.ui.navigationsample.AController;
 import com.example.scoop.basics.ui.paramsample.ParametrizedController;
@@ -17,7 +15,7 @@ import com.lyft.scoop.Screen;
 import com.lyft.scoop.ViewController;
 import javax.inject.Inject;
 
-@ControllerModule(DemosController.Module.class)
+@InjectThat(DemosControllerInjector.class)
 public class DemosController extends ViewController {
 
     public static Screen createScreen() {
@@ -25,11 +23,8 @@ public class DemosController extends ViewController {
     }
 
     @dagger.Module(
-            injects = DemosController.class,
-            addsTo = MainActivityModule.class,
-            library = true
     )
-    public static class Module { }
+    public static class Module {}
 
     private AppRouter appRouter;
 

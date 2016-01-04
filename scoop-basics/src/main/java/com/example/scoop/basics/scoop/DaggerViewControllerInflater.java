@@ -9,8 +9,6 @@ public class DaggerViewControllerInflater extends ViewControllerInflater {
     @Override
     protected ViewController createViewController(Scoop scoop, Class<? extends ViewController> clazz) {
 
-        DaggerInjector injector = DaggerInjector.fromScoop(scoop);
-
-        return injector.get(clazz);
+        return scoop.findService(DaggerScreenScooper.SCREEN_CONTROLLER);
     }
 }

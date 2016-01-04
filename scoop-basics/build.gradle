@@ -1,10 +1,11 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     lintOptions {
         disable 'InvalidPackage'
     }
-    
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
@@ -34,8 +35,9 @@ android {
 }
 
 dependencies {
-    compile 'com.squareup.dagger:dagger:1.2.2'
-    compile 'com.squareup.dagger:dagger-compiler:1.2.2'
+    provided 'javax.annotation:jsr250-api:1.0'
+    compile 'com.google.dagger:dagger:2.0.2'
+    apt 'com.google.dagger:dagger-compiler:2.0.2'
 
     compile 'io.reactivex:rxjava:1.0.14'
     compile 'io.reactivex:rxandroid:1.0.1'

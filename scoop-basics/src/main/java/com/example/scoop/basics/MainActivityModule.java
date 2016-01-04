@@ -1,19 +1,10 @@
 package com.example.scoop.basics;
 
 import android.app.Activity;
-import com.example.scoop.basics.scoop.MainUiContainer;
+import dagger.Module;
 import dagger.Provides;
 
-@dagger.Module(
-        injects = {
-                MainActivity.class,
-                MainUiContainer.class
-        },
-        addsTo = AppModule.class,
-        includes = {
-        },
-        library = true
-)
+@Module()
 public class MainActivityModule {
 
     private MainActivity mainActivity;

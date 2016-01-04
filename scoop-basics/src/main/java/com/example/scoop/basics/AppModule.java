@@ -7,14 +7,7 @@ import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
 
-@Module(
-        injects = {
-                App.class,
-        },
-        includes = {
-        },
-        library = true
-)
+@Module
 public class AppModule {
 
     private App app;
@@ -34,5 +27,4 @@ public class AppModule {
     Application provideApplication() {
         return app;
     }
-
 }

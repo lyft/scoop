@@ -7,11 +7,9 @@ import android.view.ViewGroup;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.example.scoop.basics.scoop.AppRouter;
-import com.example.scoop.basics.scoop.DaggerInjector;
 import com.example.scoop.basics.ui.DemosController;
 import com.lyft.scoop.Scoop;
 import com.lyft.scoop.UiContainer;
-import dagger.ObjectGraph;
 import javax.inject.Inject;
 import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
@@ -33,11 +31,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getRootScoop().inflate(R.layout.root, (ViewGroup)findViewById(R.id.root), true);
+        getRootScoop().inflate(R.layout.root, (ViewGroup) findViewById(R.id.root), true);
 
         ButterKnife.bind(this);
 
-        DaggerInjector.fromScoop(getRootScoop()).inject(this);
+        MainActivityComponent mainActivityComponent = DaggerMainActivityComponent.builder()
+                .appComponent(getApp().getAppComponent())
+                .mainActivityModule(new MainActivityModule(this))
+                .build();
+
+        mainActivityComponent.inject(this);
+        //Dagger.fromScoop(getRootScoop()).inject(this);
 
         appRouter.onCreate(rootScoop, DemosController.createScreen());
 
@@ -47,13 +51,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
     }
 
     @Override
@@ -75,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-
     }
 
     @Override
@@ -93,12 +94,12 @@ public class MainActivity extends AppCompatActivity {
 
     private Scoop getRootScoop() {
         if (rootScoop == null) {
-            ObjectGraph activityGraph = getApp().getApplicationGraph().plus(new MainActivityModule(this));
+            //ObjectGraph activityGraph = getApp().getApplicationGraph().plus(new MainActivityModule(this));
 
-            DaggerInjector activityInjector = new DaggerInjector(activityGraph);
+            //Dagger activityInjector = new Dagger(activityGraph);
 
             rootScoop = new Scoop.Builder("root")
-                    .service(DaggerInjector.SERVICE_NAME, activityInjector)
+                    //.service(Dagger.SERVICE_NAME, activityInjector)
                     .build();
         }
 

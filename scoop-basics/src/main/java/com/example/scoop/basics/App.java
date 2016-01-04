@@ -4,12 +4,13 @@ import android.support.multidex.MultiDexApplication;
 import com.example.scoop.basics.scoop.ButterKnifeViewBinder;
 import com.facebook.stetho.Stetho;
 import com.lyft.scoop.Scoop;
-import dagger.ObjectGraph;
 import timber.log.Timber;
 
 public class App extends MultiDexApplication {
 
-    private ObjectGraph applicationGraph;
+    private AppComponent appComponent;
+
+    //private ObjectGraph applicationGraph;
 
     @Override
     public void onCreate() {
@@ -20,10 +21,14 @@ public class App extends MultiDexApplication {
 
         Scoop.setViewBinder(new ButterKnifeViewBinder());
 
-        applicationGraph = ObjectGraph.create(new AppModule(this));
+        appComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .build();
+
+        //applicationGraph = ObjectGraph.create(new AppModule(this));
     }
 
-    public ObjectGraph getApplicationGraph() {
-        return applicationGraph;
+    public AppComponent getAppComponent() {
+        return appComponent;
     }
 }

@@ -1,7 +1,7 @@
 package com.example.scoop.basics.scoop;
 
-import com.lyft.scoop.Router;
 import com.lyft.scoop.RouteChange;
+import com.lyft.scoop.Router;
 import com.lyft.scoop.ScreenScooper;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;

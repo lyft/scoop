@@ -118,12 +118,12 @@ public class DaggerScreenScooper extends ScreenScooper {
         DaggerInjector parentDagger = DaggerInjector.fromScoop(parentScoop);
 
         // each controller have an attribute that points to dagger module
-        ControllerModule controllerModule = screen.getController().getAnnotation(ControllerModule.class);
+        ControllerModule injectThat = screen.getController().getAnnotation(ControllerModule.class);
 
         DaggerInjector screenInjector;
 
         try {
-            Object module = controllerModule.value().newInstance();
+            Object module = injectThat.value().newInstance();
             screenInjector = parentDagger.extend(module);
         } catch (Throwable e) {
             throw new RuntimeException("Module not specified for " + screen.getController().getSimpleName(), e);
