@@ -8,6 +8,7 @@ import com.lyft.scoop.transitions.InstantTransition;
 
 public abstract class UiContainer extends FrameLayout implements HandleBack, TransitionListener {
 
+    private TransitionView transitionView;
     private View active;
     private Screen currentScreen;
 
@@ -61,8 +62,9 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
 
         currentScreen = nextScreen;
 
-        final ScreenTransition transition = getTransition(screenChange);
+        getTransitionView().transition();
 
+        final ScreenTransition transition = getTransition(screenChange);
         transition.transition(this, prevView, active, this);
     }
 
@@ -104,10 +106,20 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         return transitionListener;
     }
 
+    private TransitionView getTransitionView() {
+        if (transitionView != null) {
+            return transitionView;
+        }
+        transitionView = new TransitionView(getContext());
+        addView(transitionView);
+        return transitionView;
+    }
+
     @Override
     public void onTransitionCompleted() {
         final TransitionListener transitionListener = getTransitionListener();
         transitionListener.onTransitionCompleted();
+        getTransitionView().onTransactionComplete();
     }
 
     static ScreenTransition getEnterTransition(Screen screen) {
