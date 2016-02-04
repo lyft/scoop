@@ -36,7 +36,7 @@ public abstract class Router {
         Scoop previousScoop = backStack.peek();
         Screen previousScreen = Screen.fromScoop(previousScoop);
 
-        if (sameSingleInstanceController(Screen.fromScoop(previousScoop), screen)) {
+        if (sameController(Screen.fromScoop(previousScoop), screen)) {
             return;
         }
 
@@ -49,7 +49,7 @@ public abstract class Router {
         Scoop previousScoop = backStack.peek();
         Screen previousScreen = Screen.fromScoop(previousScoop);
 
-        if (sameSingleInstanceController(Screen.fromScoop(previousScoop), screen)) {
+        if (sameController(Screen.fromScoop(previousScoop), screen)) {
             return;
         }
 
@@ -123,18 +123,12 @@ public abstract class Router {
 
     protected abstract void onScoopChanged(RouteChange routeChange);
 
-    static boolean sameSingleInstanceController(Screen previous, Screen next) {
+    static boolean sameController(Screen previous, Screen next) {
 
         if (previous == null || next == null) {
             return false;
         }
 
-        boolean isSingleInstance = Utils.hasAnnotation(next.getController(), SingleInstance.class);
-
-        return isSingleInstance && previous.getController().equals(next.getController());
-    }
-
-    static boolean sameController(Screen screen, Screen topScreen) {
-        return screen.getController().equals(topScreen.getController());
+        return previous.getController().equals(next.getController());
     }
 }
