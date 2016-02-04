@@ -5,10 +5,12 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 import com.lyft.scoop.transitions.InstantTransition;
+import java.util.ArrayDeque;
 
 public abstract class UiContainer extends FrameLayout implements HandleBack, TransitionListener {
 
     private TransitionView transitionView;
+    private ArrayDeque<RouteChange> routeChangeQueue = new ArrayDeque<>();
     private View active;
     private Screen currentScreen;
 
@@ -32,23 +34,37 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         return new ViewControllerInflater();
     }
 
-    public void goTo(RouteChange screenChange) {
-        swap(screenChange);
-    }
-
-    private void clean() {
-        active = null;
-
-        this.removeAllViews();
-    }
-
     public boolean onBack() {
         return childCanGoBack();
     }
 
-    private void swap(RouteChange screenChange) {
+    public void goTo(RouteChange routeChange) {
+        if (routeChangeQueue.isEmpty()) {
+            routeChangeQueue.add(routeChange);
 
-        Screen nextScreen = screenChange.next;
+            swap(routeChange);
+        } else {
+            routeChangeQueue.add(routeChange);
+        }
+    }
+
+    @Override
+    public void onTransitionCompleted() {
+        final TransitionListener transitionListener = getTransitionListener();
+        transitionListener.onTransitionCompleted();
+        getTransitionView().onTransactionComplete();
+
+        if (!routeChangeQueue.isEmpty()) {
+            routeChangeQueue.pop();
+
+            if (!routeChangeQueue.isEmpty()) {
+                swap(routeChangeQueue.peek());
+            }
+        }
+    }
+
+    private void swap(RouteChange routeChange) {
+        Screen nextScreen = routeChange.next;
 
         final View prevView = active;
 
@@ -56,15 +72,14 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
             currentScreen.saveViewState(active);
         }
 
-        active = inflateControllerView(screenChange, nextScreen);
+        active = inflateControllerView(routeChange, nextScreen);
 
         nextScreen.restoreViewState(active);
 
         currentScreen = nextScreen;
 
         getTransitionView().transition();
-
-        final ScreenTransition transition = getTransition(screenChange);
+        final ScreenTransition transition = getTransition(routeChange);
         transition.transition(this, prevView, active, this);
     }
 
@@ -113,13 +128,6 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         transitionView = new TransitionView(getContext());
         addView(transitionView);
         return transitionView;
-    }
-
-    @Override
-    public void onTransitionCompleted() {
-        final TransitionListener transitionListener = getTransitionListener();
-        transitionListener.onTransitionCompleted();
-        getTransitionView().onTransactionComplete();
     }
 
     static ScreenTransition getEnterTransition(RouteChange screenChange) {
