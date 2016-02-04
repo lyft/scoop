@@ -72,9 +72,9 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
 
     private ScreenTransition getTransition(RouteChange screenChange) {
         if (screenChange.direction == TransitionDirection.ENTER) {
-            return getEnterTransition(screenChange.next);
+            return getEnterTransition(screenChange);
         } else {
-            return getExitTransition(screenChange.previous);
+            return getExitTransition(screenChange);
         }
     }
 
@@ -110,10 +110,10 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         transitionListener.onTransitionCompleted();
     }
 
-    static ScreenTransition getEnterTransition(Screen screen) {
-        EnterTransition enterTransition = screen.getController().getAnnotation(EnterTransition.class);
+    static ScreenTransition getEnterTransition(RouteChange screenChange) {
+        EnterTransition enterTransition = screenChange.next.getController().getAnnotation(EnterTransition.class);
 
-        if (enterTransition != null) {
+        if (enterTransition != null && screenChange.previous != null) {
             try {
                 return enterTransition.value().newInstance();
             } catch (Throwable e) {
@@ -124,10 +124,10 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         return new InstantTransition();
     }
 
-    static ScreenTransition getExitTransition(Screen screen) {
-        ExitTransition exitTransition = screen.getController().getAnnotation(ExitTransition.class);
+    static ScreenTransition getExitTransition(RouteChange screenChange) {
+        ExitTransition exitTransition = screenChange.previous.getController().getAnnotation(ExitTransition.class);
 
-        if (exitTransition != null) {
+        if (exitTransition != null && screenChange.next != null) {
             try {
                 return exitTransition.value().newInstance();
             } catch (Throwable e) {

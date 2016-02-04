@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getRootScoop().inflate(R.layout.root, (ViewGroup)findViewById(R.id.root), true);
+        getRootScoop().inflate(R.layout.root, (ViewGroup) findViewById(R.id.root), true);
 
         ButterKnife.bind(this);
 

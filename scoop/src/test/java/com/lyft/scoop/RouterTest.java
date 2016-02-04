@@ -1,5 +1,6 @@
 package com.lyft.scoop;
 
+import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,22 +61,6 @@ public class RouterTest {
     }
 
     @Test
-    public void goUp() {
-        Screen screen1 = Screen.create(ViewController1.class);
-        Screen screenWithParent = Screen.create(ViewControllerWithParent.class);
-
-        router.goTo(screen1);
-        router.goTo(screenWithParent);
-        router.goUp();
-
-        Assert.assertEquals(ViewController1.class, router.lastScreenChange.next.getController());
-        Assert.assertEquals(screenWithParent, router.lastScreenChange.previous);
-        Assert.assertEquals(TransitionDirection.EXIT, router.lastScreenChange.direction);
-
-        checkIfRouterBackstackIsEmpty();
-    }
-
-    @Test
     public void resetToExisting() {
         Screen screen1 = Screen.create(ViewController1.class);
         Screen screen2 = Screen.create(ViewController2.class);
@@ -122,6 +107,16 @@ public class RouterTest {
     }
 
     @Test
+    public void replaceAllWith() {
+        Screen screen1 = Screen.create(ViewController1.class);
+        Screen screen2 = Screen.create(ViewController2.class);
+
+        router.goTo(screen1);
+        router.replaceAllWith(Arrays.asList(screen1, screen2));
+        Assert.assertEquals(screen2, router.lastScreenChange.next);
+    }
+
+    @Test
     public void replaceToSameInstance() {
 
         Screen screen1 = Screen.create(SingleInstanceViewController.class);
@@ -162,15 +157,6 @@ public class RouterTest {
     }
 
     static class ViewController2 extends ViewController {
-
-        @Override
-        protected int layoutId() {
-            return 0;
-        }
-    }
-
-    @ParentController(ViewController1.class)
-    static class ViewControllerWithParent extends ViewController {
 
         @Override
         protected int layoutId() {
