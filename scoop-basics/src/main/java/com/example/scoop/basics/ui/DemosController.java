@@ -1,6 +1,5 @@
 package com.example.scoop.basics.ui;
 
-import android.transition.Fade;
 import android.view.View;
 import butterknife.OnClick;
 import com.example.scoop.basics.MainActivityModule;
@@ -29,7 +28,7 @@ public class DemosController extends ViewController {
             addsTo = MainActivityModule.class,
             library = true
     )
-    public static class Module { }
+    public static class Module {}
 
     private AppRouter appRouter;
 

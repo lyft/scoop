@@ -20,10 +20,10 @@
         >
 
         <Button
-            android:id="@+id/go_up_button"
+            android:id="@+id/go_back_button"
             android:layout_width="match_parent"
             android:layout_height="@dimen/span80"
-            android:text="Go up"
+            android:text="Go back"
             />
 
         <Button

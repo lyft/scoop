@@ -21,28 +21,39 @@ public class UiContainerTest {
 
     @Test
     public void getTransitions() {
-        Assert.assertNotNull(UiContainer.getEnterTransition(Screen.create(ViewControllerWithTransitions.class)));
-        Assert.assertNotNull(UiContainer.getExitTransition(Screen.create(ViewControllerWithTransitions.class)));
+        final RouteChange routeChange = createRouteChange(ViewControllerWithTransitions.class);
+
+        Assert.assertNotNull(UiContainer.getEnterTransition(routeChange));
+        Assert.assertNotNull(UiContainer.getExitTransition(routeChange));
     }
 
     @Test
     public void enterTransitionWithoutDefaultConstructor() {
         exception.expect(RuntimeException.class);
-        UiContainer.getEnterTransition(Screen.create(ViewControllerWithTransitionWithoutDefaultConstructor.class));
+        final RouteChange routeChange = createRouteChange(ViewControllerWithTransitionWithoutDefaultConstructor.class);
+        UiContainer.getEnterTransition(routeChange);
     }
 
     @Test
     public void exitTransitionWithoutDefaultConstructor() {
         exception.expect(RuntimeException.class);
-        UiContainer.getExitTransition(Screen.create(ViewControllerWithTransitionWithoutDefaultConstructor.class));
+        final RouteChange routeChange = createRouteChange(ViewControllerWithTransitionWithoutDefaultConstructor.class);
+        UiContainer.getExitTransition(routeChange);
     }
 
     @Test
     public void useInstantTransitionIfControllerHasNoTransitions() {
+        final RouteChange routeChange = createRouteChange(ViewControllerWithoutTransitions.class);
         Assert.assertEquals(InstantTransition.class,
-                UiContainer.getEnterTransition(Screen.create(ViewControllerWithoutTransitions.class)).getClass());
+                UiContainer.getEnterTransition(routeChange).getClass());
         Assert.assertEquals(InstantTransition.class,
-                UiContainer.getExitTransition(Screen.create(ViewControllerWithoutTransitions.class)).getClass());
+                UiContainer.getExitTransition(routeChange).getClass());
+    }
+
+    private RouteChange createRouteChange(final Class<? extends ViewController> viewController) {
+        final Screen previous = Screen.create(viewController);
+        final Screen next = Screen.create(viewController);
+        return new RouteChange(null, previous, next, null);
     }
 
     @EnterTransition(ForwardSlideTransition.class)

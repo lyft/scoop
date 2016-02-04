@@ -22,4 +22,10 @@ class ScoopBackstack {
     public void push(Scoop scoop) {
         backStack.push(scoop);
     }
+
+    public void clear() {
+        while(!backStack.isEmpty()) {
+            pop();
+        }
+    }
 }

@@ -1,5 +1,7 @@
 package com.lyft.scoop;
 
+import java.util.List;
+
 public abstract class Router {
 
     private ScoopBackstack backStack = new ScoopBackstack();
@@ -28,21 +30,6 @@ public abstract class Router {
         }
 
         return false;
-    }
-
-    public void goUp() {
-        if (!backStack.isEmpty()) {
-            Scoop scoop = backStack.peek();
-
-            Class<? extends ViewController> controller = Screen.fromScoop(scoop).getController();
-
-            if (Utils.hasAnnotation(controller, ParentController.class)) {
-                Screen screen = Screen.create(controller.getAnnotation(ParentController.class).value());
-                resetTo(screen);
-            } else {
-                throw new RuntimeException("ParentController annotation not specified for this controller: " + controller.getSimpleName());
-            }
-        }
     }
 
     public void goTo(Screen screen) {
@@ -84,6 +71,20 @@ public abstract class Router {
 
     public void resetTo(Screen screen) {
         resetTo(screen, TransitionDirection.EXIT);
+    }
+
+    public void replaceAllWith(List<Screen> screens) {
+        backStack.clear();
+
+        Scoop previousScoop = root;
+        for (final Screen screen : screens) {
+            final Scoop newScoop = screenScooper.createScreenScoop(screen, previousScoop);
+            backStack.push(newScoop);
+            previousScoop = newScoop;
+        }
+
+        final Screen lastScreen = screens.get(screens.size() - 1);
+        performScoopChange(backStack.peek(), lastScreen, null, TransitionDirection.ENTER);
     }
 
     public void resetTo(Screen screen, TransitionDirection direction) {
