@@ -1,11 +1,4 @@
 import com.android.builder.core.BuilderConstants;
-
-buildscript {
-    dependencies {
-        classpath deps.android_gradle_plugin
-    }
-}
-
 apply plugin: 'com.android.library'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
