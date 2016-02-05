@@ -25,3 +25,5 @@ android.libraryVariants.all { variant ->
         artifacts.add('archives', task);
     }
 }
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
