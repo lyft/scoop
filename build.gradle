@@ -12,6 +12,7 @@ ext {
     compileSdkVersion = 23
     buildToolsVersion = '23.0.1'
     sourceCompatibility = JavaVersion.VERSION_1_7
+    ci = 'true'.equals(System.getenv('CI'))
 }
 
 task wrapper(type: Wrapper) {
