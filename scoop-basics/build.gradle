@@ -1,3 +1,9 @@
+buildscript {
+    dependencies {
+        classpath deps.android_gradle_plugin
+    }
+}
+
 apply plugin: 'com.android.application'
 
 android {
