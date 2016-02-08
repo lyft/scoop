@@ -8,6 +8,8 @@ import com.example.scoop.basics.rx.ViewSubscriptions;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.scoop.ControllerModule;
 import com.example.scoop.basics.ui.customtransition.AutoTransitionStartController;
+import com.example.scoop.basics.ui.layoutsample.LayoutNoOpViewController;
+import com.example.scoop.basics.ui.layoutsample.LayoutScreens;
 import com.example.scoop.basics.ui.navigationsample.AController;
 import com.example.scoop.basics.ui.paramsample.ParametrizedController;
 import com.example.scoop.basics.ui.standardtransitions.FadeController;
@@ -79,5 +81,11 @@ public class DemosController extends ViewController {
     @OnClick(R.id.wizard_sample_button)
     public void goToWizardSample() {
         appRouter.goTo(EnterFirstNameController.createScreen());
+    }
+
+    @OnClick(R.id.layout_sample_button)
+    public void goToLayoutSample() {
+        final Screen screen = new LayoutScreens.LayoutScreen();
+        appRouter.goTo(Screen.decorate(screen, LayoutNoOpViewController.class));
     }
 }

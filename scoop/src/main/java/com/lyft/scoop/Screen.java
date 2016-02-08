@@ -4,7 +4,7 @@ import android.os.Parcelable;
 import android.util.SparseArray;
 import android.view.View;
 
-public final class Screen {
+public class Screen {
 
     public static final String SERVICE_NAME = "screen";
 
@@ -12,7 +12,7 @@ public final class Screen {
     private Class<? extends ViewController> viewController;
     private Object args;
 
-    Screen() {
+    public Screen() {
         viewState = new SparseArray<Parcelable>();
     }
 
@@ -28,6 +28,11 @@ public final class Screen {
 
     public static Screen create(Class<? extends ViewController> viewController) {
         Screen screen = new Screen();
+        screen.viewController = viewController;
+        return screen;
+    }
+
+    public static Screen decorate(Screen screen, Class<? extends ViewController> viewController) {
         screen.viewController = viewController;
         return screen;
     }

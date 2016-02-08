@@ -15,16 +15,29 @@ public class ViewControllerInflater {
         }
     }
 
-    public View inflateViewController(
+    public View inflateView(
             Scoop scoop,
-            Class<? extends ViewController> viewControllerClazz,
+            Screen screen,
             ViewGroup viewGroup) {
 
-        ViewController viewController = createViewController(scoop, viewControllerClazz);
+        ViewController viewController = createViewController(scoop, screen.getController());
         viewController.setScoop(scoop);
-        View view = scoop.inflate(viewController.layoutId(), viewGroup, false);
+        View view = scoop.inflate(getLayoutId(screen, viewController), viewGroup, false);
         bindViewControllerToView(view, viewController);
         return view;
+    }
+
+    private int getLayoutId(Screen screen, ViewController viewController) {
+        Class localClass = getClass(screen);
+        Layout layout = (Layout) localClass.getAnnotation(Layout.class);
+        if (layout != null) {
+            return layout.value();
+        }
+        return viewController.layoutId();
+    }
+
+    public <T> Class<T> getClass(Object object) {
+        return (Class<T>) object.getClass();
     }
 
     private static void bindViewControllerToView(final View view, final ViewController viewController) {
