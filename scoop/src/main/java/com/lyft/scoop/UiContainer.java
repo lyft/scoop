@@ -84,7 +84,7 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
     }
 
     private View inflateControllerView(RouteChange screenChange, Screen nextScreen) {
-        return getViewControllerInflater().inflateViewController(screenChange.scoop, nextScreen.getController(), this);
+        return getViewControllerInflater().inflateView(screenChange.scoop, nextScreen, this);
     }
 
     private ScreenTransition getTransition(RouteChange screenChange) {

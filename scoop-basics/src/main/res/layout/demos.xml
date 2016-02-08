@@ -40,4 +40,11 @@
         android:text="Wizard sample"
         />
 
+    <Button
+        android:id="@+id/layout_sample_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/span80"
+        android:text="Layout sample"
+        />
+
 </LinearLayout>
