@@ -6,8 +6,8 @@ import com.example.scoop.basics.MainActivityModule;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.rx.ViewSubscriptions;
 import com.example.scoop.basics.scoop.AppRouter;
-import com.example.scoop.basics.scoop.ControllerModule;
 import com.example.scoop.basics.ui.customtransition.AutoTransitionStartController;
+import com.example.scoop.basics.ui.layoutsample.LayoutView;
 import com.example.scoop.basics.ui.navigationsample.AController;
 import com.example.scoop.basics.ui.paramsample.ParametrizedController;
 import com.example.scoop.basics.ui.standardtransitions.FadeController;
@@ -16,11 +16,11 @@ import com.lyft.scoop.Screen;
 import com.lyft.scoop.ViewController;
 import javax.inject.Inject;
 
-@ControllerModule(DemosController.Module.class)
 public class DemosController extends ViewController {
 
     public static Screen createScreen() {
-        return Screen.create(DemosController.class);
+        return Screen.create(DemosController.class)
+                .module(DemosController.Module.class);
     }
 
     @dagger.Module(
@@ -79,5 +79,10 @@ public class DemosController extends ViewController {
     @OnClick(R.id.wizard_sample_button)
     public void goToWizardSample() {
         appRouter.goTo(EnterFirstNameController.createScreen());
+    }
+
+    @OnClick(R.id.layout_sample_button)
+    public void goToLayoutSample() {
+        appRouter.goTo(Screen.create(R.layout.layout_view, LayoutView.class.getSimpleName()));
     }
 }

@@ -6,23 +6,20 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.AppRouter;
-import com.example.scoop.basics.scoop.ControllerModule;
 import com.example.scoop.basics.ui.Keyboard;
-import com.lyft.scoop.EnterTransition;
-import com.lyft.scoop.ExitTransition;
 import com.lyft.scoop.Screen;
 import com.lyft.scoop.ViewController;
 import com.lyft.scoop.transitions.BackwardSlideTransition;
 import com.lyft.scoop.transitions.ForwardSlideTransition;
 import javax.inject.Inject;
 
-@ControllerModule(EnterLastNameController.Module.class)
-@EnterTransition(ForwardSlideTransition.class)
-@ExitTransition(BackwardSlideTransition.class)
 public class EnterLastNameController extends ViewController {
 
     public static Screen createScreen() {
-        return Screen.create(EnterLastNameController.class);
+        return Screen.create(EnterLastNameController.class)
+                .module(EnterLastNameController.Module.class)
+                .enterTransition(ForwardSlideTransition.class)
+                .exitTransition(BackwardSlideTransition.class);
     }
 
     @dagger.Module(

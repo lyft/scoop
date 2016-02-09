@@ -4,22 +4,19 @@ import android.view.View;
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.AppRouter;
-import com.example.scoop.basics.scoop.ControllerModule;
 import com.example.scoop.basics.ui.DemosController;
-import com.lyft.scoop.EnterTransition;
-import com.lyft.scoop.ExitTransition;
 import com.lyft.scoop.Screen;
 import com.lyft.scoop.ViewController;
 import com.lyft.scoop.transitions.FadeTransition;
 import javax.inject.Inject;
 
-@ControllerModule(AController.Module.class)
-@EnterTransition(FadeTransition.class)
-@ExitTransition(FadeTransition.class)
 public class AController extends ViewController {
 
     public static Screen createScreen() {
-        return  Screen.create(AController.class);
+        return  Screen.create(AController.class)
+                .module(AController.Module.class)
+                .enterTransition(FadeTransition.class)
+                .exitTransition(FadeTransition.class);
     }
 
     @dagger.Module(
