@@ -6,12 +6,8 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.AppRouter;
-import com.example.scoop.basics.scoop.ControllerModule;
 import com.example.scoop.basics.ui.DemosController;
 import com.example.scoop.basics.ui.Keyboard;
-import com.lyft.scoop.EnterTransition;
-import com.lyft.scoop.ExitTransition;
-import com.lyft.scoop.Scoop;
 import com.lyft.scoop.Screen;
 import com.lyft.scoop.ViewController;
 import com.lyft.scoop.transitions.FadeTransition;
@@ -19,13 +15,13 @@ import dagger.Provides;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-@ControllerModule(EnterFirstNameController.Module.class)
-@EnterTransition(FadeTransition.class)
-@ExitTransition(FadeTransition.class)
 public class EnterFirstNameController extends ViewController {
 
     public static Screen createScreen() {
-        return Screen.create(EnterFirstNameController.class);
+        return Screen.create(EnterFirstNameController.class)
+                .module(EnterFirstNameController.Module.class)
+                .enterTransition(FadeTransition.class)
+                .exitTransition(FadeTransition.class);
     }
 
     @dagger.Module(

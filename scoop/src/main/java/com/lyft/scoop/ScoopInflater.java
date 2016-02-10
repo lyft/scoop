@@ -3,7 +3,7 @@ package com.lyft.scoop;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ViewControllerInflater {
+public class ScoopInflater {
 
     static final int VIEW_CONTROLLER_TAG = 0x80000001;
 
@@ -17,10 +17,14 @@ public class ViewControllerInflater {
 
     public View inflateViewController(
             Scoop scoop,
-            Class<? extends ViewController> viewControllerClazz,
+            Screen nextScreen,
             ViewGroup viewGroup) {
 
-        ViewController viewController = createViewController(scoop, viewControllerClazz);
+        if (nextScreen.getLayoutId() != null) {
+            return scoop.inflate(nextScreen.getLayoutId(), viewGroup, false);
+        }
+
+        ViewController viewController = createViewController(scoop, nextScreen.getController());
         viewController.setScoop(scoop);
         View view = scoop.inflate(viewController.layoutId(), viewGroup, false);
         bindViewControllerToView(view, viewController);

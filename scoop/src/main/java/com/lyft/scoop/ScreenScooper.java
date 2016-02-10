@@ -4,13 +4,13 @@ public class ScreenScooper {
 
     public final Scoop createScreenScoop(Screen screen, Scoop parentScoop) {
 
-        Scoop.Builder scoopBuilder = new Scoop.Builder(screen.getController().getSimpleName(), parentScoop)
+        Scoop.Builder scoopBuilder = new Scoop.Builder(screen.getName(), parentScoop)
                 .service(Screen.SERVICE_NAME, screen);
 
-        return addServices(scoopBuilder, screen, parentScoop).build();
+        return addServices(scoopBuilder, screen, parentScoop);
     }
 
-    protected Scoop.Builder addServices(Scoop.Builder scoopBuilder, Screen screen, Scoop parentScoop) {
-        return scoopBuilder;
+    protected Scoop addServices(Scoop.Builder scoopBuilder, Screen screen, Scoop parentScoop) {
+        return scoopBuilder.build();
     }
 }
