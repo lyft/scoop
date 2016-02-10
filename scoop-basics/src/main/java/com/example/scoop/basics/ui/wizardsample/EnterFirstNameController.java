@@ -1,7 +1,9 @@
 package com.example.scoop.basics.ui.wizardsample;
 
-import android.view.View;
+import android.content.Context;
+import android.util.AttributeSet;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import butterknife.Bind;
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
@@ -9,23 +11,25 @@ import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.scoop.ControllerModule;
 import com.example.scoop.basics.ui.DemosController;
 import com.example.scoop.basics.ui.Keyboard;
-import com.lyft.scoop.EnterTransition;
-import com.lyft.scoop.ExitTransition;
-import com.lyft.scoop.Scoop;
+import com.lyft.scoop.Layout;
 import com.lyft.scoop.Screen;
-import com.lyft.scoop.ViewController;
 import com.lyft.scoop.transitions.FadeTransition;
 import dagger.Provides;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @ControllerModule(EnterFirstNameController.Module.class)
-@EnterTransition(FadeTransition.class)
-@ExitTransition(FadeTransition.class)
-public class EnterFirstNameController extends ViewController {
+@Layout(R.layout.wizard_enter_first_name)
+public class EnterFirstNameController extends FrameLayout {
+
+    public EnterFirstNameController(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
     public static Screen createScreen() {
-        return Screen.create(EnterFirstNameController.class);
+        return Screen.create(EnterFirstNameController.class)
+                .enterTransition(FadeTransition.class)
+                .exitTransition(FadeTransition.class);
     }
 
     @dagger.Module(
@@ -42,34 +46,26 @@ public class EnterFirstNameController extends ViewController {
         }
     }
 
-    private AppRouter appRouter;
-    private WizardSession wizardSession;
+    @Inject
+    AppRouter appRouter;
+
+    @Inject
+    WizardSession wizardSession;
 
     @Bind(R.id.first_name_edit_text)
     EditText firstNameEditText;
 
-    @Inject
-    public EnterFirstNameController(AppRouter appRouter, WizardSession wizardSession) {
-        this.appRouter = appRouter;
-        this.wizardSession = wizardSession;
-    }
-
     @Override
-    protected int layoutId() {
-        return R.layout.wizard_enter_first_name;
-    }
-
-    @Override
-    public void attach(View view) {
-        super.attach(view);
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
 
         firstNameEditText.setText(wizardSession.firstName);
         Keyboard.showKeyboard(firstNameEditText);
     }
 
     @Override
-    public void detach(View view) {
-        super.detach(view);
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
     }
 
     @OnClick(R.id.next_button)

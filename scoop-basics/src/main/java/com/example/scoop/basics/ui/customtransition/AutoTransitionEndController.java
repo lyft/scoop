@@ -1,26 +1,29 @@
 package com.example.scoop.basics.ui.customtransition;
 
-import android.view.View;
+import android.content.Context;
+import android.util.AttributeSet;
+import android.widget.LinearLayout;
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.rx.ViewSubscriptions;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.scoop.ControllerModule;
-import com.example.scoop.basics.ui.DemosController;
-import com.example.scoop.basics.ui.navigationsample.BController;
-import com.lyft.scoop.EnterTransition;
-import com.lyft.scoop.ExitTransition;
+import com.lyft.scoop.Layout;
 import com.lyft.scoop.Screen;
-import com.lyft.scoop.ViewController;
 import javax.inject.Inject;
 
 @ControllerModule(AutoTransitionEndController.Module.class)
-@EnterTransition(AutoTransition.class)
-@ExitTransition(AutoTransition.class)
-public class AutoTransitionEndController extends ViewController {
+@Layout(R.layout.auto_transition_end)
+public class AutoTransitionEndController extends LinearLayout {
+
+    public AutoTransitionEndController(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
     public static Screen createScreen() {
-        return Screen.create(AutoTransitionEndController.class);
+        return Screen.create(AutoTransitionEndController.class)
+                .enterTransition(AutoTransition.class)
+                .exitTransition(AutoTransition.class);
 
     }
 
@@ -31,28 +34,19 @@ public class AutoTransitionEndController extends ViewController {
     )
     public static class Module { }
 
-    private AppRouter appRouter;
+    @Inject
+    AppRouter appRouter;
 
     ViewSubscriptions viewSubscriptions = new ViewSubscriptions();
 
-    @Inject
-    public AutoTransitionEndController(AppRouter appRouter) {
-        this.appRouter = appRouter;
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
     }
 
     @Override
-    protected int layoutId() {
-        return R.layout.auto_transition_end;
-    }
-
-    @Override
-    public void attach(View view) {
-        super.attach(view);
-    }
-
-    @Override
-    public void detach(View view) {
-        super.detach(view);
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
 
         viewSubscriptions.unsubscribe();
     }

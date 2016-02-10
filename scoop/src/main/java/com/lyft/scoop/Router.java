@@ -129,6 +129,6 @@ public abstract class Router {
             return false;
         }
 
-        return previous.getController().equals(next.getController());
+        return previous.getView().equals(next.getView());
     }
 }

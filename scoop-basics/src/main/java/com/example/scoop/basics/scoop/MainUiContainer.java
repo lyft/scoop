@@ -6,7 +6,7 @@ import com.example.scoop.basics.rx.ViewSubscriptions;
 import com.example.scoop.basics.ui.Keyboard;
 import com.lyft.scoop.RouteChange;
 import com.lyft.scoop.UiContainer;
-import com.lyft.scoop.ViewControllerInflater;
+import com.lyft.scoop.LayoutInflator;
 import javax.inject.Inject;
 import rx.functions.Action1;
 import timber.log.Timber;
@@ -29,8 +29,8 @@ public class MainUiContainer extends UiContainer {
     }
 
     @Override
-    protected ViewControllerInflater getViewControllerInflater() {
-        return new DaggerViewControllerInflater();
+    protected LayoutInflator getViewControllerInflater() {
+        return new DaggerLayoutInflator();
     }
 
     @Override
@@ -54,7 +54,7 @@ public class MainUiContainer extends UiContainer {
     private Action1<RouteChange> onScreenChanged = new Action1<RouteChange>() {
         @Override
         public void call(RouteChange screenChange) {
-            Timber.d("Scoop changed:" + screenChange.next.getController().getSimpleName());
+            Timber.d("Scoop changed:" + screenChange.next.getView().getSimpleName());
             MainUiContainer.this.goTo(screenChange);
             Keyboard.hideKeyboard(MainUiContainer.this);
         }
