@@ -2,6 +2,9 @@ package com.lyft.scoop;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.DragEvent;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import com.lyft.scoop.transitions.InstantTransition;
@@ -9,8 +12,8 @@ import java.util.ArrayDeque;
 
 public abstract class UiContainer extends FrameLayout implements HandleBack, TransitionListener {
 
-    private TransitionView transitionView;
     private ArrayDeque<RouteChange> routeChangeQueue = new ArrayDeque<>();
+    private boolean isTransitioning;
     private View active;
     private Screen currentScreen;
 
@@ -52,7 +55,7 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
     public void onTransitionCompleted() {
         final TransitionListener transitionListener = getTransitionListener();
         transitionListener.onTransitionCompleted();
-        getTransitionView().onTransactionComplete();
+        isTransitioning = false;
 
         if (!routeChangeQueue.isEmpty()) {
             routeChangeQueue.pop();
@@ -60,6 +63,60 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
             if (!routeChangeQueue.isEmpty()) {
                 swap(routeChangeQueue.peek());
             }
+        }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (isTransitioning) {
+            return true;
+        } else {
+            return super.dispatchTouchEvent(event);
+        }
+    }
+
+    @Override
+    public boolean dispatchDragEvent(DragEvent event){
+        if (isTransitioning) {
+            return true;
+        } else {
+            return super.dispatchDragEvent(event);
+        }
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event){
+        if (isTransitioning) {
+            return true;
+        } else {
+            return super.dispatchKeyEvent(event);
+        }
+    }
+
+    @Override
+    public boolean dispatchKeyEventPreIme(KeyEvent event){
+        if (isTransitioning) {
+            return true;
+        } else {
+            return super.dispatchKeyEventPreIme(event);
+        }
+    }
+
+    @Override
+    public boolean dispatchKeyShortcutEvent(KeyEvent event){
+        if (isTransitioning) {
+            return true;
+        } else {
+            return super.dispatchKeyShortcutEvent(event);
+        }
+    }
+
+    @Override
+    public boolean dispatchTrackballEvent(MotionEvent event){
+        if (isTransitioning) {
+            return true;
+        } else {
+            return super.dispatchTrackballEvent(event);
         }
     }
 
@@ -77,8 +134,7 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         nextScreen.restoreViewState(active);
 
         currentScreen = nextScreen;
-
-        getTransitionView().transition();
+        isTransitioning = true;
         final ScreenTransition transition = getTransition(routeChange);
         transition.transition(this, prevView, active, this);
     }
@@ -119,15 +175,6 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         }
 
         return transitionListener;
-    }
-
-    private TransitionView getTransitionView() {
-        if (transitionView != null) {
-            return transitionView;
-        }
-        transitionView = new TransitionView(getContext());
-        addView(transitionView);
-        return transitionView;
     }
 
     static ScreenTransition getEnterTransition(RouteChange screenChange) {
