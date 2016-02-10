@@ -1,28 +1,29 @@
 package com.example.scoop.basics.ui.wizardsample;
 
-import android.view.View;
+import android.content.Context;
+import android.util.AttributeSet;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import butterknife.Bind;
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.scoop.ControllerModule;
 import com.example.scoop.basics.ui.Keyboard;
-import com.lyft.scoop.EnterTransition;
-import com.lyft.scoop.ExitTransition;
+import com.lyft.scoop.Layout;
 import com.lyft.scoop.Screen;
-import com.lyft.scoop.ViewController;
 import com.lyft.scoop.transitions.BackwardSlideTransition;
 import com.lyft.scoop.transitions.ForwardSlideTransition;
 import javax.inject.Inject;
 
 @ControllerModule(EnterLastNameController.Module.class)
-@EnterTransition(ForwardSlideTransition.class)
-@ExitTransition(BackwardSlideTransition.class)
-public class EnterLastNameController extends ViewController {
+@Layout(R.layout.wizard_enter_last_name)
+public class EnterLastNameController extends FrameLayout {
 
     public static Screen createScreen() {
-        return Screen.create(EnterLastNameController.class);
+        return Screen.create(EnterLastNameController.class)
+                .enterTransition(ForwardSlideTransition.class)
+                .exitTransition(BackwardSlideTransition.class);
     }
 
     @dagger.Module(
@@ -33,34 +34,25 @@ public class EnterLastNameController extends ViewController {
     public static class Module {
     }
 
-    private AppRouter appRouter;
-    private WizardSession wizardSession;
+    @Inject
+    AppRouter appRouter;
+
+    @Inject
+    WizardSession wizardSession;
 
     @Bind(R.id.last_name_edit_text)
     EditText lastNameEditText;
 
-    @Inject
-    public EnterLastNameController(AppRouter appRouter, WizardSession wizardSession) {
-        this.appRouter = appRouter;
-        this.wizardSession = wizardSession;
+    public EnterLastNameController(Context context, AttributeSet attrs) {
+        super(context, attrs);
     }
 
     @Override
-    protected int layoutId() {
-        return R.layout.wizard_enter_last_name;
-    }
-
-    @Override
-    public void attach(View view) {
-        super.attach(view);
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
 
         lastNameEditText.setText(wizardSession.lastName);
         Keyboard.showKeyboard(lastNameEditText);
-    }
-
-    @Override
-    public void detach(View view) {
-        super.detach(view);
     }
 
     @OnClick(R.id.next_button)

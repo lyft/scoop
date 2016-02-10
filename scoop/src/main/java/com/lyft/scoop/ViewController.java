@@ -31,7 +31,7 @@ public abstract class ViewController {
 
     static ViewController fromView(View view) {
         if (view != null) {
-            ViewController viewController = (ViewController) view.getTag(ViewControllerInflater.VIEW_CONTROLLER_TAG);
+            ViewController viewController = (ViewController) view.getTag(LayoutInflator.VIEW_CONTROLLER_TAG);
             return viewController;
         }
 

@@ -1,25 +1,30 @@
 package com.example.scoop.basics.ui.standardtransitions;
 
-import android.view.View;
+import android.content.Context;
+import android.util.AttributeSet;
+import android.widget.FrameLayout;
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.scoop.ControllerModule;
-import com.lyft.scoop.EnterTransition;
-import com.lyft.scoop.ExitTransition;
+import com.lyft.scoop.Layout;
 import com.lyft.scoop.Screen;
-import com.lyft.scoop.ViewController;
 import com.lyft.scoop.transitions.BackwardSlideTransition;
 import com.lyft.scoop.transitions.ForwardSlideTransition;
 import javax.inject.Inject;
 
 @ControllerModule(HorizontalSlideController.Module.class)
-@EnterTransition(ForwardSlideTransition.class)
-@ExitTransition(BackwardSlideTransition.class)
-public class HorizontalSlideController extends ViewController {
+@Layout(R.layout.horizontal_slide)
+public class HorizontalSlideController extends FrameLayout {
+
+    public HorizontalSlideController(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
     public static Screen createScreen() {
-        return Screen.create(HorizontalSlideController.class);
+        return Screen.create(HorizontalSlideController.class)
+                .enterTransition(ForwardSlideTransition.class)
+                .exitTransition(BackwardSlideTransition.class);
     }
 
     @dagger.Module(
@@ -30,27 +35,17 @@ public class HorizontalSlideController extends ViewController {
     public static class Module {
     }
 
-    private AppRouter appRouter;
-
     @Inject
-    public HorizontalSlideController(AppRouter appRouter) {
-        this.appRouter = appRouter;
+    AppRouter appRouter;
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
     }
 
     @Override
-    protected int layoutId() {
-        return R.layout.horizontal_slide;
-    }
-
-    @Override
-    public void attach(View view) {
-        super.attach(view);
-
-    }
-
-    @Override
-    public void detach(View view) {
-        super.detach(view);
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
     }
 
 

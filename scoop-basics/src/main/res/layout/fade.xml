@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.scoop.basics.ui.standardtransitions.FadeController xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/green"
@@ -20,4 +20,4 @@
         android:text="Next"
         />
 
-</FrameLayout>
+</com.example.scoop.basics.ui.standardtransitions.FadeController>

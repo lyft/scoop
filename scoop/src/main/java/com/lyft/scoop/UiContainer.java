@@ -30,8 +30,8 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         }
     }
 
-    protected ViewControllerInflater getViewControllerInflater() {
-        return new ViewControllerInflater();
+    protected LayoutInflator getViewControllerInflater() {
+        return new LayoutInflator();
     }
 
     public boolean onBack() {
@@ -84,7 +84,7 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
     }
 
     private View inflateControllerView(RouteChange screenChange, Screen nextScreen) {
-        return getViewControllerInflater().inflateViewController(screenChange.scoop, nextScreen.getController(), this);
+        return getViewControllerInflater().inflateLayout(screenChange.scoop, nextScreen.getView(), this);
     }
 
     private ScreenTransition getTransition(RouteChange screenChange) {
@@ -131,13 +131,13 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
     }
 
     static ScreenTransition getEnterTransition(RouteChange screenChange) {
-        EnterTransition enterTransition = screenChange.next.getController().getAnnotation(EnterTransition.class);
+        Class<? extends ScreenTransition> enterTransition = screenChange.next.getEnterTransition();
 
         if (enterTransition != null && screenChange.previous != null) {
             try {
-                return enterTransition.value().newInstance();
+                return enterTransition.newInstance();
             } catch (Throwable e) {
-                throw new RuntimeException("Failed to instantiate enter transition: " + enterTransition.value().getSimpleName(), e);
+                throw new RuntimeException("Failed to instantiate enter transition: " + enterTransition.getSimpleName(), e);
             }
         }
 
@@ -145,13 +145,13 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
     }
 
     static ScreenTransition getExitTransition(RouteChange screenChange) {
-        ExitTransition exitTransition = screenChange.previous.getController().getAnnotation(ExitTransition.class);
+        Class<? extends ScreenTransition> exitTransition = screenChange.previous.getExitTransition();
 
         if (exitTransition != null && screenChange.next != null) {
             try {
-                return exitTransition.value().newInstance();
+                return exitTransition.newInstance();
             } catch (Throwable e) {
-                throw new RuntimeException("Failed to instantiate exit transition: " + exitTransition.value().getSimpleName(), e);
+                throw new RuntimeException("Failed to instantiate exit transition: " + exitTransition.getSimpleName(), e);
             }
         }
 

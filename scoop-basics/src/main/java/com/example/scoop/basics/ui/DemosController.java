@@ -1,6 +1,8 @@
 package com.example.scoop.basics.ui;
 
-import android.view.View;
+import android.content.Context;
+import android.util.AttributeSet;
+import android.widget.LinearLayout;
 import butterknife.OnClick;
 import com.example.scoop.basics.MainActivityModule;
 import com.example.scoop.basics.R;
@@ -12,16 +14,13 @@ import com.example.scoop.basics.ui.navigationsample.AController;
 import com.example.scoop.basics.ui.paramsample.ParametrizedController;
 import com.example.scoop.basics.ui.standardtransitions.FadeController;
 import com.example.scoop.basics.ui.wizardsample.EnterFirstNameController;
+import com.lyft.scoop.Layout;
 import com.lyft.scoop.Screen;
-import com.lyft.scoop.ViewController;
 import javax.inject.Inject;
 
 @ControllerModule(DemosController.Module.class)
-public class DemosController extends ViewController {
-
-    public static Screen createScreen() {
-        return Screen.create(DemosController.class);
-    }
+@Layout(R.layout.demos)
+public class DemosController extends LinearLayout {
 
     @dagger.Module(
             injects = DemosController.class,
@@ -30,29 +29,27 @@ public class DemosController extends ViewController {
     )
     public static class Module {}
 
-    private AppRouter appRouter;
+    @Inject
+    AppRouter appRouter;
 
     ViewSubscriptions viewSubscriptions = new ViewSubscriptions();
 
-    @Inject
-    public DemosController(AppRouter appRouter) {
-        this.appRouter = appRouter;
+    public DemosController(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public static Screen createScreen() {
+        return Screen.create(DemosController.class);
     }
 
     @Override
-    protected int layoutId() {
-        return R.layout.demos;
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
     }
 
     @Override
-    public void attach(View view) {
-        super.attach(view);
-    }
-
-    @Override
-    public void detach(View view) {
-        super.detach(view);
-
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
         viewSubscriptions.unsubscribe();
     }
 
