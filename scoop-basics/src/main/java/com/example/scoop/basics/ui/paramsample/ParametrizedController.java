@@ -14,9 +14,9 @@ import com.lyft.scoop.transitions.FadeTransition;
 
 @ControllerModule(ParametrizedController.Module.class)
 @Layout(R.layout.parametrized)
-public class ParametrizedController extends FrameLayout {
+public class ParametrizedView extends FrameLayout {
 
-    public ParametrizedController(Context context, AttributeSet attrs) {
+    public ParametrizedView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
