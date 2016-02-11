@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import com.example.scoop.basics.rx.ViewSubscriptions;
 import com.example.scoop.basics.ui.Keyboard;
+import com.lyft.scoop.LayoutInflater;
 import com.lyft.scoop.RouteChange;
 import com.lyft.scoop.UiContainer;
 import com.lyft.scoop.ViewControllerInflater;
@@ -34,6 +35,11 @@ public class MainUiContainer extends UiContainer {
     }
 
     @Override
+    protected LayoutInflater getLayoutInflater() {
+        return new DaggerLayoutInflater();
+    }
+
+    @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
 
@@ -54,7 +60,7 @@ public class MainUiContainer extends UiContainer {
     private Action1<RouteChange> onScreenChanged = new Action1<RouteChange>() {
         @Override
         public void call(RouteChange screenChange) {
-            Timber.d("Scoop changed:" + screenChange.next.getController().getSimpleName());
+            Timber.d("Scoop changed:" + screenChange.next.getClass().getSimpleName());
             MainUiContainer.this.goTo(screenChange);
             Keyboard.hideKeyboard(MainUiContainer.this);
         }

@@ -36,7 +36,7 @@ public abstract class Router {
         Scoop previousScoop = backStack.peek();
         Screen previousScreen = Screen.fromScoop(previousScoop);
 
-        if (sameController(Screen.fromScoop(previousScoop), screen)) {
+        if (sameScreen(Screen.fromScoop(previousScoop), screen)) {
             return;
         }
 
@@ -49,7 +49,7 @@ public abstract class Router {
         Scoop previousScoop = backStack.peek();
         Screen previousScreen = Screen.fromScoop(previousScoop);
 
-        if (sameController(Screen.fromScoop(previousScoop), screen)) {
+        if (sameScreen(Screen.fromScoop(previousScoop), screen)) {
             return;
         }
 
@@ -94,7 +94,7 @@ public abstract class Router {
         while (!backStack.isEmpty()) {
             Scoop topScoop = backStack.peek();
 
-            if (sameController(screen, Screen.fromScoop(topScoop))) {
+            if (sameScreen(screen, Screen.fromScoop(topScoop))) {
                 performScoopChange(topScoop, screen, previousScreen, direction);
                 return;
             }
@@ -123,12 +123,11 @@ public abstract class Router {
 
     protected abstract void onScoopChanged(RouteChange routeChange);
 
-    static boolean sameController(Screen previous, Screen next) {
+    static boolean sameScreen(Screen previous, Screen next) {
 
         if (previous == null || next == null) {
             return false;
         }
-
-        return previous.getController().equals(next.getController());
+        return previous.equals(next);
     }
 }

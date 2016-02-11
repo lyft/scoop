@@ -1,4 +1,4 @@
-package com.example.scoop.basics.ui.wizardsample;
+package com.example.scoop.basics.ui.wizardsample.controller;
 
 import android.view.View;
 import android.widget.TextView;
@@ -6,31 +6,12 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.AppRouter;
-import com.example.scoop.basics.scoop.ControllerModule;
-import com.example.scoop.basics.ui.DemosController;
-import com.lyft.scoop.EnterTransition;
-import com.lyft.scoop.ExitTransition;
-import com.lyft.scoop.Screen;
+import com.example.scoop.basics.ui.DemoScreen;
+import com.example.scoop.basics.ui.wizardsample.WizardSession;
 import com.lyft.scoop.ViewController;
-import com.lyft.scoop.transitions.BackwardSlideTransition;
-import com.lyft.scoop.transitions.ForwardSlideTransition;
 import javax.inject.Inject;
 
-@ControllerModule(ConfirmationController.Module.class)
-@EnterTransition(ForwardSlideTransition.class)
-@ExitTransition(BackwardSlideTransition.class)
 public class ConfirmationController extends ViewController {
-
-    public static Screen createScreen() {
-        return Screen.create(ConfirmationController.class);
-    }
-
-    @dagger.Module(
-            injects = ConfirmationController.class,
-            addsTo = EnterLastNameController.Module.class,
-            library = true
-    )
-    public static class Module {}
 
     private AppRouter appRouter;
     private WizardSession wizardSession;
@@ -67,6 +48,6 @@ public class ConfirmationController extends ViewController {
 
     @OnClick(R.id.next_button)
     public void onClick() {
-        appRouter.resetTo(DemosController.createScreen());
+        appRouter.resetTo(new DemoScreen());
     }
 }

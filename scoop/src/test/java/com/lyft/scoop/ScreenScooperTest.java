@@ -16,18 +16,14 @@ public class ScreenScooperTest {
 
         Scoop parentScoop = new Scoop.Builder("root").build();
 
-        Screen screen = Screen.create(TestViewController.class);
+        Screen screen = new TestScreen();
 
         Scoop childScoop = screenScooper.createScreenScoop(screen, parentScoop);
 
         Assert.assertEquals(screen, Screen.fromScoop(childScoop));
     }
 
-    static class TestViewController extends ViewController {
-
-        @Override
-        protected int layoutId() {
-            return 0;
-        }
+    @Layout(0)
+    static class TestScreen extends Screen {
     }
 }

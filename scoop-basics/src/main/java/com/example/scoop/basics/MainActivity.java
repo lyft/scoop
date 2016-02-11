@@ -8,7 +8,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.scoop.DaggerInjector;
-import com.example.scoop.basics.ui.DemosController;
+import com.example.scoop.basics.ui.DemoScreen;
 import com.lyft.scoop.Scoop;
 import com.lyft.scoop.UiContainer;
 import dagger.ObjectGraph;
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         DaggerInjector.fromScoop(getRootScoop()).inject(this);
 
-        appRouter.onCreate(rootScoop, DemosController.createScreen());
+        appRouter.onCreate(rootScoop, new DemoScreen());
 
         Timber.d("onCreate");
     }

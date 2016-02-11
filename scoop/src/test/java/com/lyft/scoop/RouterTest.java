@@ -22,7 +22,7 @@ public class RouterTest {
     @Test
     public void goTo() {
 
-        Screen screen1 = Screen.create(ViewController1.class);
+        Screen screen1 = new Screen1();
 
         router.goTo(screen1);
 
@@ -34,8 +34,8 @@ public class RouterTest {
     @Test
     public void goToSameController() {
 
-        Screen screen1 = Screen.create(ViewController1.class);
-        Screen screen2 = Screen.create(ViewController1.class);
+        Screen screen1 = new Screen1();
+        Screen screen2 = new Screen1();
 
         router.goTo(screen1);
 
@@ -48,8 +48,8 @@ public class RouterTest {
 
     @Test
     public void goBack() {
-        Screen screen1 = Screen.create(ViewController1.class);
-        Screen screen2 = Screen.create(ViewController2.class);
+        Screen screen1 = new Screen1();
+        Screen screen2 = new Screen2();
 
         router.goTo(screen1);
         router.goTo(screen2);
@@ -62,8 +62,8 @@ public class RouterTest {
 
     @Test
     public void resetToExisting() {
-        Screen screen1 = Screen.create(ViewController1.class);
-        Screen screen2 = Screen.create(ViewController2.class);
+        Screen screen1 = new Screen1();
+        Screen screen2 = new Screen2();
 
         router.goTo(screen1);
         router.goTo(screen2);
@@ -78,8 +78,8 @@ public class RouterTest {
 
     @Test
     public void resetToNew() {
-        Screen screen1 = Screen.create(ViewController1.class);
-        Screen screen2 = Screen.create(ViewController2.class);
+        Screen screen1 = new Screen1();
+        Screen screen2 = new Screen2();
 
         router.goTo(screen2);
         router.resetTo(screen1);
@@ -93,8 +93,8 @@ public class RouterTest {
 
     @Test
     public void replaceWith() {
-        Screen screen1 = Screen.create(ViewController1.class);
-        Screen screen2 = Screen.create(ViewController2.class);
+        Screen screen1 = new Screen1();
+        Screen screen2 = new Screen2();
 
         router.goTo(screen1);
         router.replaceWith(screen2);
@@ -108,8 +108,8 @@ public class RouterTest {
 
     @Test
     public void replaceAllWith() {
-        Screen screen1 = Screen.create(ViewController1.class);
-        Screen screen2 = Screen.create(ViewController2.class);
+        Screen screen1 = new Screen1();
+        Screen screen2 = new Screen2();
 
         router.goTo(screen1);
         router.replaceAllWith(Arrays.asList(screen1, screen2));
@@ -119,8 +119,8 @@ public class RouterTest {
     @Test
     public void replaceToSameController() {
 
-        Screen screen1 = Screen.create(ViewController1.class);
-        Screen screen2 = Screen.create(ViewController1.class);
+        Screen screen1 = new Screen1();
+        Screen screen2 = new Screen1();
 
         router.replaceWith(screen1);
 
@@ -137,33 +137,25 @@ public class RouterTest {
     @Test
     public void sameController() {
 
-        Screen previous = Screen.create(ViewController1.class);
-        Screen next = Screen.create(ViewController1.class);
-        Assert.assertTrue(Router.sameController(previous, next));
+        Screen previous = new Screen1();
+        Screen next = new Screen1();
+        Assert.assertTrue(Router.sameScreen(previous, next));
     }
 
     @Test
     public void differentController() {
 
-        Screen previous = Screen.create(ViewController1.class);
-        Screen next = Screen.create(ViewController2.class);
-        Assert.assertFalse(Router.sameController(previous, next));
+        Screen previous = new Screen1();
+        Screen next = new Screen2();
+        Assert.assertFalse(Router.sameScreen(previous, next));
     }
 
-    static class ViewController1 extends ViewController {
-
-        @Override
-        protected int layoutId() {
-            return 0;
-        }
+    @Layout(0)
+    static class Screen1 extends Screen {
     }
 
-    static class ViewController2 extends ViewController {
-
-        @Override
-        protected int layoutId() {
-            return 0;
-        }
+    @Layout(0)
+    static class Screen2 extends Screen {
     }
 
     static class TestRouter extends Router {
