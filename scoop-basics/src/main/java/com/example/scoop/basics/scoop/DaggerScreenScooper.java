@@ -7,21 +7,25 @@ import com.lyft.scoop.ScreenScooper;
 public class DaggerScreenScooper extends ScreenScooper {
 
     @Override
-    protected Scoop.Builder addServices(Scoop.Builder scoopBuilder, Screen screen, Scoop parentScoop) {
+    protected Scoop addServices(Scoop.Builder scoopBuilder, Screen screen, Scoop parentScoop) {
         DaggerInjector parentDagger = DaggerInjector.fromScoop(parentScoop);
 
-        ControllerModule controllerModule = screen.getController().getAnnotation(ControllerModule.class);
+        DaggerModule daggerModule = screen.getClass().getAnnotation(DaggerModule.class);
+
+        if(daggerModule == null) {
+            return scoopBuilder.service(DaggerInjector.SERVICE_NAME, parentDagger).build();
+        }
 
         DaggerInjector screenInjector;
 
         try {
-            Object module = controllerModule.value().newInstance();
+            Object module = daggerModule.value().newInstance();
             screenInjector = parentDagger.extend(module);
         } catch (Throwable e) {
-            throw new RuntimeException("Module not specified for " + screen.getController().getSimpleName(), e);
+            throw new RuntimeException("Failed to instantiate module for screen: " + screen.getClass().getSimpleName(), e);
         }
 
         return scoopBuilder
-                .service(DaggerInjector.SERVICE_NAME, screenInjector);
+                .service(DaggerInjector.SERVICE_NAME, screenInjector).build();
     }
 }

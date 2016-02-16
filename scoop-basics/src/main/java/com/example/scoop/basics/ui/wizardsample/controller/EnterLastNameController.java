@@ -1,4 +1,4 @@
-package com.example.scoop.basics.ui.wizardsample;
+package com.example.scoop.basics.ui.wizardsample.controller;
 
 import android.view.View;
 import android.widget.EditText;
@@ -6,32 +6,13 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.AppRouter;
-import com.example.scoop.basics.scoop.ControllerModule;
 import com.example.scoop.basics.ui.Keyboard;
-import com.lyft.scoop.EnterTransition;
-import com.lyft.scoop.ExitTransition;
-import com.lyft.scoop.Screen;
+import com.example.scoop.basics.ui.wizardsample.WizardSession;
+import com.example.scoop.basics.ui.wizardsample.screen.ConfirmationScreen;
 import com.lyft.scoop.ViewController;
-import com.lyft.scoop.transitions.BackwardSlideTransition;
-import com.lyft.scoop.transitions.ForwardSlideTransition;
 import javax.inject.Inject;
 
-@ControllerModule(EnterLastNameController.Module.class)
-@EnterTransition(ForwardSlideTransition.class)
-@ExitTransition(BackwardSlideTransition.class)
 public class EnterLastNameController extends ViewController {
-
-    public static Screen createScreen() {
-        return Screen.create(EnterLastNameController.class);
-    }
-
-    @dagger.Module(
-            injects = EnterLastNameController.class,
-            addsTo = EnterFirstNameController.Module.class,
-            library = true
-    )
-    public static class Module {
-    }
 
     private AppRouter appRouter;
     private WizardSession wizardSession;
@@ -66,6 +47,6 @@ public class EnterLastNameController extends ViewController {
     @OnClick(R.id.next_button)
     public void goNext() {
         wizardSession.lastName = lastNameEditText.getText().toString();
-        appRouter.goTo(ConfirmationController.createScreen());
+        appRouter.goTo(new ConfirmationScreen());
     }
 }

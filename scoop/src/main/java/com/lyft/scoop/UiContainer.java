@@ -37,6 +37,10 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         return new ViewControllerInflater();
     }
 
+    protected LayoutInflater getLayoutInflater() {
+        return new LayoutInflater();
+    }
+
     public boolean onBack() {
         return childCanGoBack();
     }
@@ -128,8 +132,11 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         if (active != null) {
             currentScreen.saveViewState(active);
         }
-
-        active = inflateControllerView(routeChange, nextScreen);
+        if (nextScreen.getController() != null) {
+            active = inflateControllerView(routeChange, nextScreen);
+        } else {
+            active = inflateLayout(routeChange, nextScreen);
+        }
 
         nextScreen.restoreViewState(active);
 
@@ -143,6 +150,10 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         return getViewControllerInflater().inflateViewController(screenChange.scoop, nextScreen.getController(), this);
     }
 
+    private View inflateLayout(RouteChange screenChange, Screen nextScreen) {
+        return getLayoutInflater().inflateView(screenChange.scoop, nextScreen, this);
+    }
+
     private ScreenTransition getTransition(RouteChange screenChange) {
         if (screenChange.direction == TransitionDirection.ENTER) {
             return getEnterTransition(screenChange);
@@ -152,17 +163,24 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
     }
 
     private boolean childCanGoBack() {
+        if (active instanceof HandleBack) {
+            return handleBack(active);
+        }
         ViewController viewController = ViewController.fromView(active);
 
         if (viewController != null) {
             if (viewController instanceof HandleBack) {
-                HandleBack handleBack = (HandleBack) viewController;
-
-                return handleBack.onBack();
+                return handleBack(viewController);
             }
         }
 
         return false;
+    }
+
+    private boolean handleBack(final Object object) {
+        HandleBack handleBack = (HandleBack) object;
+
+        return handleBack.onBack();
     }
 
     private TransitionListener getTransitionListener() {
@@ -178,7 +196,7 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
     }
 
     static ScreenTransition getEnterTransition(RouteChange screenChange) {
-        EnterTransition enterTransition = screenChange.next.getController().getAnnotation(EnterTransition.class);
+        EnterTransition enterTransition = screenChange.next.getClass().getAnnotation(EnterTransition.class);
 
         if (enterTransition != null && screenChange.previous != null) {
             try {
@@ -192,7 +210,7 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
     }
 
     static ScreenTransition getExitTransition(RouteChange screenChange) {
-        ExitTransition exitTransition = screenChange.previous.getController().getAnnotation(ExitTransition.class);
+        ExitTransition exitTransition = screenChange.previous.getClass().getAnnotation(ExitTransition.class);
 
         if (exitTransition != null && screenChange.next != null) {
             try {
