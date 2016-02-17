@@ -2,7 +2,7 @@ package com.example.scoop.basics;
 
 import android.app.Application;
 import com.example.scoop.basics.scoop.AppRouter;
-import com.example.scoop.basics.scoop.DaggerScreenScooper;
+import com.lyft.scoop.dagger.DaggerScreenScooper;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;

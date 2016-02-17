@@ -38,25 +38,17 @@ android {
 }
 
 dependencies {
-    compile 'com.squareup.dagger:dagger:1.2.2'
-    compile 'com.squareup.dagger:dagger-compiler:1.2.2'
-
     compile 'io.reactivex:rxjava:1.0.14'
     compile 'io.reactivex:rxandroid:1.0.1'
-
     compile 'com.squareup.picasso:picasso:2.5.2'
-
     compile 'com.facebook.stetho:stetho:1.2.0'
     compile 'com.facebook.stetho:stetho-okhttp:1.2.0'
-
     compile 'com.android.support:support-v4:23.0.0'
     compile 'com.android.support:design:23.0.0'
     compile 'com.android.support:multidex:1.0.0'
-
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.jakewharton.timber:timber:3.1.0'
-
     compile 'com.google.android.gms:play-services-location:8.1.0'
-
     compile project(':scoop')
+    compile project(':scoop-dagger')
 }

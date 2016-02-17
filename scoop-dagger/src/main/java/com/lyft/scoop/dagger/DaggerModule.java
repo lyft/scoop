@@ -1,4 +1,4 @@
-package com.example.scoop.basics.scoop;
+package com.lyft.scoop.dagger;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

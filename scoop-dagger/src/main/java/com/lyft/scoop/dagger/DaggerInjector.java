@@ -1,4 +1,4 @@
-package com.example.scoop.basics.scoop;
+package com.lyft.scoop.dagger;
 
 import android.view.View;
 import com.lyft.scoop.Scoop;
