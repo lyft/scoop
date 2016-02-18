@@ -1,1 +1,1 @@
-include ':scoop-basics', ':scoop'
+include ':scoop-basics', ':scoop', ':scoop-dagger'
