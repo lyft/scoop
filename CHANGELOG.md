@@ -1,6 +1,17 @@
 Change Log
 ==========
 
+Version 0.3.0 *(2016-2-18)*
+----------------------------
+
+Adding layout annotation support.
+
+Screens are now extendable.
+
+Controller, layout, and animation annotations are now located on top of the screen.
+
+Parameters are passed through a screen's constructor.
+
 Version 0.2.2 *(2016-2-11)*
 ----------------------------
 
