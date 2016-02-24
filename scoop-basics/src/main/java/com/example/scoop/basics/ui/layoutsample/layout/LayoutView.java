@@ -41,7 +41,7 @@ public class LayoutView extends FrameLayout{
         }
 
         ButterKnife.bind(this, this);
-        final LayoutScreen layoutScreen = (LayoutScreen) Screen.fromView(this);
+        final LayoutScreen layoutScreen = Screen.fromView(this);
         paramTextView.setText(layoutScreen.getParam());
         injectTextView.setText(layoutInjectData.getData());
 

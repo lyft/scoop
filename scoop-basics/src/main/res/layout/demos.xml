@@ -47,4 +47,11 @@
         android:text="Layout sample"
         />
 
+    <Button
+        android:id="@+id/nested_layout_sample_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/span80"
+        android:text="Nested layout sample"
+        />
+
 </LinearLayout>

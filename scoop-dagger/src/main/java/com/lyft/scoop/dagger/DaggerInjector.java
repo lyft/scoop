@@ -2,6 +2,7 @@ package com.lyft.scoop.dagger;
 
 import android.view.View;
 import com.lyft.scoop.Scoop;
+import com.lyft.scoop.Screen;
 import dagger.ObjectGraph;
 
 public class DaggerInjector {
@@ -32,5 +33,15 @@ public class DaggerInjector {
 
     public static DaggerInjector fromView(View view) {
         return Scoop.fromView(view).findService(SERVICE_NAME);
+    }
+
+    public static Scoop extend(final Scoop parentScoop, final Object... modules) {
+        final Screen parentScreen = Screen.fromScoop(parentScoop);
+        final Scoop.Builder scoopBuilder = new Scoop.Builder(parentScreen.getClass().getSimpleName(), parentScoop)
+                .service(Screen.SERVICE_NAME, parentScreen);
+        final DaggerInjector daggerInjector = DaggerInjector.fromScoop(parentScoop).extend(modules);
+
+        return scoopBuilder
+                .service(DaggerInjector.SERVICE_NAME, daggerInjector).build();
     }
 }

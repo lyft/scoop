@@ -19,7 +19,7 @@ public class DaggerScreenScooper extends ScreenScooper {
         DaggerInjector screenInjector;
 
         try {
-            Object module = daggerModule.value().newInstance();
+            final Object module = daggerModule.value().newInstance();
             screenInjector = parentDagger.extend(module);
         } catch (Throwable e) {
             throw new RuntimeException("Failed to instantiate module for screen: " + screen.getClass().getSimpleName(), e);

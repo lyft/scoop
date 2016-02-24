@@ -41,7 +41,7 @@ public class Screen {
         return null;
     }
 
-    public static Screen fromScoop(Scoop scoop) {
+    public static <T extends Screen> T fromScoop(Scoop scoop) {
         if (scoop == null) {
             return null;
         }
@@ -49,7 +49,7 @@ public class Screen {
         return scoop.findService("screen");
     }
 
-    public static Screen fromView(View view) {
+    public static <T extends Screen> T fromView(View view) {
         return Screen.fromScoop(Scoop.fromView(view));
     }
 
