@@ -7,6 +7,7 @@ import com.example.scoop.basics.rx.ViewSubscriptions;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.ui.customtransition.screen.AutoTransitionStartScreen;
 import com.example.scoop.basics.ui.layoutsample.screen.LayoutScreen;
+import com.example.scoop.basics.ui.layoutsample.screen.NestedLayoutScreen;
 import com.example.scoop.basics.ui.navigationsample.screen.AScreen;
 import com.example.scoop.basics.ui.paramsample.screen.ParametrizedScreen;
 import com.example.scoop.basics.ui.standardtransitions.screen.FadeScreen;
@@ -70,5 +71,10 @@ public class DemosController extends ViewController {
     @OnClick(R.id.layout_sample_button)
     public void goToLayoutSample() {
         appRouter.goTo(new LayoutScreen("This is a parameter."));
+    }
+
+    @OnClick(R.id.nested_layout_sample_button)
+    public void goToNestedLayoutSample() {
+        appRouter.goTo(new NestedLayoutScreen());
     }
 }
