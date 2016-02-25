@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 0.3.1 *(2016-2-25)*
+----------------------------
+
+Adding support for module extension in nested layouts.
+
 Version 0.3.0 *(2016-2-18)*
 ----------------------------
 
