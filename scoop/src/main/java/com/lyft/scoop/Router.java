@@ -121,6 +121,10 @@ public abstract class Router {
         performScoopChange(backStack.peek(), defaultScreen, null, TransitionDirection.ENTER);
     }
 
+    public boolean hasActiveScreen() {
+        return !backStack.isEmpty();
+    }
+
     private void performScoopChange(Scoop scoop, Screen next, Screen previous, TransitionDirection direction) {
         onScoopChanged(new RouteChange(scoop, previous, next, direction));
     }
