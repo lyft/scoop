@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 0.3.2 *(2016-2-29)*
+----------------------------
+
+Lowering compile sdk to Android 22 to support applications with sdk's below 23.
+
 Version 0.3.1 *(2016-2-25)*
 ----------------------------
 
