@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 0.3.3 *(2016-2-29)*
+----------------------------
+
+Adding support for using a Router without a default screen.
+
 Version 0.3.2 *(2016-2-29)*
 ----------------------------
 
