@@ -107,6 +107,10 @@ public abstract class Router {
         performScoopChange(nextScoop, screen, previousScreen, direction);
     }
 
+    public void onCreate(Scoop root) {
+        this.root = root;
+    }
+
     public void onCreate(Scoop root, Screen defaultScreen) {
         this.root = root;
 
