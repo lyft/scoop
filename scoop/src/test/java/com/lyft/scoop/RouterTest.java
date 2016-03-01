@@ -131,6 +131,18 @@ public class RouterTest {
         Assert.assertEquals(screen1, router.lastScreenChange.next);
     }
 
+    @Test
+    public void hasActiveScreen() {
+
+        Screen screen1 = new Screen1();
+
+        router.goTo(screen1);
+        Assert.assertTrue(router.hasActiveScreen());
+
+        router.goBack();
+        Assert.assertFalse(router.hasActiveScreen());
+    }
+
     private void checkIfRouterBackstackIsEmpty() {Assert.assertEquals(false, router.goBack());}
 
 
