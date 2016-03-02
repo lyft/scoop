@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 0.3.4 *(2016-3-2)*
+----------------------------
+
+Fixing bug where Dagger Compiler was being compiled instead of provided.
+
 Version 0.3.3 *(2016-2-29)*
 ----------------------------
 
