@@ -53,7 +53,7 @@ public class Screen {
         return Screen.fromScoop(Scoop.fromView(view));
     }
 
-    public static Screen fromController(ViewController controller) {
+    public static <T extends Screen> T fromController(ViewController controller) {
         return Screen.fromScoop(controller.getScoop());
     }
 
