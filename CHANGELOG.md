@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 0.3.6 *(2016-3-9)*
+----------------------------
+
+Updating fromController() to type cast screen.
+
 Version 0.3.5 *(2016-3-2)*
 ----------------------------
 
