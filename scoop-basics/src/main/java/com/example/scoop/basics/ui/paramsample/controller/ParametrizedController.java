@@ -24,15 +24,15 @@ public class ParametrizedController extends ViewController {
     }
 
     @Override
-    public void attach(View view) {
-        super.attach(view);
+    public void onAttach() {
+        super.onAttach();
 
         ParametrizedScreen screen = (ParametrizedScreen) Screen.fromController(this);
         paramTextView.setText(screen.getArgs());
     }
 
     @Override
-    public void detach(View view) {
-        super.detach(view);
+    public void onDetach() {
+        super.onDetach();
     }
 }

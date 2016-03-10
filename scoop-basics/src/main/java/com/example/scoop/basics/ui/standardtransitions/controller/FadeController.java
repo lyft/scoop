@@ -22,13 +22,13 @@ public class FadeController extends ViewController {
     }
 
     @Override
-    public void attach(View view) {
-        super.attach(view);
+    public void onAttach() {
+        super.onAttach();
     }
 
     @Override
-    public void detach(View view) {
-        super.detach(view);
+    public void onDetach() {
+        super.onDetach();
     }
 
     @OnClick(R.id.next_button)

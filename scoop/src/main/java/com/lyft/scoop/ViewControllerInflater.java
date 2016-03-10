@@ -34,14 +34,12 @@ public class ViewControllerInflater {
             public void onViewAttachedToWindow(View v) {
                 Scoop.viewBinder.bind(viewController, v);
                 viewController.attach(view);
-                viewController.setAttached(true);
                 view.setTag(VIEW_CONTROLLER_TAG, viewController);
             }
 
             @Override
             public void onViewDetachedFromWindow(View v) {
                 viewController.detach(view);
-                viewController.setAttached(false);
                 view.setTag(VIEW_CONTROLLER_TAG, null);
                 Scoop.viewBinder.unbind(viewController);
             }

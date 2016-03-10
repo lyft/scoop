@@ -1,6 +1,5 @@
 package com.example.scoop.basics.ui;
 
-import android.view.View;
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.rx.ViewSubscriptions;
@@ -32,13 +31,13 @@ public class DemosController extends ViewController {
     }
 
     @Override
-    public void attach(View view) {
-        super.attach(view);
+    public void onAttach() {
+        super.onAttach();
     }
 
     @Override
-    public void detach(View view) {
-        super.detach(view);
+    public void onDetach() {
+        super.onDetach();
 
         viewSubscriptions.unsubscribe();
     }
