@@ -6,14 +6,26 @@ public abstract class ViewController {
 
     private boolean attached;
     private Scoop scoop;
+    private View view;
 
-    public void attach(View view) {}
+    public void attach(View view) {
+        this.view = view;
+    }
 
     protected final boolean attached() {
         return this.attached;
     }
 
-    public void detach(View view) {}
+    public void detach(View view) {
+        this.view = null;
+    }
+
+    public View getView() {
+        if (!attached) {
+            throw new IllegalStateException("View accessed while ViewController is detached.");
+        }
+        return this.view;
+    }
 
     void setAttached(boolean attached) {
         this.attached = attached;
