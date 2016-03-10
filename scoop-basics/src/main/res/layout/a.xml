@@ -13,10 +13,18 @@
         />
 
     <Button
-        android:id="@+id/go_to_b_button"
+        android:id="@+id/toast_button"
         android:layout_width="match_parent"
         android:layout_height="@dimen/span80"
         android:layout_gravity="bottom"
+        android:text="Show toast"
+        />
+
+    <Button
+        android:id="@+id/go_to_b_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/span80"
+        android:layout_gravity="center_horizontal|top"
         android:text="Go to B"
         />
 

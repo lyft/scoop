@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
 
 android {
     lintOptions {
@@ -51,4 +52,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:8.1.0'
     compile project(':scoop')
     compile project(':scoop-dagger')
+    apt 'com.squareup.dagger:dagger-compiler:1.2.2'
 }
