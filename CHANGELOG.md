@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+Version 0.3.7 *(2016-3-11)*
+----------------------------
+
+Adding getView() to ViewController
+
+Removing default screen from Router's onCreate()
+
 Version 0.3.6 *(2016-3-9)*
 ----------------------------
 
