@@ -117,6 +117,36 @@ public class RouterTest {
     }
 
     @Test
+    public void emptyBackstackGoTo() {
+        Screen screen1 = new Screen1();
+
+        router.goTo(screen1);
+        Assert.assertEquals(screen1, router.lastScreenChange.next);
+
+        router.goBack();
+    }
+
+    @Test
+    public void emptyBackstackReplaceWith() {
+        Screen screen1 = new Screen1();
+
+        router.replaceWith(screen1);
+        Assert.assertEquals(screen1, router.lastScreenChange.next);
+
+        router.goBack();
+    }
+
+    @Test
+    public void emptyBackstackResetTo() {
+        Screen screen1 = new Screen1();
+
+        router.resetTo(screen1);
+        Assert.assertEquals(screen1, router.lastScreenChange.next);
+
+        router.goBack();
+    }
+
+    @Test
     public void replaceToSameController() {
 
         Screen screen1 = new Screen1();
