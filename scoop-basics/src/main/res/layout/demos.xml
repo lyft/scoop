@@ -20,17 +20,10 @@
         />
 
     <Button
-        android:id="@+id/standard_transitions_button"
+        android:id="@+id/transitions_button"
         android:layout_width="match_parent"
         android:layout_height="@dimen/span80"
-        android:text="Standard transitions"
-        />
-
-    <Button
-        android:id="@+id/custom_transition_button"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/span80"
-        android:text="Custom transition"
+        android:text="Transitions"
         />
 
     <Button

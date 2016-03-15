@@ -10,6 +10,10 @@ public class InstantTransition implements ScreenTransition {
     @Override
     public void transition(ViewGroup root, View from, View to, final TransitionListener transitionListener) {
         root.removeView(from);
+        if (to == null) {
+            transitionListener.onTransitionCompleted();
+            return;
+        }
 
         to.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
