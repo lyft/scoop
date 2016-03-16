@@ -1,5 +1,6 @@
 package com.lyft.scoop;
 
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class Router {
@@ -7,10 +8,17 @@ public abstract class Router {
     private ScoopBackstack backStack = new ScoopBackstack();
     private ScreenScooper screenScooper;
     private Scoop root;
+    private boolean allowEmptyStack;
 
     public Router(ScreenScooper screenScooper) {
+        this.screenScooper = screenScooper;
+        this.allowEmptyStack = false;
+    }
+
+    public Router(ScreenScooper screenScooper, boolean allowEmptyStack) {
 
         this.screenScooper = screenScooper;
+        this.allowEmptyStack = allowEmptyStack;
     }
 
     public boolean goBack() {
@@ -24,7 +32,9 @@ public abstract class Router {
                 Scoop nextScoop = backStack.peek();
                 Screen nextScreen = Screen.fromScoop(nextScoop);
                 performScoopChange(nextScoop, nextScreen, previousScreen, TransitionDirection.EXIT);
-
+                return true;
+            } else if (allowEmptyStack) {
+                performScoopChange(previousScoop, null, previousScreen, TransitionDirection.EXIT);
                 return true;
             }
         }
@@ -82,6 +92,10 @@ public abstract class Router {
         resetTo(screen, TransitionDirection.EXIT);
     }
 
+    public void replaceAllWith(Screen... screens) {
+        replaceAllWith(Arrays.asList(screens));
+    }
+
     public void replaceAllWith(List<Screen> screens) {
         backStack.clear();
 
@@ -123,7 +137,6 @@ public abstract class Router {
     public boolean hasActiveScreen() {
         return !backStack.isEmpty();
     }
-
 
     private boolean tryHandleEmptyBackstack(final Screen screen) {
         if (backStack.isEmpty()) {

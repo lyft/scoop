@@ -15,7 +15,6 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
     private ArrayDeque<RouteChange> routeChangeQueue = new ArrayDeque<>();
     private boolean isTransitioning;
     private View active;
-    private Screen currentScreen;
 
     public UiContainer(Context context) {
         this(context, null, 0);
@@ -130,17 +129,19 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         final View prevView = active;
 
         if (active != null) {
-            currentScreen.saveViewState(active);
+            routeChange.previous.saveViewState(active);
         }
-        if (nextScreen.getController() != null) {
+
+        if (nextScreen == null) {
+            active = null;
+        } else if (nextScreen.getController() != null) {
             active = inflateControllerView(routeChange, nextScreen);
+            nextScreen.restoreViewState(active);
         } else {
             active = inflateLayout(routeChange, nextScreen);
+            nextScreen.restoreViewState(active);
         }
 
-        nextScreen.restoreViewState(active);
-
-        currentScreen = nextScreen;
         isTransitioning = true;
         final ScreenTransition transition = getTransition(routeChange);
         transition.transition(this, prevView, active, this);
@@ -198,7 +199,7 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
     static ScreenTransition getEnterTransition(RouteChange screenChange) {
         EnterTransition enterTransition = screenChange.next.getClass().getAnnotation(EnterTransition.class);
 
-        if (enterTransition != null && screenChange.previous != null) {
+        if (enterTransition != null) {
             try {
                 return enterTransition.value().newInstance();
             } catch (Throwable e) {
@@ -212,7 +213,7 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
     static ScreenTransition getExitTransition(RouteChange screenChange) {
         ExitTransition exitTransition = screenChange.previous.getClass().getAnnotation(ExitTransition.class);
 
-        if (exitTransition != null && screenChange.next != null) {
+        if (exitTransition != null) {
             try {
                 return exitTransition.value().newInstance();
             } catch (Throwable e) {

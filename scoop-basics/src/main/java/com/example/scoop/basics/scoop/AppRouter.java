@@ -10,8 +10,8 @@ public class AppRouter extends Router {
 
     private final BehaviorSubject<RouteChange> screenChangeSubject = BehaviorSubject.create();
 
-    public AppRouter(ScreenScooper screenScooper) {
-        super(screenScooper);
+    public AppRouter(ScreenScooper screenScooper, boolean hasEmptyStack) {
+        super(screenScooper, hasEmptyStack);
     }
 
     public Observable<RouteChange> observeScreenChange() {

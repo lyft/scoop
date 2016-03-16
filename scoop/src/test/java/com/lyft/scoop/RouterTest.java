@@ -1,8 +1,6 @@
 package com.lyft.scoop;
 
-import java.util.Arrays;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -14,14 +12,27 @@ public class RouterTest {
 
     private TestRouter router;
 
-    @Before
-    public void setUp() {
-        router = new TestRouter();
+    @Test
+    public void defaultRouter() {
+
+        TestDefaultRouter defaultRouter = new TestDefaultRouter();
+
+        Screen screen1 = new Screen1();
+        Screen screen2 = new Screen2();
+
+        defaultRouter.goTo(screen1);
+        defaultRouter.goTo(screen2);
+        Assert.assertTrue(defaultRouter.goBack());
+
+        Assert.assertEquals(screen1, defaultRouter.lastScreenChange.next);
+        Assert.assertEquals(screen2, defaultRouter.lastScreenChange.previous);
+        Assert.assertEquals(TransitionDirection.EXIT, defaultRouter.lastScreenChange.direction);
     }
 
     @Test
     public void goTo() {
 
+        router = new TestRouter(false);
         Screen screen1 = new Screen1();
 
         router.goTo(screen1);
@@ -34,6 +45,7 @@ public class RouterTest {
     @Test
     public void goToSameController() {
 
+        router = new TestRouter(false);
         Screen screen1 = new Screen1();
         Screen screen2 = new Screen1();
 
@@ -48,12 +60,15 @@ public class RouterTest {
 
     @Test
     public void goBack() {
+
+        router = new TestRouter(false);
+
         Screen screen1 = new Screen1();
         Screen screen2 = new Screen2();
 
         router.goTo(screen1);
         router.goTo(screen2);
-        router.goBack();
+        Assert.assertTrue(router.goBack());
 
         Assert.assertEquals(screen1, router.lastScreenChange.next);
         Assert.assertEquals(screen2, router.lastScreenChange.previous);
@@ -61,7 +76,31 @@ public class RouterTest {
     }
 
     @Test
+    public void goBackAllowEmptyStack() {
+
+        router = new TestRouter(true);
+
+        Screen screen1 = new Screen1();
+
+        router.goTo(screen1);
+        Assert.assertTrue(router.goBack());
+
+        Assert.assertNull(router.lastScreenChange.next);
+        Assert.assertEquals(screen1, router.lastScreenChange.previous);
+        Assert.assertEquals(TransitionDirection.EXIT, router.lastScreenChange.direction);
+    }
+
+    @Test
+    public void goBackNoScreens() {
+
+        router = new TestRouter(true);
+        Assert.assertFalse(router.goBack());
+    }
+
+    @Test
     public void resetToExisting() {
+
+        router = new TestRouter(false);
         Screen screen1 = new Screen1();
         Screen screen2 = new Screen2();
 
@@ -78,6 +117,8 @@ public class RouterTest {
 
     @Test
     public void resetToNew() {
+
+        router = new TestRouter(false);
         Screen screen1 = new Screen1();
         Screen screen2 = new Screen2();
 
@@ -93,6 +134,8 @@ public class RouterTest {
 
     @Test
     public void replaceWith() {
+
+        router = new TestRouter(false);
         Screen screen1 = new Screen1();
         Screen screen2 = new Screen2();
 
@@ -108,16 +151,20 @@ public class RouterTest {
 
     @Test
     public void replaceAllWith() {
+
+        router = new TestRouter(false);
         Screen screen1 = new Screen1();
         Screen screen2 = new Screen2();
 
         router.goTo(screen1);
-        router.replaceAllWith(Arrays.asList(screen1, screen2));
+        router.replaceAllWith(screen1, screen2);
         Assert.assertEquals(screen2, router.lastScreenChange.next);
     }
 
     @Test
     public void emptyBackstackGoTo() {
+
+        router = new TestRouter(false);
         Screen screen1 = new Screen1();
 
         router.goTo(screen1);
@@ -128,6 +175,8 @@ public class RouterTest {
 
     @Test
     public void emptyBackstackReplaceWith() {
+
+        router = new TestRouter(false);
         Screen screen1 = new Screen1();
 
         router.replaceWith(screen1);
@@ -138,6 +187,8 @@ public class RouterTest {
 
     @Test
     public void emptyBackstackResetTo() {
+
+        router = new TestRouter(false);
         Screen screen1 = new Screen1();
 
         router.resetTo(screen1);
@@ -149,6 +200,7 @@ public class RouterTest {
     @Test
     public void replaceToSameController() {
 
+        router = new TestRouter(false);
         Screen screen1 = new Screen1();
         Screen screen2 = new Screen1();
 
@@ -164,6 +216,8 @@ public class RouterTest {
     @Test
     public void hasActiveScreen() {
 
+
+        router = new TestRouter(false);
         Screen screen1 = new Screen1();
 
         router.goTo(screen1);
@@ -204,7 +258,21 @@ public class RouterTest {
 
         private RouteChange lastScreenChange;
 
-        public TestRouter() {
+        public TestRouter(boolean allowEmptyStack) {
+            super(new ScreenScooper(), allowEmptyStack);
+        }
+
+        @Override
+        protected void onScoopChanged(RouteChange routeChange) {
+            lastScreenChange = routeChange;
+        }
+    }
+
+    static class TestDefaultRouter extends Router {
+
+        private RouteChange lastScreenChange;
+
+        public TestDefaultRouter() {
             super(new ScreenScooper());
         }
 

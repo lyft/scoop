@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:background="@android:color/transparent"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:background="@color/yellow"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/span80"
+            android:gravity="center_horizontal"
+            android:text="This is a Dialog!"
+            android:textColor="@color/primary_dark"
+            android:layout_above="@+id/dismiss_button"
+            android:layout_alignStart="@+id/dismiss_button"
+            />
+
+        <Button
+            android:id="@+id/dismiss_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/span80"
+            android:background="@color/blue"
+            android:text="Dismiss"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="8dp"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>

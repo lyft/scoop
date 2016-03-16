@@ -2,6 +2,7 @@ package com.example.scoop.basics;
 
 import android.app.Application;
 import com.example.scoop.basics.scoop.AppRouter;
+import com.example.scoop.basics.scoop.DialogRouter;
 import com.lyft.scoop.dagger.DaggerScreenScooper;
 import dagger.Module;
 import dagger.Provides;
@@ -25,8 +26,20 @@ public class AppModule {
 
     @Singleton
     @Provides
-    AppRouter provideAppRouter() {
-        return new AppRouter(new DaggerScreenScooper());
+    DaggerScreenScooper provideDaggerScreenScooper() {
+        return new DaggerScreenScooper();
+    }
+
+    @Singleton
+    @Provides
+    AppRouter provideAppRouter(DaggerScreenScooper daggerScreenScooper) {
+        return new AppRouter(daggerScreenScooper, false);
+    }
+
+    @Singleton
+    @Provides
+    DialogRouter provideDialogRouter(DaggerScreenScooper daggerScreenScooper) {
+        return new DialogRouter(new AppRouter(daggerScreenScooper, true));
     }
 
     @Singleton

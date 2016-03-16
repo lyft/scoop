@@ -2,14 +2,15 @@ package com.example.scoop.basics;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.example.scoop.basics.scoop.AppRouter;
+import com.example.scoop.basics.scoop.DialogRouter;
+import com.example.scoop.basics.scoop.DialogUiContainer;
+import com.example.scoop.basics.scoop.MainUiContainer;
 import com.example.scoop.basics.ui.DemoScreen;
 import com.lyft.scoop.Scoop;
-import com.lyft.scoop.UiContainer;
 import com.lyft.scoop.dagger.DaggerInjector;
 import dagger.ObjectGraph;
 import javax.inject.Inject;
@@ -19,13 +20,18 @@ import timber.log.Timber;
 public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.screen_container)
-    UiContainer mainUiContainer;
+    MainUiContainer mainUiContainer;
+
+    @Bind(R.id.dialog_container)
+    DialogUiContainer dialogContainer;
 
     @Inject
     AppRouter appRouter;
 
+    @Inject
+    DialogRouter dialogRouter;
+
     private CompositeSubscription subscriptions = new CompositeSubscription();
-    private LayoutInflater inflater;
     private Scoop rootScoop;
 
     @Override
@@ -40,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         DaggerInjector.fromScoop(getRootScoop()).inject(this);
 
         appRouter.onCreate(rootScoop);
+        dialogRouter.onCreate(rootScoop);
         appRouter.goTo(new DemoScreen());
 
         Timber.d("onCreate");
@@ -48,13 +55,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
     }
 
     @Override
@@ -76,12 +81,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-
     }
 
     @Override
     public void onBackPressed() {
+
+        if (dialogContainer.onBack()) {
+            return;
+        }
+
         if (mainUiContainer.onBack()) {
+            return;
+        }
+
+        if (dialogRouter.dismiss()) {
             return;
         }
 
