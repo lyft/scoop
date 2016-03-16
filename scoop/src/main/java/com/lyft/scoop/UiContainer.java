@@ -128,7 +128,7 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
 
         final View prevView = active;
 
-        if (active != null) {
+        if (active != null && routeChange.previous != null) {
             routeChange.previous.saveViewState(active);
         }
 

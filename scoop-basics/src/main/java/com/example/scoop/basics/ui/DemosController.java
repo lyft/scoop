@@ -66,7 +66,7 @@ public class DemosController extends ViewController {
 
     @OnClick(R.id.nested_layout_sample_button)
     public void goToNestedLayoutSample() {
-        appRouter.goTo(new NestedLayoutScreen());
+        appRouter.replaceAllWith(new DemoScreen(), new NestedLayoutScreen());
     }
 
     @OnClick(R.id.transitions_button)
