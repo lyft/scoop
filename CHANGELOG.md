@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 0.3.8 *(2016-3-16)*
+----------------------------
+
+Adding support for transitions to null views
+
+
 Version 0.3.7 *(2016-3-11)*
 ----------------------------
 
