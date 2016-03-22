@@ -154,7 +154,7 @@ public abstract class Router {
         onScoopChanged(new RouteChange(scoop, previous, next, direction));
     }
 
-    private boolean sameScreen(Screen previous, Screen next) {
+    static boolean sameScreen(Screen previous, Screen next) {
         return previous != null && previous.equals(next);
     }
 }
