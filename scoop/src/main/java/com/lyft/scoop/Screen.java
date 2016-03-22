@@ -9,7 +9,6 @@ public class Screen {
     public static final String SERVICE_NAME = "screen";
 
     private transient SparseArray<Parcelable> viewState;
-    private Class<? extends ViewController> viewController;
 
     public Screen() {
         viewState = new SparseArray<Parcelable>();
