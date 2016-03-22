@@ -11,7 +11,6 @@ public class RouteChange {
         this.scoop = scoop;
         this.previous = previous;
         this.next = next;
-
         this.direction = direction;
     }
 }
