@@ -63,7 +63,9 @@ public class MainUiContainer extends UiContainer {
     private Action1<RouteChange> onScreenChanged = new Action1<RouteChange>() {
         @Override
         public void call(RouteChange screenChange) {
-            Timber.d("Scoop changed:" + screenChange.next.getClass().getSimpleName());
+            if (screenChange.next != null) {
+                Timber.d("Scoop changed:" + screenChange.next.getClass().getSimpleName());
+            }
             MainUiContainer.this.goTo(screenChange);
             Keyboard.hideKeyboard(MainUiContainer.this);
         }
