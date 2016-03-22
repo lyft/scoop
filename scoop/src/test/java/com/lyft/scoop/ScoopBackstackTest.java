@@ -26,6 +26,6 @@ public class ScoopBackstackTest {
         Scoop scoop = new Scoop.Builder("foo").build();
         backStack.push(scoop);
         backStack.pop();
-        Assert.assertTrue(scoop.isDestroyed());
+        Assert.assertFalse(scoop.isDestroyed());
     }
 }
