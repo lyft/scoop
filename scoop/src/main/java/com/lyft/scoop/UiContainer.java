@@ -26,10 +26,6 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
 
     public UiContainer(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
-        if (isInEditMode()) {
-            return;
-        }
     }
 
     protected ViewControllerInflater getViewControllerInflater() {
@@ -64,63 +60,40 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
             routeChangeQueue.pop();
 
             if (!routeChangeQueue.isEmpty()) {
-                swap(routeChangeQueue.peek());
+                swap(routeChangeQueue.getLast());
+                routeChangeQueue.clear();
             }
         }
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        if (isTransitioning) {
-            return true;
-        } else {
-            return super.dispatchTouchEvent(event);
-        }
+        return isTransitioning || super.dispatchTouchEvent(event);
     }
 
     @Override
-    public boolean dispatchDragEvent(DragEvent event){
-        if (isTransitioning) {
-            return true;
-        } else {
-            return super.dispatchDragEvent(event);
-        }
+    public boolean dispatchDragEvent(DragEvent event) {
+        return isTransitioning || super.dispatchDragEvent(event);
     }
 
     @Override
-    public boolean dispatchKeyEvent(KeyEvent event){
-        if (isTransitioning) {
-            return true;
-        } else {
-            return super.dispatchKeyEvent(event);
-        }
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        return isTransitioning || super.dispatchKeyEvent(event);
     }
 
     @Override
-    public boolean dispatchKeyEventPreIme(KeyEvent event){
-        if (isTransitioning) {
-            return true;
-        } else {
-            return super.dispatchKeyEventPreIme(event);
-        }
+    public boolean dispatchKeyEventPreIme(KeyEvent event) {
+        return isTransitioning || super.dispatchKeyEventPreIme(event);
     }
 
     @Override
-    public boolean dispatchKeyShortcutEvent(KeyEvent event){
-        if (isTransitioning) {
-            return true;
-        } else {
-            return super.dispatchKeyShortcutEvent(event);
-        }
+    public boolean dispatchKeyShortcutEvent(KeyEvent event) {
+        return isTransitioning || super.dispatchKeyShortcutEvent(event);
     }
 
     @Override
-    public boolean dispatchTrackballEvent(MotionEvent event){
-        if (isTransitioning) {
-            return true;
-        } else {
-            return super.dispatchTrackballEvent(event);
-        }
+    public boolean dispatchTrackballEvent(MotionEvent event) {
+        return isTransitioning || super.dispatchTrackballEvent(event);
     }
 
     private void swap(RouteChange routeChange) {
