@@ -105,8 +105,10 @@ public abstract class Router {
             backStack.push(newScoop);
             previousScoop = newScoop;
         }
-
-        final Screen lastScreen = screens.get(screens.size() - 1);
+        Screen lastScreen = null;
+        if (!screens.isEmpty()) {
+            lastScreen = screens.get(screens.size() - 1);
+        }
         performScoopChange(backStack.peek(), lastScreen, null, TransitionDirection.ENTER);
     }
 

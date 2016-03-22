@@ -1,5 +1,6 @@
 package com.lyft.scoop;
 
+import java.util.Collections;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -224,6 +225,16 @@ public class RouterTest {
         Assert.assertTrue(router.hasActiveScreen());
 
         router.goBack();
+        Assert.assertFalse(router.hasActiveScreen());
+    }
+
+    @Test
+    public void replaceAllWithEmptyList() {
+
+
+        router = new TestRouter(false);
+
+        router.replaceAllWith(Collections.EMPTY_LIST);
         Assert.assertFalse(router.hasActiveScreen());
     }
 

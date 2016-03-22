@@ -197,6 +197,10 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
     }
 
     static ScreenTransition getEnterTransition(RouteChange screenChange) {
+        if (screenChange.next == null) {
+            return new InstantTransition();
+        }
+
         EnterTransition enterTransition = screenChange.next.getClass().getAnnotation(EnterTransition.class);
 
         if (enterTransition != null) {
@@ -211,6 +215,10 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
     }
 
     static ScreenTransition getExitTransition(RouteChange screenChange) {
+        if (screenChange.previous == null) {
+            return new InstantTransition();
+        }
+
         ExitTransition exitTransition = screenChange.previous.getClass().getAnnotation(ExitTransition.class);
 
         if (exitTransition != null) {

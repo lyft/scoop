@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
 
         Timber.d("onDestroy");
-
         subscriptions.clear();
 
         super.onDestroy();
