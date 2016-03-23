@@ -21,6 +21,12 @@ public abstract class Router {
         this.allowEmptyStack = allowEmptyStack;
     }
 
+    public void onCreate(Scoop root) {
+        this.root = root;
+    }
+
+    protected abstract void onScoopChanged(RouteChange routeChange);
+
     public boolean goBack() {
         if (!backStack.isEmpty()) {
             Scoop previousScoop = backStack.peek();
@@ -31,10 +37,10 @@ public abstract class Router {
             if (!backStack.isEmpty()) {
                 Scoop nextScoop = backStack.peek();
                 Screen nextScreen = Screen.fromScoop(nextScoop);
-                performScoopChange(nextScoop, nextScreen, previousScreen, TransitionDirection.EXIT);
+                performScoopChange(nextScoop, previousScreen, nextScreen, TransitionDirection.EXIT);
                 return true;
             } else if (allowEmptyStack) {
-                performScoopChange(previousScoop, null, previousScreen, TransitionDirection.EXIT);
+                performScoopChange(previousScoop, previousScreen, null, TransitionDirection.EXIT);
                 return true;
             }
         }
@@ -55,7 +61,7 @@ public abstract class Router {
 
         Scoop nextScoop = screenScooper.createScreenScoop(screen, previousScoop);
         backStack.push(nextScoop);
-        performScoopChange(nextScoop, screen, previousScreen, TransitionDirection.ENTER);
+        performScoopChange(nextScoop, previousScreen, screen, TransitionDirection.ENTER);
     }
 
     public void replaceWith(Screen screen) {
@@ -82,14 +88,7 @@ public abstract class Router {
         }
 
         backStack.push(nextScoop);
-        performScoopChange(nextScoop, screen, previousScreen, TransitionDirection.ENTER);
-    }
-
-    public void resetTo(Screen screen) {
-        if (tryHandleEmptyBackstack(screen)) {
-            return;
-        }
-        resetTo(screen, TransitionDirection.EXIT);
+        performScoopChange(nextScoop, previousScreen, screen, TransitionDirection.ENTER);
     }
 
     public void replaceAllWith(Screen... screens) {
@@ -97,19 +96,29 @@ public abstract class Router {
     }
 
     public void replaceAllWith(List<Screen> screens) {
+        Screen previousScreen = Screen.fromScoop(backStack.peek());
+
         backStack.clear();
 
-        Scoop previousScoop = root;
+        Scoop scoop = root;
         for (final Screen screen : screens) {
-            final Scoop newScoop = screenScooper.createScreenScoop(screen, previousScoop);
+            final Scoop newScoop = screenScooper.createScreenScoop(screen, scoop);
             backStack.push(newScoop);
-            previousScoop = newScoop;
+            scoop = newScoop;
         }
-        Screen lastScreen = null;
+
+        Screen currentScreen = null;
         if (!screens.isEmpty()) {
-            lastScreen = screens.get(screens.size() - 1);
+            currentScreen = screens.get(screens.size() - 1);
         }
-        performScoopChange(backStack.peek(), lastScreen, null, TransitionDirection.ENTER);
+        performScoopChange(backStack.peek(), previousScreen, currentScreen, TransitionDirection.ENTER);
+    }
+
+    public void resetTo(Screen screen) {
+        if (tryHandleEmptyBackstack(screen)) {
+            return;
+        }
+        resetTo(screen, TransitionDirection.EXIT);
     }
 
     public void resetTo(Screen screen, TransitionDirection direction) {
@@ -120,7 +129,7 @@ public abstract class Router {
             Scoop topScoop = backStack.peek();
 
             if (sameScreen(screen, Screen.fromScoop(topScoop))) {
-                performScoopChange(topScoop, screen, previousScreen, direction);
+                performScoopChange(topScoop, previousScreen, screen, direction);
                 return;
             }
 
@@ -129,11 +138,7 @@ public abstract class Router {
 
         Scoop nextScoop = screenScooper.createScreenScoop(screen, root);
         backStack.push(nextScoop);
-        performScoopChange(nextScoop, screen, previousScreen, direction);
-    }
-
-    public void onCreate(Scoop root) {
-        this.root = root;
+        performScoopChange(nextScoop, previousScreen, screen, direction);
     }
 
     public boolean hasActiveScreen() {
@@ -144,17 +149,15 @@ public abstract class Router {
         if (backStack.isEmpty()) {
             final Scoop newScoop = screenScooper.createScreenScoop(screen, root);
             backStack.push(newScoop);
-            performScoopChange(backStack.peek(), screen, null, TransitionDirection.ENTER);
+            performScoopChange(backStack.peek(), null, screen, TransitionDirection.ENTER);
             return true;
         }
         return false;
     }
 
-    private void performScoopChange(Scoop scoop, Screen next, Screen previous, TransitionDirection direction) {
+    private void performScoopChange(Scoop scoop, Screen previous, Screen next, TransitionDirection direction) {
         onScoopChanged(new RouteChange(scoop, previous, next, direction));
     }
-
-    protected abstract void onScoopChanged(RouteChange routeChange);
 
     static boolean sameScreen(Screen previous, Screen next) {
 

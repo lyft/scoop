@@ -13,22 +13,28 @@ public class SlideUpTransition extends ObjectAnimatorTransition {
 
     @Override
     public void performTranslate(final ViewGroup root, final View from, View to, final TransitionListener transitionListener) {
+        if (to == null) {
+            root.removeView(from);
+            return;
+        }
+
         Animator animator = createAnimator(to);
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
+                root.removeView(from);
                 transitionListener.onTransitionCompleted();
             }
         });
         animator.start();
     }
 
-    private Animator createAnimator(View to) {
-        int toTranslation = to.getHeight();
+    private Animator createAnimator(View from) {
+        int toTranslation = from.getHeight();
 
         AnimatorSet set = new AnimatorSet();
 
-        set.play(ObjectAnimator.ofFloat(to, View.TRANSLATION_Y, toTranslation, 0));
+        set.play(ObjectAnimator.ofFloat(from, View.TRANSLATION_Y, toTranslation, 0));
 
         return set;
     }
