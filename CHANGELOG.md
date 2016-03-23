@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 0.3.10 *(2016-3-22)*
+----------------------------
+
+Eliminating memory leak in scoop.destroy()
+
 Version 0.3.9 *(2016-3-16)*
 ----------------------------
 
