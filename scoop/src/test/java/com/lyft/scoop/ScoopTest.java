@@ -65,18 +65,32 @@ public class ScoopTest {
         FooService service2 = new FooService();
 
         Scoop childScoop = new Scoop.Builder("child", rootScoop)
-                .service("foo_service_2", service1)
+                .service("foo_service_2", service2)
                 .build();
 
-        rootScoop.destroy();
+        FooService service3 = new FooService();
 
-        Assert.assertTrue(rootScoop.isDestroyed());
+        Scoop grandChildScoop = new Scoop.Builder("grand_child", childScoop)
+                .service("foo_service_3", service3)
+                .build();
+
+        childScoop.destroy();
+
+        Assert.assertFalse(rootScoop.isDestroyed());
         Assert.assertNull(rootScoop.findChild("child"));
-        Assert.assertNull(rootScoop.findService("foo_service_1"));
+        Assert.assertNotNull(rootScoop.findService("foo_service_1"));
 
         Assert.assertTrue(childScoop.isDestroyed());
-        Assert.assertNull(childScoop.getParent());
-        Assert.assertNull(rootScoop.findService("foo_service_2"));
+        Assert.assertNotNull(childScoop.getParent());
+        Assert.assertNull(childScoop.findChild("grand_child"));
+        Assert.assertNotNull(childScoop.findService("foo_service_1"));
+        Assert.assertNotNull(childScoop.findService("foo_service_2"));
+
+        Assert.assertTrue(grandChildScoop.isDestroyed());
+        Assert.assertNotNull(grandChildScoop.getParent());
+        Assert.assertNotNull(grandChildScoop.findService("foo_service_1"));
+        Assert.assertNotNull(grandChildScoop.findService("foo_service_2"));
+        Assert.assertNotNull(grandChildScoop.findService("foo_service_3"));
     }
 
     static class FooService {
