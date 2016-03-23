@@ -35,9 +35,10 @@ public final class Scoop {
         }
 
         this.destroyed = true;
-        this.parent = null;
-        this.children.clear();
-        this.services.clear();
+
+        if (parent != null) {
+            parent.children.remove(this.getName());
+        }
     }
 
     boolean isDestroyed() {
