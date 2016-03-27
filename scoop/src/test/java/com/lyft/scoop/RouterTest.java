@@ -217,7 +217,6 @@ public class RouterTest {
     @Test
     public void hasActiveScreen() {
 
-
         router = new TestRouter(false);
         Screen screen1 = new Screen1();
 
@@ -229,17 +228,15 @@ public class RouterTest {
     }
 
     @Test
-    public void replaceAllWithEmptyList() {
+    public void replaceAllWithEmptyListOnDisallowedEmptyStack() {
 
+        router = new TestRouter(true);
 
-        router = new TestRouter(false);
-
-        router.replaceAllWith(Collections.EMPTY_LIST);
+        router.replaceAllWith(Collections.<Screen>emptyList());
         Assert.assertFalse(router.hasActiveScreen());
     }
 
     private void checkIfRouterBackstackIsEmpty() {Assert.assertEquals(false, router.goBack());}
-
 
     @Test
     public void sameController() {

@@ -12,7 +12,7 @@ import com.lyft.scoop.dagger.DaggerModule;
 
 @Controller(DialogController.class)
 @DaggerModule(DialogModule.class)
-@EnterTransition(SlideUpTransition.class)
-@ExitTransition(SlideDownTransition.class)
+@EnterTransition(SlideDownTransition.class)
+@ExitTransition(SlideUpTransition.class)
 public class Dialog extends Screen {
 }

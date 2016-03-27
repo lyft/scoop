@@ -13,23 +13,28 @@ public class SlideDownTransition implements ScreenTransition {
 
     @Override
     public void transition(final ViewGroup root, final View from, final View to, final TransitionListener transitionListener) {
-        Animator animator = createAnimator(from);
+        if (to == null) {
+            root.removeView(from);
+            return;
+        }
+
+        Animator animator = createAnimator(to);
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                ((ViewGroup) from.getParent()).removeView(from);
+                root.removeView(from);
                 transitionListener.onTransitionCompleted();
             }
         });
         animator.start();
     }
 
-    private Animator createAnimator(View from) {
-        int fromTranslation = from.getHeight();
+    private Animator createAnimator(View to) {
+        int fromTranslation = to.getHeight();
 
         AnimatorSet set = new AnimatorSet();
 
-        set.play(ObjectAnimator.ofFloat(from, View.TRANSLATION_Y, fromTranslation));
+        set.play(ObjectAnimator.ofFloat(to, View.TRANSLATION_Y, fromTranslation));
 
         return set;
     }
