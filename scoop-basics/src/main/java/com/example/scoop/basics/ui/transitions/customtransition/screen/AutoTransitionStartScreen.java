@@ -4,8 +4,8 @@ import com.example.scoop.basics.ui.transitions.customtransition.AutoTransition;
 import com.example.scoop.basics.ui.transitions.customtransition.controller.AutoTransitionStartController;
 import com.example.scoop.basics.ui.transitions.customtransition.module.AutoTransitionStartModule;
 import com.lyft.scoop.Controller;
-import com.lyft.scoop.EnterTransition;
-import com.lyft.scoop.ExitTransition;
+import com.lyft.scoop.transitions.EnterTransition;
+import com.lyft.scoop.transitions.ExitTransition;
 import com.lyft.scoop.Screen;
 import com.lyft.scoop.dagger.DaggerModule;
 

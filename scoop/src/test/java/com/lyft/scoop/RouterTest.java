@@ -1,5 +1,6 @@
 package com.lyft.scoop;
 
+import com.lyft.scoop.transitions.TransitionDirection;
 import java.util.Collections;
 import org.junit.Assert;
 import org.junit.Test;

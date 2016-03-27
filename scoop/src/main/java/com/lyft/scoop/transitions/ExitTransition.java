@@ -1,4 +1,4 @@
-package com.lyft.scoop;
+package com.lyft.scoop.transitions;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

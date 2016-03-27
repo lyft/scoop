@@ -7,7 +7,11 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-import com.lyft.scoop.transitions.InstantTransition;
+import com.lyft.scoop.transitions.EnterTransition;
+import com.lyft.scoop.transitions.ExitTransition;
+import com.lyft.scoop.transitions.ScreenTransition;
+import com.lyft.scoop.transitions.TransitionDirection;
+import com.lyft.scoop.transitions.basic.InstantTransition;
 import java.util.ArrayDeque;
 
 public abstract class UiContainer extends FrameLayout implements HandleBack, TransitionListener {

@@ -1,4 +1,4 @@
-package com.lyft.scoop.transitions;
+package com.lyft.scoop.transitions.basic;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import com.lyft.scoop.TransitionListener;
+import com.lyft.scoop.transitions.ObjectAnimatorTransition;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
 public class FadeTransition extends ObjectAnimatorTransition {

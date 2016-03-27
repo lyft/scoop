@@ -1,4 +1,4 @@
-package com.lyft.scoop.transitions;
+package com.lyft.scoop.transitions.basic;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -9,6 +9,7 @@ import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import com.lyft.scoop.TransitionListener;
+import com.lyft.scoop.transitions.ObjectAnimatorTransition;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
 public class VeritcalSlideTransition extends ObjectAnimatorTransition {
