@@ -1,4 +1,4 @@
-package com.lyft.scoop;
+package com.lyft.scoop.transitions;
 
 public enum TransitionDirection {
     ENTER,

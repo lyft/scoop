@@ -3,7 +3,6 @@ package com.lyft.scoop.transitions;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import com.lyft.scoop.ScreenTransition;
 import com.lyft.scoop.TransitionListener;
 
 public abstract class ObjectAnimatorTransition implements ScreenTransition {

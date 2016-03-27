@@ -1,9 +1,11 @@
 package com.lyft.scoop;
 
-import com.lyft.scoop.transitions.BackwardSlideTransition;
-import com.lyft.scoop.transitions.ForwardSlideTransition;
-import com.lyft.scoop.transitions.HorizontalSlideTransition;
-import com.lyft.scoop.transitions.InstantTransition;
+import com.lyft.scoop.transitions.EnterTransition;
+import com.lyft.scoop.transitions.ExitTransition;
+import com.lyft.scoop.transitions.basic.BackwardSlideTransition;
+import com.lyft.scoop.transitions.basic.ForwardSlideTransition;
+import com.lyft.scoop.transitions.basic.HorizontalSlideTransition;
+import com.lyft.scoop.transitions.basic.InstantTransition;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;

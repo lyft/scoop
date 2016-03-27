@@ -1,5 +1,7 @@
 package com.lyft.scoop;
 
+import com.lyft.scoop.transitions.TransitionDirection;
+
 public class RouteChange {
 
     public final Scoop scoop;

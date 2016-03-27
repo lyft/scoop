@@ -1,8 +1,8 @@
-package com.lyft.scoop.transitions;
+package com.lyft.scoop.transitions.basic;
 
 import android.view.View;
 import android.view.ViewGroup;
-import com.lyft.scoop.ScreenTransition;
+import com.lyft.scoop.transitions.ScreenTransition;
 import com.lyft.scoop.TransitionListener;
 
 public class InstantTransition implements ScreenTransition {

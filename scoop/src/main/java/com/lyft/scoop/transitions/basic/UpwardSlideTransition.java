@@ -1,4 +1,4 @@
-package com.lyft.scoop.transitions;
+package com.lyft.scoop.transitions.basic;
 
 public class UpwardSlideTransition extends VeritcalSlideTransition {
 
