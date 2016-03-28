@@ -62,6 +62,7 @@ public class ScreenScoopFactory {
         int count = fromPath.size() - index;
         while (count > 0) {
             previousScoop = previousScoop.getParent();
+            previousScoop.destroy();
             count --;
         }
         return previousScoop;

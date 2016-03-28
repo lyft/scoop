@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ScreenScoopFactoryTest {
 
@@ -23,7 +24,7 @@ public class ScreenScoopFactoryTest {
 
     // [ ] - > [ A ]
     @Test
-    public void createScoopForPathWhenPreviousPathWasEmpty() {
+    public void createScoopFromEmptyPathToAPath() {
 
         List<Screen> toPath = Arrays.<Screen>asList(new ScreenA());
 
@@ -34,7 +35,7 @@ public class ScreenScoopFactoryTest {
 
     // [ A ] - > [ A, B]
     @Test
-    public void createScoopForNotEmptyPathToPathWithExtraScreen() {
+    public void createScoopFromAPathToABPath() {
 
         List<Screen> fromPath = Arrays.<Screen>asList(new ScreenA());
         List<Screen> toPath = Arrays.<Screen>asList(new ScreenA(), new ScreenB());
@@ -48,7 +49,7 @@ public class ScreenScoopFactoryTest {
 
     // [ A, B ] - > [ A ]
     @Test
-    public void createScoopForNotEmptyPathToPathWithOneLessScreen() {
+    public void createScoopFromABPathToAPath() {
 
         List<Screen> fromPath = Arrays.<Screen>asList(new ScreenA(), new ScreenB());
         List<Screen> toPath = Arrays.<Screen>asList(new ScreenA());
@@ -58,12 +59,13 @@ public class ScreenScoopFactoryTest {
 
         Scoop scoop = screenScoopFactory.createScoop(rootScoop, bScoop, fromPath, toPath);
 
+        assertTrue(bScoop.isDestroyed());
         assertEquals(aScoop, scoop);
     }
 
     // [ A, B, C ] - > [ A ]
     @Test
-    public void createScoopForNotEmptyPathToPathWithTwoLessScreen() {
+    public void createScoopFromABCPathToAPath() {
 
         List<Screen> fromPath = Arrays.<Screen>asList(new ScreenA(), new ScreenB(), new ScreenC());
         List<Screen> toPath = Arrays.<Screen>asList(new ScreenA());
@@ -74,12 +76,14 @@ public class ScreenScoopFactoryTest {
 
         Scoop scoop = screenScoopFactory.createScoop(rootScoop, cScoop, fromPath, toPath);
 
+        assertTrue(bScoop.isDestroyed());
+        assertTrue(cScoop.isDestroyed());
         assertEquals(aScoop, scoop);
     }
 
     // [ A ] - > [ A, B, C ]
     @Test
-    public void createScoopForNotEmptyPathToPathWithTwoMoreScreen() {
+    public void createScoopFromAPathToABCPath() {
 
         List<Screen> fromPath = Arrays.<Screen>asList(new ScreenA());
         List<Screen> toPath = Arrays.<Screen>asList(new ScreenA(), new ScreenB(), new ScreenC());
@@ -93,7 +97,7 @@ public class ScreenScoopFactoryTest {
 
     // [ A ] - > [ B ]
     @Test
-    public void createScoopForNotEmptyPathToDifferentScreen() {
+    public void createScoopFromAPathToBPath() {
 
         List<Screen> fromPath = Arrays.<Screen>asList(new ScreenA());
         List<Screen> toPath = Arrays.<Screen>asList(new ScreenB());
@@ -102,6 +106,7 @@ public class ScreenScoopFactoryTest {
 
         Scoop scoop = screenScoopFactory.createScoop(rootScoop, aScoop, fromPath, toPath);
 
+        assertTrue(aScoop.isDestroyed());
         assertEquals(rootScoop, scoop.getParent());
     }
 
