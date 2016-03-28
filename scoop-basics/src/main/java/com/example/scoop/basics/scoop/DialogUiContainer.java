@@ -6,6 +6,8 @@ import com.example.scoop.basics.rx.ViewSubscriptions;
 import com.example.scoop.basics.ui.Keyboard;
 import com.lyft.scoop.LayoutInflater;
 import com.lyft.scoop.RouteChange;
+import com.lyft.scoop.Scoop;
+import com.lyft.scoop.ScreenScooper;
 import com.lyft.scoop.UiContainer;
 import com.lyft.scoop.ViewControllerInflater;
 import com.lyft.scoop.dagger.DaggerInjector;
@@ -13,12 +15,14 @@ import com.lyft.scoop.dagger.DaggerLayoutInflater;
 import com.lyft.scoop.dagger.DaggerViewControllerInflater;
 import javax.inject.Inject;
 import rx.functions.Action1;
-import timber.log.Timber;
 
 public class DialogUiContainer extends UiContainer {
 
     @Inject
     DialogRouter dialogRouter;
+
+    @Inject
+    ScreenScooper screenScooper;
 
     private ViewSubscriptions subscriptions = new ViewSubscriptions();
 
@@ -62,11 +66,16 @@ public class DialogUiContainer extends UiContainer {
 
     private Action1<RouteChange> onDialogChanged = new Action1<RouteChange>() {
         @Override
-        public void call(RouteChange screenChange) {
-            if (screenChange.next != null) {
-                Timber.d("Scoop changed:" + screenChange.next.getClass().getSimpleName());
-            }
-            DialogUiContainer.this.goTo(screenChange);
+        public void call(RouteChange routeChange) {
+
+            Scoop rootScoop = Scoop.fromView(DialogUiContainer.this);
+
+            Scoop currentScreenScoop = Scoop.fromView(getActiveView());
+
+            Scoop scoop = screenScooper.create(rootScoop, currentScreenScoop, routeChange.fromPath, routeChange.toPath);
+
+            goTo(routeChange.toScreenSwap(scoop));
+
             Keyboard.hideKeyboard(DialogUiContainer.this);
         }
     };

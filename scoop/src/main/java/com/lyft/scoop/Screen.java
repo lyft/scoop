@@ -14,6 +14,14 @@ public class Screen {
         viewState = new SparseArray<Parcelable>();
     }
 
+    public static boolean equals(Screen previous, Screen next) {
+
+        if (previous == null || next == null) {
+            return false;
+        }
+        return previous.equals(next);
+    }
+
     public void saveViewState(View view) {
         SparseArray<Parcelable> viewState = new SparseArray<Parcelable>();
         view.saveHierarchyState(viewState);
