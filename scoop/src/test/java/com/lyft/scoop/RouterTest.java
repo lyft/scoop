@@ -1,14 +1,10 @@
 package com.lyft.scoop;
 
 import java.util.Collections;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(manifest = Config.NONE)
 public class RouterTest {
 
     private TestRouter router;
@@ -25,9 +21,11 @@ public class RouterTest {
         defaultRouter.goTo(screen2);
         Assert.assertTrue(defaultRouter.goBack());
 
-        Assert.assertEquals(screen1, defaultRouter.lastScreenChange.next);
-        Assert.assertEquals(screen2, defaultRouter.lastScreenChange.previous);
-        Assert.assertEquals(TransitionDirection.EXIT, defaultRouter.lastScreenChange.direction);
+        Assert.assertEquals(screen1, defaultRouter.fromPath.get(0));
+        Assert.assertEquals(screen2, defaultRouter.fromPath.get(1));
+
+        Assert.assertEquals(screen1, defaultRouter.toPath.get(0));
+        Assert.assertEquals(TransitionDirection.EXIT, defaultRouter.direction);
     }
 
     @Test
@@ -38,9 +36,9 @@ public class RouterTest {
 
         router.goTo(screen1);
 
-        Assert.assertEquals(screen1, router.lastScreenChange.next);
-        Assert.assertEquals(null, router.lastScreenChange.previous);
-        Assert.assertEquals(TransitionDirection.ENTER, router.lastScreenChange.direction);
+        Assert.assertTrue(router.fromPath.isEmpty());
+        Assert.assertEquals(screen1, router.toPath.get(0));
+        Assert.assertEquals(TransitionDirection.ENTER, router.direction);
     }
 
     @Test
@@ -52,11 +50,11 @@ public class RouterTest {
 
         router.goTo(screen1);
 
-        Assert.assertEquals(screen1, router.lastScreenChange.next);
+        Assert.assertEquals(screen1, router.toPath.get(0));
 
         router.goTo(screen2);
 
-        Assert.assertEquals(screen1, router.lastScreenChange.next);
+        Assert.assertEquals(screen1, router.toPath.get(0));
     }
 
     @Test
@@ -71,9 +69,11 @@ public class RouterTest {
         router.goTo(screen2);
         Assert.assertTrue(router.goBack());
 
-        Assert.assertEquals(screen1, router.lastScreenChange.next);
-        Assert.assertEquals(screen2, router.lastScreenChange.previous);
-        Assert.assertEquals(TransitionDirection.EXIT, router.lastScreenChange.direction);
+        Assert.assertEquals(screen1, router.fromPath.get(0));
+        Assert.assertEquals(screen2, router.fromPath.get(1));
+
+        Assert.assertEquals(screen1, router.toPath.get(0));
+        Assert.assertEquals(TransitionDirection.EXIT, router.direction);
     }
 
     @Test
@@ -84,11 +84,12 @@ public class RouterTest {
         Screen screen1 = new Screen1();
 
         router.goTo(screen1);
+
         Assert.assertTrue(router.goBack());
 
-        Assert.assertNull(router.lastScreenChange.next);
-        Assert.assertEquals(screen1, router.lastScreenChange.previous);
-        Assert.assertEquals(TransitionDirection.EXIT, router.lastScreenChange.direction);
+        Assert.assertEquals(screen1, router.fromPath.get(0));
+        Assert.assertTrue(router.toPath.isEmpty());
+        Assert.assertEquals(TransitionDirection.EXIT, router.direction);
     }
 
     @Test
@@ -109,9 +110,11 @@ public class RouterTest {
         router.goTo(screen2);
         router.resetTo(screen1);
 
-        Assert.assertEquals(screen1, router.lastScreenChange.next);
-        Assert.assertEquals(screen2, router.lastScreenChange.previous);
-        Assert.assertEquals(TransitionDirection.EXIT, router.lastScreenChange.direction);
+        Assert.assertEquals(screen1, router.fromPath.get(0));
+        Assert.assertEquals(screen2, router.fromPath.get(1));
+        Assert.assertEquals(screen1, router.toPath.get(0));
+
+        Assert.assertEquals(TransitionDirection.EXIT, router.direction);
 
         checkIfRouterBackstackIsEmpty();
     }
@@ -126,9 +129,9 @@ public class RouterTest {
         router.goTo(screen2);
         router.resetTo(screen1);
 
-        Assert.assertEquals(screen1, router.lastScreenChange.next);
-        Assert.assertEquals(screen2, router.lastScreenChange.previous);
-        Assert.assertEquals(TransitionDirection.EXIT, router.lastScreenChange.direction);
+        Assert.assertEquals(screen2, router.fromPath.get(0));
+        Assert.assertEquals(screen1, router.toPath.get(0));
+        Assert.assertEquals(TransitionDirection.EXIT, router.direction);
 
         checkIfRouterBackstackIsEmpty();
     }
@@ -143,9 +146,9 @@ public class RouterTest {
         router.goTo(screen1);
         router.replaceWith(screen2);
 
-        Assert.assertEquals(screen2, router.lastScreenChange.next);
-        Assert.assertEquals(screen1, router.lastScreenChange.previous);
-        Assert.assertEquals(TransitionDirection.ENTER, router.lastScreenChange.direction);
+        Assert.assertEquals(screen1, router.fromPath.get(0));
+        Assert.assertEquals(screen2, router.toPath.get(0));
+        Assert.assertEquals(TransitionDirection.ENTER, router.direction);
 
         checkIfRouterBackstackIsEmpty();
     }
@@ -159,7 +162,10 @@ public class RouterTest {
 
         router.goTo(screen1);
         router.replaceAllWith(screen1, screen2);
-        Assert.assertEquals(screen2, router.lastScreenChange.next);
+
+        Assert.assertEquals(screen1, router.fromPath.get(0));
+        Assert.assertEquals(screen1, router.toPath.get(0));
+        Assert.assertEquals(screen2, router.toPath.get(1));
     }
 
     @Test
@@ -169,9 +175,9 @@ public class RouterTest {
         Screen screen1 = new Screen1();
 
         router.goTo(screen1);
-        Assert.assertEquals(screen1, router.lastScreenChange.next);
 
-        router.goBack();
+        Assert.assertTrue(router.fromPath.isEmpty());
+        Assert.assertEquals(screen1, router.toPath.get(0));
     }
 
     @Test
@@ -181,9 +187,8 @@ public class RouterTest {
         Screen screen1 = new Screen1();
 
         router.replaceWith(screen1);
-        Assert.assertEquals(screen1, router.lastScreenChange.next);
-
-        router.goBack();
+        Assert.assertTrue(router.fromPath.isEmpty());
+        Assert.assertEquals(screen1, router.toPath.get(0));
     }
 
     @Test
@@ -193,25 +198,22 @@ public class RouterTest {
         Screen screen1 = new Screen1();
 
         router.resetTo(screen1);
-        Assert.assertEquals(screen1, router.lastScreenChange.next);
-
-        router.goBack();
+        Assert.assertTrue(router.fromPath.isEmpty());
+        Assert.assertEquals(screen1, router.toPath.get(0));
     }
 
     @Test
-    public void replaceToSameController() {
+    public void replaceToSameScreen() {
 
         router = new TestRouter(false);
         Screen screen1 = new Screen1();
         Screen screen2 = new Screen1();
 
         router.replaceWith(screen1);
-
-        Assert.assertEquals(screen1, router.lastScreenChange.next);
-
         router.replaceWith(screen2);
 
-        Assert.assertEquals(screen1, router.lastScreenChange.next);
+        Assert.assertTrue(router.fromPath.isEmpty());
+        Assert.assertEquals(screen1, router.toPath.get(0));
     }
 
     @Test
@@ -236,8 +238,7 @@ public class RouterTest {
         Assert.assertFalse(router.hasActiveScreen());
     }
 
-    private void checkIfRouterBackstackIsEmpty() {Assert.assertEquals(false, router.goBack());}
-
+    // Feel like this naming no longer valid. We are not checking controllers anymore...
     @Test
     public void sameController() {
 
@@ -246,12 +247,17 @@ public class RouterTest {
         Assert.assertTrue(Router.sameScreen(previous, next));
     }
 
+    // Feel like this naming no longer valid. We are not checking controllers anymore...
     @Test
     public void differentController() {
 
         Screen previous = new Screen1();
         Screen next = new Screen2();
         Assert.assertFalse(Router.sameScreen(previous, next));
+    }
+
+    private void checkIfRouterBackstackIsEmpty() {
+        Assert.assertEquals(false, router.goBack());
     }
 
     @Layout(0)
@@ -264,29 +270,49 @@ public class RouterTest {
 
     static class TestRouter extends Router {
 
-        private RouteChange lastScreenChange;
+        List<Screen> fromPath;
+        List<Screen> toPath;
+        TransitionDirection direction;
 
         public TestRouter(boolean allowEmptyStack) {
-            super(new ScreenScooper(), allowEmptyStack);
+            super(allowEmptyStack);
         }
 
         @Override
         protected void onScoopChanged(RouteChange routeChange) {
-            lastScreenChange = routeChange;
+
+        }
+
+        @Override
+        protected void onScreenChanged(List<Screen> fromPath, List<Screen> toPath, TransitionDirection direction) {
+            this.fromPath = fromPath;
+            this.toPath = toPath;
+            this.direction = direction;
         }
     }
 
+    // Why do we need this guy???!!!
     static class TestDefaultRouter extends Router {
 
-        private RouteChange lastScreenChange;
+        List<Screen> fromPath;
+        List<Screen> toPath;
+        TransitionDirection direction;
 
         public TestDefaultRouter() {
-            super(new ScreenScooper());
+
+            super();
         }
 
         @Override
         protected void onScoopChanged(RouteChange routeChange) {
-            lastScreenChange = routeChange;
+
+        }
+
+        @Override
+        protected void onScreenChanged(List<Screen> fromPath, List<Screen> toPath, TransitionDirection direction) {
+            this.fromPath = fromPath;
+            this.toPath = toPath;
+            this.direction = direction;
         }
     }
 }
