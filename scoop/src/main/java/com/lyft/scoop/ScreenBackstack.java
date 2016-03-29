@@ -10,7 +10,7 @@ class ScreenBackstack {
     ArrayDeque<Screen> backStack = new ArrayDeque<>();
 
     public void pop() {
-        Screen poppedScoop = backStack.pop();
+        Screen poppedScreen = backStack.pop();
     }
 
     public boolean isEmpty() {

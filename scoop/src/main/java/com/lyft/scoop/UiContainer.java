@@ -125,7 +125,6 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
 
     private void swap(RouteChange routeChange) {
         Screen nextScreen = routeChange.next;
-
         final View prevView = active;
 
         if (active != null && routeChange.previous != null) {

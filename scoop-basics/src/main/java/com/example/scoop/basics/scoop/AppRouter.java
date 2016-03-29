@@ -2,7 +2,10 @@ package com.example.scoop.basics.scoop;
 
 import com.lyft.scoop.Router;
 import com.lyft.scoop.RouteChange;
+import com.lyft.scoop.Screen;
 import com.lyft.scoop.ScreenScooper;
+import com.lyft.scoop.TransitionDirection;
+import java.util.List;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 

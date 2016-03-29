@@ -110,6 +110,22 @@ public class ScreenScoopFactoryTest {
         assertEquals(rootScoop, scoop.getParent());
     }
 
+    // [ A, B ] - > [ A, C ]
+    @Test
+    public void createScoopFromABPathToACPath() {
+
+        List<Screen> fromPath = Arrays.<Screen>asList(new ScreenA(), new ScreenB());
+        List<Screen> toPath = Arrays.<Screen>asList(new ScreenA(), new ScreenC());
+
+        Scoop aScoop = screenScooper.createScreenScoop(new ScreenA(), rootScoop);
+        Scoop bScoop = screenScooper.createScreenScoop(new ScreenA(), aScoop);
+
+        Scoop scoop = screenScoopFactory.createScoop(rootScoop, bScoop, fromPath, toPath);
+
+        assertTrue(bScoop.isDestroyed());
+        assertEquals(aScoop, scoop.getParent());
+    }
+
     static class ScreenA extends Screen {
 
     }

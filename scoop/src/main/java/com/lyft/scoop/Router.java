@@ -30,6 +30,7 @@ public abstract class Router {
         if (!backStack.isEmpty()) {
             List<Screen> fromPath = backStack.asList();
 
+            //TODO if the backstack is Empty after this pop, and allowEmptyStack is false, nobody destroys the last scoop
             backStack.pop();
 
             if (!backStack.isEmpty()) {
