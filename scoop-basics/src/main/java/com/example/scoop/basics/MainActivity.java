@@ -45,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
 
         DaggerInjector.fromScoop(getRootScoop()).inject(this);
 
-        appRouter.onCreate(rootScoop);
-        dialogRouter.onCreate(rootScoop);
         appRouter.goTo(new DemoScreen());
 
         Timber.d("onCreate");

@@ -12,7 +12,7 @@ import java.util.ArrayDeque;
 
 public abstract class UiContainer extends FrameLayout implements HandleBack, TransitionListener {
 
-    private ArrayDeque<RouteChange> routeChangeQueue = new ArrayDeque<>();
+    private ArrayDeque<ScreenSwap> screenSwapQueue = new ArrayDeque<>();
     private boolean isTransitioning;
     private View active;
 
@@ -44,13 +44,17 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         return childCanGoBack();
     }
 
-    public void goTo(RouteChange routeChange) {
-        if (routeChangeQueue.isEmpty()) {
-            routeChangeQueue.add(routeChange);
+    public View getActiveView() {
+        return active;
+    }
 
-            swap(routeChange);
+    public void goTo(ScreenSwap screenSwap) {
+        if (screenSwapQueue.isEmpty()) {
+            screenSwapQueue.add(screenSwap);
+
+            swap(screenSwap);
         } else {
-            routeChangeQueue.add(routeChange);
+            screenSwapQueue.add(screenSwap);
         }
     }
 
@@ -60,11 +64,11 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         transitionListener.onTransitionCompleted();
         isTransitioning = false;
 
-        if (!routeChangeQueue.isEmpty()) {
-            routeChangeQueue.pop();
+        if (!screenSwapQueue.isEmpty()) {
+            screenSwapQueue.pop();
 
-            if (!routeChangeQueue.isEmpty()) {
-                swap(routeChangeQueue.peek());
+            if (!screenSwapQueue.isEmpty()) {
+                swap(screenSwapQueue.peek());
             }
         }
     }
@@ -79,7 +83,7 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
     }
 
     @Override
-    public boolean dispatchDragEvent(DragEvent event){
+    public boolean dispatchDragEvent(DragEvent event) {
         if (isTransitioning) {
             return true;
         } else {
@@ -88,7 +92,7 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
     }
 
     @Override
-    public boolean dispatchKeyEvent(KeyEvent event){
+    public boolean dispatchKeyEvent(KeyEvent event) {
         if (isTransitioning) {
             return true;
         } else {
@@ -97,7 +101,7 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
     }
 
     @Override
-    public boolean dispatchKeyEventPreIme(KeyEvent event){
+    public boolean dispatchKeyEventPreIme(KeyEvent event) {
         if (isTransitioning) {
             return true;
         } else {
@@ -106,7 +110,7 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
     }
 
     @Override
-    public boolean dispatchKeyShortcutEvent(KeyEvent event){
+    public boolean dispatchKeyShortcutEvent(KeyEvent event) {
         if (isTransitioning) {
             return true;
         } else {
@@ -115,7 +119,7 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
     }
 
     @Override
-    public boolean dispatchTrackballEvent(MotionEvent event){
+    public boolean dispatchTrackballEvent(MotionEvent event) {
         if (isTransitioning) {
             return true;
         } else {
@@ -123,38 +127,38 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         }
     }
 
-    private void swap(RouteChange routeChange) {
-        Screen nextScreen = routeChange.next;
+    private void swap(ScreenSwap screenSwap) {
+        Screen nextScreen = screenSwap.next;
         final View prevView = active;
 
-        if (active != null && routeChange.previous != null) {
-            routeChange.previous.saveViewState(active);
+        if (active != null && screenSwap.previous != null) {
+            screenSwap.previous.saveViewState(active);
         }
 
         if (nextScreen == null) {
             active = null;
         } else if (nextScreen.getController() != null) {
-            active = inflateControllerView(routeChange, nextScreen);
+            active = inflateControllerView(screenSwap, nextScreen);
             nextScreen.restoreViewState(active);
         } else {
-            active = inflateLayout(routeChange, nextScreen);
+            active = inflateLayout(screenSwap, nextScreen);
             nextScreen.restoreViewState(active);
         }
 
         isTransitioning = true;
-        final ScreenTransition transition = getTransition(routeChange);
+        final ScreenTransition transition = getTransition(screenSwap);
         transition.transition(this, prevView, active, this);
     }
 
-    private View inflateControllerView(RouteChange screenChange, Screen nextScreen) {
+    private View inflateControllerView(ScreenSwap screenChange, Screen nextScreen) {
         return getViewControllerInflater().inflateViewController(screenChange.scoop, nextScreen.getController(), this);
     }
 
-    private View inflateLayout(RouteChange screenChange, Screen nextScreen) {
+    private View inflateLayout(ScreenSwap screenChange, Screen nextScreen) {
         return getLayoutInflater().inflateView(screenChange.scoop, nextScreen, this);
     }
 
-    private ScreenTransition getTransition(RouteChange screenChange) {
+    private ScreenTransition getTransition(ScreenSwap screenChange) {
         if (screenChange.direction == TransitionDirection.ENTER) {
             return getEnterTransition(screenChange);
         } else {
@@ -195,7 +199,7 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         return transitionListener;
     }
 
-    static ScreenTransition getEnterTransition(RouteChange screenChange) {
+    static ScreenTransition getEnterTransition(ScreenSwap screenChange) {
         if (screenChange.next == null) {
             return new InstantTransition();
         }
@@ -213,7 +217,7 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         return new InstantTransition();
     }
 
-    static ScreenTransition getExitTransition(RouteChange screenChange) {
+    static ScreenTransition getExitTransition(ScreenSwap screenChange) {
         if (screenChange.previous == null) {
             return new InstantTransition();
         }

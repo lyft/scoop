@@ -12,7 +12,7 @@ public class RouterTest {
     @Test
     public void defaultRouter() {
 
-        TestDefaultRouter defaultRouter = new TestDefaultRouter();
+        TestRouter defaultRouter = new TestRouter();
 
         Screen screen1 = new Screen1();
         Screen screen2 = new Screen2();
@@ -260,10 +260,12 @@ public class RouterTest {
         Assert.assertEquals(false, router.goBack());
     }
 
+    // Feels like this layouts are not used
     @Layout(0)
     static class Screen1 extends Screen {
     }
 
+    // Feels like this layouts are not used
     @Layout(0)
     static class Screen2 extends Screen {
     }
@@ -278,41 +280,15 @@ public class RouterTest {
             super(allowEmptyStack);
         }
 
-        @Override
-        protected void onScoopChanged(RouteChange routeChange) {
-
-        }
-
-        @Override
-        protected void onScreenChanged(List<Screen> fromPath, List<Screen> toPath, TransitionDirection direction) {
-            this.fromPath = fromPath;
-            this.toPath = toPath;
-            this.direction = direction;
-        }
-    }
-
-    // Why do we need this guy???!!!
-    static class TestDefaultRouter extends Router {
-
-        List<Screen> fromPath;
-        List<Screen> toPath;
-        TransitionDirection direction;
-
-        public TestDefaultRouter() {
-
+        public TestRouter() {
             super();
         }
 
         @Override
-        protected void onScoopChanged(RouteChange routeChange) {
-
-        }
-
-        @Override
-        protected void onScreenChanged(List<Screen> fromPath, List<Screen> toPath, TransitionDirection direction) {
-            this.fromPath = fromPath;
-            this.toPath = toPath;
-            this.direction = direction;
+        protected void onRouteChanged(RouteChange routeChange) {
+            fromPath = routeChange.fromPath;
+            toPath = routeChange.toPath;
+            direction = routeChange.direction;
         }
     }
 }

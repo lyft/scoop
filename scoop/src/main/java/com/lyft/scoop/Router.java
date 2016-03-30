@@ -18,14 +18,6 @@ public abstract class Router {
         this.allowEmptyStack = allowEmptyStack;
     }
 
-    public void onCreate(Scoop root) {
-
-    }
-
-    // DELETE THIS GUY!!!!!
-    @Deprecated
-    protected abstract void onScoopChanged(RouteChange routeChange);
-
     public boolean goBack() {
         if (!backStack.isEmpty()) {
             List<Screen> fromPath = backStack.asList();
@@ -34,10 +26,10 @@ public abstract class Router {
             backStack.pop();
 
             if (!backStack.isEmpty()) {
-                performScoopChange(fromPath, backStack.asList(), TransitionDirection.EXIT);
+                performRouteChange(fromPath, backStack.asList(), TransitionDirection.EXIT);
                 return true;
             } else if (allowEmptyStack) {
-                performScoopChange(fromPath, Collections.<Screen>emptyList(), TransitionDirection.EXIT);
+                performRouteChange(fromPath, Collections.<Screen>emptyList(), TransitionDirection.EXIT);
                 return true;
             }
         }
@@ -58,7 +50,7 @@ public abstract class Router {
 
         backStack.push(nextScreen);
 
-        performScoopChange(fromPath, backStack.asList(), TransitionDirection.ENTER);
+        performRouteChange(fromPath, backStack.asList(), TransitionDirection.ENTER);
     }
 
     public void replaceWith(Screen nextScreen) {
@@ -78,7 +70,7 @@ public abstract class Router {
         }
 
         backStack.push(nextScreen);
-        performScoopChange(fromPath, backStack.asList(), TransitionDirection.ENTER);
+        performRouteChange(fromPath, backStack.asList(), TransitionDirection.ENTER);
     }
 
     public void replaceAllWith(Screen... screens) {
@@ -94,7 +86,7 @@ public abstract class Router {
             backStack.push(screen);
         }
 
-        performScoopChange(fromPath, backStack.asList(), TransitionDirection.ENTER);
+        performRouteChange(fromPath, backStack.asList(), TransitionDirection.ENTER);
     }
 
     public void resetTo(Screen screen) {
@@ -116,7 +108,7 @@ public abstract class Router {
             Screen topScreen = backStack.peek();
 
             if (sameScreen(nextScreen, topScreen)) {
-                performScoopChange(fromPath, backStack.asList(), direction);
+                performRouteChange(fromPath, backStack.asList(), direction);
                 return;
             }
 
@@ -124,7 +116,7 @@ public abstract class Router {
         }
 
         backStack.push(nextScreen);
-        performScoopChange(fromPath, backStack.asList(), direction);
+        performRouteChange(fromPath, backStack.asList(), direction);
     }
 
     public boolean hasActiveScreen() {
@@ -134,17 +126,17 @@ public abstract class Router {
     private boolean tryHandleEmptyBackstack(final Screen screen) {
         if (backStack.isEmpty()) {
             backStack.push(screen);
-            performScoopChange(Collections.<Screen>emptyList(), backStack.asList(), TransitionDirection.ENTER);
+            performRouteChange(Collections.<Screen>emptyList(), backStack.asList(), TransitionDirection.ENTER);
             return true;
         }
         return false;
     }
 
-    private void performScoopChange(List<Screen> fromPath, List<Screen> toPath, TransitionDirection direction) {
-        onScreenChanged(fromPath, toPath, direction);
+    private void performRouteChange(List<Screen> fromPath, List<Screen> toPath, TransitionDirection direction) {
+        onRouteChanged(new RouteChange(fromPath, toPath, direction));
     }
 
-    protected abstract void onScreenChanged(List<Screen> fromPath, List<Screen> toPath, TransitionDirection direction);
+    protected abstract void onRouteChanged(RouteChange routeChange);
 
     static boolean sameScreen(Screen previous, Screen next) {
 

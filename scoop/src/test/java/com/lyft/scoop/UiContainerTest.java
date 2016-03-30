@@ -21,36 +21,36 @@ public class UiContainerTest {
 
     @Test
     public void getTransitions() {
-        final RouteChange routeChange = createRouteChange(new ViewControllerWithTransitions(), new ViewControllerWithTransitions());
-        Assert.assertNotNull(UiContainer.getEnterTransition(routeChange));
-        Assert.assertNotNull(UiContainer.getExitTransition(routeChange));
+        final ScreenSwap screenSwap = createRouteChange(new ViewControllerWithTransitions(), new ViewControllerWithTransitions());
+        Assert.assertNotNull(UiContainer.getEnterTransition(screenSwap));
+        Assert.assertNotNull(UiContainer.getExitTransition(screenSwap));
     }
 
     @Test
     public void enterTransitionWithoutDefaultConstructor() {
         exception.expect(RuntimeException.class);
-        final RouteChange routeChange = createRouteChange(new ViewControllerWithTransitionWithoutDefaultConstructor(), new ViewControllerWithTransitionWithoutDefaultConstructor());
-        UiContainer.getEnterTransition(routeChange);
+        final ScreenSwap screenSwap = createRouteChange(new ViewControllerWithTransitionWithoutDefaultConstructor(), new ViewControllerWithTransitionWithoutDefaultConstructor());
+        UiContainer.getEnterTransition(screenSwap);
     }
 
     @Test
     public void exitTransitionWithoutDefaultConstructor() {
         exception.expect(RuntimeException.class);
-        final RouteChange routeChange = createRouteChange(new ViewControllerWithTransitionWithoutDefaultConstructor(), new ViewControllerWithTransitionWithoutDefaultConstructor());
-        UiContainer.getExitTransition(routeChange);
+        final ScreenSwap screenSwap = createRouteChange(new ViewControllerWithTransitionWithoutDefaultConstructor(), new ViewControllerWithTransitionWithoutDefaultConstructor());
+        UiContainer.getExitTransition(screenSwap);
     }
 
     @Test
     public void useInstantTransitionIfControllerHasNoTransitions() {
-        final RouteChange routeChange = createRouteChange(new ViewControllerWithoutTransitions(), new ViewControllerWithoutTransitions());
+        final ScreenSwap screenSwap = createRouteChange(new ViewControllerWithoutTransitions(), new ViewControllerWithoutTransitions());
         Assert.assertEquals(InstantTransition.class,
-                UiContainer.getEnterTransition(routeChange).getClass());
+                UiContainer.getEnterTransition(screenSwap).getClass());
         Assert.assertEquals(InstantTransition.class,
-                UiContainer.getExitTransition(routeChange).getClass());
+                UiContainer.getExitTransition(screenSwap).getClass());
     }
 
-    private RouteChange createRouteChange(final Screen previous, final Screen next) {
-        return new RouteChange(null, previous, next, null);
+    private ScreenSwap createRouteChange(final Screen previous, final Screen next) {
+        return new ScreenSwap(null, previous, next, null);
     }
 
     @EnterTransition(ForwardSlideTransition.class)

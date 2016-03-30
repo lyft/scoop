@@ -13,7 +13,6 @@ import com.lyft.scoop.dagger.DaggerLayoutInflater;
 import com.lyft.scoop.dagger.DaggerViewControllerInflater;
 import javax.inject.Inject;
 import rx.functions.Action1;
-import timber.log.Timber;
 
 public class DialogUiContainer extends UiContainer {
 
@@ -63,10 +62,9 @@ public class DialogUiContainer extends UiContainer {
     private Action1<RouteChange> onDialogChanged = new Action1<RouteChange>() {
         @Override
         public void call(RouteChange screenChange) {
-            if (screenChange.next != null) {
-                Timber.d("Scoop changed:" + screenChange.next.getClass().getSimpleName());
-            }
-            DialogUiContainer.this.goTo(screenChange);
+
+            //TODO: FIX ME
+
             Keyboard.hideKeyboard(DialogUiContainer.this);
         }
     };
