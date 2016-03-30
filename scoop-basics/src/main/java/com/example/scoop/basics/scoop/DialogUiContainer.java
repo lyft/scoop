@@ -6,6 +6,8 @@ import com.example.scoop.basics.rx.ViewSubscriptions;
 import com.example.scoop.basics.ui.Keyboard;
 import com.lyft.scoop.LayoutInflater;
 import com.lyft.scoop.RouteChange;
+import com.lyft.scoop.Scoop;
+import com.lyft.scoop.ScreenScoopFactory;
 import com.lyft.scoop.UiContainer;
 import com.lyft.scoop.ViewControllerInflater;
 import com.lyft.scoop.dagger.DaggerInjector;
@@ -18,6 +20,9 @@ public class DialogUiContainer extends UiContainer {
 
     @Inject
     DialogRouter dialogRouter;
+
+    @Inject
+    ScreenScoopFactory screenScoopFactory;
 
     private ViewSubscriptions subscriptions = new ViewSubscriptions();
 
@@ -61,9 +66,15 @@ public class DialogUiContainer extends UiContainer {
 
     private Action1<RouteChange> onDialogChanged = new Action1<RouteChange>() {
         @Override
-        public void call(RouteChange screenChange) {
+        public void call(RouteChange routeChange) {
 
-            //TODO: FIX ME
+            Scoop rootScoop = Scoop.fromView(DialogUiContainer.this);
+
+            Scoop currentScreenScoop = Scoop.fromView(getActiveView());
+
+            Scoop scoop = screenScoopFactory.createScoop(rootScoop, currentScreenScoop, routeChange.fromPath, routeChange.toPath);
+
+            goTo(routeChange.toScreenSwap(scoop));
 
             Keyboard.hideKeyboard(DialogUiContainer.this);
         }

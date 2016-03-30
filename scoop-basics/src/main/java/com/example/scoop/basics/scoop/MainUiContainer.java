@@ -2,14 +2,12 @@ package com.example.scoop.basics.scoop;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 import com.example.scoop.basics.rx.ViewSubscriptions;
 import com.example.scoop.basics.ui.Keyboard;
 import com.lyft.scoop.LayoutInflater;
 import com.lyft.scoop.RouteChange;
 import com.lyft.scoop.Scoop;
 import com.lyft.scoop.ScreenScoopFactory;
-import com.lyft.scoop.ScreenSwap;
 import com.lyft.scoop.UiContainer;
 import com.lyft.scoop.ViewControllerInflater;
 import com.lyft.scoop.dagger.DaggerInjector;
@@ -72,22 +70,11 @@ public class MainUiContainer extends UiContainer {
 
             Scoop rootScoop = Scoop.fromView(MainUiContainer.this);
 
-            View activeView = MainUiContainer.this.getActiveView();
-
-            Scoop currentScreenScoop = null;
-
-            if (activeView != null) {
-                currentScreenScoop = Scoop.fromView(activeView);
-            }
+            Scoop currentScreenScoop = Scoop.fromView(getActiveView());
 
             Scoop scoop = screenScoopFactory.createScoop(rootScoop, currentScreenScoop, routeChange.fromPath, routeChange.toPath);
 
-            //TODO: Create method in RouteChange to do this transformation
-            MainUiContainer.this.goTo(
-                    new ScreenSwap(scoop,
-                            routeChange.sourceScreen(),
-                            routeChange.destinationScreen(),
-                            routeChange.direction));
+            goTo(routeChange.toScreenSwap(scoop));
 
             Keyboard.hideKeyboard(MainUiContainer.this);
         }

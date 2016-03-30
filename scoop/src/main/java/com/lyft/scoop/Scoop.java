@@ -107,8 +107,17 @@ public final class Scoop {
         viewBinder = binder;
     }
 
+    //TODO: test me
     public static Scoop fromView(View view) {
-        return ((IHaveScoop) view.getContext()).getScoop();
+        if (view == null) {
+            return null;
+        }
+
+        //TODO: thow runtime exception if view do not implement IHaveScoop
+
+        IHaveScoop context = (IHaveScoop) view.getContext();
+
+        return context.getScoop();
     }
 
     public LayoutInflater inflater(Context context) {

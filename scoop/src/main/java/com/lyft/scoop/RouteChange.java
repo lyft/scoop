@@ -14,8 +14,15 @@ public class RouteChange {
         this.direction = direction;
     }
 
-    // TEST ME
-    public Screen sourceScreen() {
+    //TODO: test me
+    public ScreenSwap toScreenSwap(Scoop scoop) {
+        return new ScreenSwap(scoop,
+                this.sourceScreen(),
+                this.destinationScreen(),
+                this.direction);
+    }
+
+    private Screen sourceScreen() {
         Screen screen = null;
 
         if (!fromPath.isEmpty()) {
@@ -25,8 +32,7 @@ public class RouteChange {
         return screen;
     }
 
-    // TEST ME
-    public Screen destinationScreen() {
+    private Screen destinationScreen() {
         Screen screen = null;
 
         if (!toPath.isEmpty()) {
