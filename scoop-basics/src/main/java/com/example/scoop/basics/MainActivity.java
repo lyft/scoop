@@ -45,14 +45,16 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         DaggerInjector.fromScoop(getActivityScoop()).inject(this);
-
-        appRouter.goTo(new DemoScreen());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Timber.d("onResume");
+
+        if (!appRouter.hasActiveScreen()) {
+            appRouter.goTo(new DemoScreen());
+        }
     }
 
     @Override
@@ -109,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
             DaggerInjector activityInjector = new DaggerInjector(activityGraph);
 
-            activityScoop = new Scoop.Builder("root")
+            activityScoop = new Scoop.Builder("activity_scoop")
                     .service(DaggerInjector.SERVICE_NAME, activityInjector)
                     .build();
         }

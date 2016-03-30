@@ -11,12 +11,6 @@ public class ScreenScooper {
     }
 
     public Scoop create(Scoop rootScoop, Scoop currentScreenScoop, List<Screen> fromPath, List<Screen> toPath) {
-        if (toPath.isEmpty()) {
-            destroyStack(currentScreenScoop, fromPath);
-            return null;
-        } else if (fromPath.isEmpty()) {
-            return screenScoopFactory.createScreenScoop(toPath.get(toPath.size() - 1), rootScoop);
-        }
         int index = incrementIndex(fromPath, toPath);
 
         return identifyRouteAndBuildScoop(index, rootScoop, currentScreenScoop, fromPath, toPath);
@@ -60,6 +54,9 @@ public class ScreenScooper {
     }
 
     private Scoop createNewStack(Scoop rootScoop, List<Screen> toPath) {
+        if (toPath.isEmpty()) {
+            return null;
+        }
         Scoop nextScoop = rootScoop;
         int index = 0;
         while (index < toPath.size()) {
