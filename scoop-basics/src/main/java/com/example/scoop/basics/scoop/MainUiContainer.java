@@ -74,9 +74,11 @@ public class MainUiContainer extends UiContainer {
 
             Scoop scoop = screenScoopFactory.createScoop(rootScoop, currentScreenScoop, routeChange.fromPath, routeChange.toPath);
 
-            goTo(routeChange.toScreenSwap(scoop));
-
-            Keyboard.hideKeyboard(MainUiContainer.this);
+            // To prevent showing empty screen when activity is closed with "Back" button
+            if (!routeChange.toPath.isEmpty()) {
+                goTo(routeChange.toScreenSwap(scoop));
+                Keyboard.hideKeyboard(MainUiContainer.this);
+            }
         }
     };
 }

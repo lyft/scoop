@@ -1,9 +1,21 @@
 package com.lyft.scoop;
 
+import android.content.Context;
+import android.view.View;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
 
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+
+@RunWith(RobolectricTestRunner.class)
+@Config(manifest = Config.NONE)
 public class ScoopTest {
+    private static final Scoop TEST_SCOOP = new Scoop.Builder("root").build();
 
     @Test
     public void createRootScoop() {
@@ -13,7 +25,7 @@ public class ScoopTest {
                 .build();
 
         Assert.assertEquals("root", scoop.getName());
-        Assert.assertNull(scoop.getParent());
+        assertNull(scoop.getParent());
         Assert.assertEquals(service, scoop.findService("foo_service"));
     }
 
@@ -77,12 +89,12 @@ public class ScoopTest {
         childScoop.destroy();
 
         Assert.assertFalse(rootScoop.isDestroyed());
-        Assert.assertNull(rootScoop.findChild("child"));
+        assertNull(rootScoop.findChild("child"));
         Assert.assertNotNull(rootScoop.findService("foo_service_1"));
 
         Assert.assertTrue(childScoop.isDestroyed());
         Assert.assertNotNull(childScoop.getParent());
-        Assert.assertNull(childScoop.findChild("grand_child"));
+        assertNull(childScoop.findChild("grand_child"));
         Assert.assertNotNull(childScoop.findService("foo_service_1"));
         Assert.assertNotNull(childScoop.findService("foo_service_2"));
 
@@ -93,7 +105,30 @@ public class ScoopTest {
         Assert.assertNotNull(grandChildScoop.findService("foo_service_3"));
     }
 
+    @Test
+    public void fromNullView() {
+        assertNull(Scoop.fromView(null));
+    }
+
+    @Test
+    public void fromViewNoScoop() {
+        try {
+            Scoop.fromView(new TestView(RuntimeEnvironment.application));
+            fail("Should have thrown a RuntimeException if there is no scoop in the view's context.");
+        } catch (RuntimeException e) {
+            //Expected result
+        }
+
+    }
+
     static class FooService {
 
+    }
+
+    static class TestView extends View {
+
+        public TestView(Context context) {
+            super(context);
+        }
     }
 }

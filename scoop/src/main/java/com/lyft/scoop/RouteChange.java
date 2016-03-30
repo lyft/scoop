@@ -14,29 +14,26 @@ public class RouteChange {
         this.direction = direction;
     }
 
-    //TODO: test me
     public ScreenSwap toScreenSwap(Scoop scoop) {
         return new ScreenSwap(scoop,
-                this.sourceScreen(),
-                this.destinationScreen(),
+                this.previousScreen(),
+                this.nextScreen(),
                 this.direction);
     }
 
-    private Screen sourceScreen() {
-        Screen screen = null;
-
-        if (!fromPath.isEmpty()) {
-            screen = fromPath.get(fromPath.size() - 1);
-        }
-
-        return screen;
+    private Screen previousScreen() {
+        return getScreenFromPath(fromPath);
     }
 
-    private Screen destinationScreen() {
+    private Screen nextScreen() {
+        return getScreenFromPath(toPath);
+    }
+
+    private Screen getScreenFromPath(List<Screen> path) {
         Screen screen = null;
 
-        if (!toPath.isEmpty()) {
-            screen = toPath.get(toPath.size() - 1);
+        if (!path.isEmpty()) {
+            screen = path.get(path.size() - 1);
         }
 
         return screen;

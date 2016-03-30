@@ -4,7 +4,6 @@ import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.rx.ViewSubscriptions;
 import com.example.scoop.basics.scoop.AppRouter;
-import com.example.scoop.basics.scoop.DialogRouter;
 import com.example.scoop.basics.ui.layoutsample.screen.LayoutScreen;
 import com.example.scoop.basics.ui.layoutsample.screen.NestedLayoutScreen;
 import com.example.scoop.basics.ui.navigationsample.screen.AScreen;
@@ -17,14 +16,12 @@ import javax.inject.Inject;
 public class DemosController extends ViewController {
 
     private AppRouter appRouter;
-    private DialogRouter dialogRouter;
 
     ViewSubscriptions viewSubscriptions = new ViewSubscriptions();
 
     @Inject
-    public DemosController(AppRouter appRouter, DialogRouter dialogRouter) {
+    public DemosController(AppRouter appRouter) {
         this.appRouter = appRouter;
-        this.dialogRouter = dialogRouter;
     }
 
     @Override

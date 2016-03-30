@@ -107,13 +107,14 @@ public final class Scoop {
         viewBinder = binder;
     }
 
-    //TODO: test me
     public static Scoop fromView(View view) {
         if (view == null) {
             return null;
         }
 
-        //TODO: thow runtime exception if view do not implement IHaveScoop
+        if (!(view.getContext() instanceof IHaveScoop)) {
+            throw new RuntimeException("View does not implement interface: IHaveScoop");
+        }
 
         IHaveScoop context = (IHaveScoop) view.getContext();
 
@@ -132,7 +133,7 @@ public final class Scoop {
         return inflater(viewGroup.getContext()).inflate(layoutId, viewGroup, attachToRoot);
     }
 
-    private interface IHaveScoop {
+    protected interface IHaveScoop {
 
         Scoop getScoop();
     }

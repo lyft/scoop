@@ -32,32 +32,33 @@ public class MainActivity extends AppCompatActivity {
     DialogRouter dialogRouter;
 
     private CompositeSubscription subscriptions = new CompositeSubscription();
-    private Scoop rootScoop;
+    private Scoop activityScoop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Timber.d("onCreate");
         setContentView(R.layout.activity_main);
 
-        getRootScoop().inflate(R.layout.root, (ViewGroup) findViewById(R.id.root), true);
+        getActivityScoop().inflate(R.layout.root, (ViewGroup) findViewById(R.id.root), true);
 
         ButterKnife.bind(this);
 
-        DaggerInjector.fromScoop(getRootScoop()).inject(this);
+        DaggerInjector.fromScoop(getActivityScoop()).inject(this);
 
         appRouter.goTo(new DemoScreen());
-
-        Timber.d("onCreate");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        Timber.d("onResume");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        Timber.d("onPause");
     }
 
     @Override
@@ -68,10 +69,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-
         Timber.d("onDestroy");
         subscriptions.clear();
-
+        getActivityScoop().destroy();
         super.onDestroy();
     }
 
@@ -102,18 +102,19 @@ public class MainActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    private Scoop getRootScoop() {
-        if (rootScoop == null) {
+    private Scoop getActivityScoop() {
+        if (activityScoop == null) {
+            Timber.d("getActivityScoop");
             ObjectGraph activityGraph = getApp().getApplicationGraph().plus(new MainActivityModule(this));
 
             DaggerInjector activityInjector = new DaggerInjector(activityGraph);
 
-            rootScoop = new Scoop.Builder("root")
+            activityScoop = new Scoop.Builder("root")
                     .service(DaggerInjector.SERVICE_NAME, activityInjector)
                     .build();
         }
 
-        return rootScoop;
+        return activityScoop;
     }
 
     private App getApp() {

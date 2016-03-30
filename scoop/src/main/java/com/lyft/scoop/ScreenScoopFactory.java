@@ -13,7 +13,7 @@ public class ScreenScoopFactory {
     public Scoop createScoop(Scoop rootScoop, Scoop currentScreenScoop, List<Screen> fromPath, List<Screen> toPath) {
         if (toPath.isEmpty()) {
             destroyStack(currentScreenScoop, fromPath);
-            return rootScoop;
+            return null;
         } else if (fromPath.isEmpty()) {
             return screenScooper.createScreenScoop(toPath.get(toPath.size() - 1), rootScoop);
         }
