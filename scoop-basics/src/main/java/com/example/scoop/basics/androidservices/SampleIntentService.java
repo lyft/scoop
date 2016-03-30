@@ -5,6 +5,7 @@ import android.content.Intent;
 import com.example.scoop.basics.App;
 import com.example.scoop.basics.MainActivity;
 import com.example.scoop.basics.scoop.AppRouter;
+import com.example.scoop.basics.ui.DemoScreen;
 import com.example.scoop.basics.ui.navigationsample.screen.AScreen;
 import javax.inject.Inject;
 import timber.log.Timber;
@@ -30,7 +31,7 @@ public class SampleIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        appRouter.goTo(new AScreen());
+        appRouter.replaceAllWith(new DemoScreen(), new AScreen());
         Intent mainActivityIntent = new Intent(this, MainActivity.class);
         mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(mainActivityIntent);
