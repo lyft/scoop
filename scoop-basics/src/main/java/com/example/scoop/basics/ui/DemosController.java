@@ -1,7 +1,9 @@
 package com.example.scoop.basics.ui;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
@@ -20,12 +22,14 @@ import javax.inject.Inject;
 public class DemosController extends ViewController {
 
     private AppRouter appRouter;
+    private NotificationManager notificationManager;
 
     ViewSubscriptions viewSubscriptions = new ViewSubscriptions();
 
     @Inject
-    public DemosController(AppRouter appRouter) {
+    public DemosController(AppRouter appRouter, NotificationManager notificationManager) {
         this.appRouter = appRouter;
+        this.notificationManager = notificationManager;
     }
 
     @Override
@@ -77,11 +81,20 @@ public class DemosController extends ViewController {
 
     @OnClick(R.id.notification_button)
     public void openNotification() {
-        PendingIntent contentIntent = PendingIntent.getService(this, 0,
-                new Intent(this, SampleIntentService.class), 0);
-        Notification notification = new Notification.Builder(getView().getContext())
+        Context context = getView().getContext();
+
+        Intent serviceIntent = new Intent(context, SampleIntentService.class);
+
+        PendingIntent contentIntent = PendingIntent.getService(context, 0,
+                serviceIntent, 0);
+
+        Notification notification = new Notification.Builder(context)
                 .setContentTitle("This is a push notification.")
                 .setContentText("Scoop!")
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentIntent(contentIntent)
                 .build();
+
+        notificationManager.notify(100, notification);
     }
 }

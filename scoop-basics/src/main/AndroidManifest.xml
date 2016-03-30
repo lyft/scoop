@@ -43,7 +43,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".androidservices.SampleIntentService" />
+
+        <service
+            android:name=".androidservices.SampleIntentService"
+            android:exported="false"
+            />
     </application>
 
 </manifest>

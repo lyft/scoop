@@ -1,6 +1,8 @@
 package com.example.scoop.basics;
 
 import android.app.Application;
+import android.app.NotificationManager;
+import android.content.Context;
 import com.example.scoop.basics.androidservices.SampleIntentService;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.scoop.DialogRouter;
@@ -54,5 +56,11 @@ public class AppModule {
     @Provides
     Application provideApplication() {
         return app;
+    }
+
+    @Singleton
+    @Provides
+    NotificationManager provideNotificationManager() {
+        return (NotificationManager) app.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 }
