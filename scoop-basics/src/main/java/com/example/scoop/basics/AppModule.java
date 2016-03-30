@@ -1,10 +1,11 @@
 package com.example.scoop.basics;
 
 import android.app.Application;
+import com.example.scoop.basics.androidservices.SampleIntentService;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.scoop.DialogRouter;
-import com.lyft.scoop.ScreenScooper;
 import com.lyft.scoop.ScreenScoopFactory;
+import com.lyft.scoop.ScreenScooper;
 import com.lyft.scoop.dagger.DaggerScreenScoopFactory;
 import dagger.Module;
 import dagger.Provides;
@@ -13,6 +14,7 @@ import javax.inject.Singleton;
 @Module(
         injects = {
                 App.class,
+                SampleIntentService.class
         },
         includes = {
         },

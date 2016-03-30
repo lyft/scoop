@@ -1,7 +1,11 @@
 package com.example.scoop.basics.ui;
 
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Intent;
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
+import com.example.scoop.basics.androidservices.SampleIntentService;
 import com.example.scoop.basics.rx.ViewSubscriptions;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.ui.layoutsample.screen.LayoutScreen;
@@ -69,5 +73,15 @@ public class DemosController extends ViewController {
     @OnClick(R.id.transitions_button)
     public void goToTransitions() {
         appRouter.goTo(new TransitionsScreen());
+    }
+
+    @OnClick(R.id.notification_button)
+    public void openNotification() {
+        PendingIntent contentIntent = PendingIntent.getService(this, 0,
+                new Intent(this, SampleIntentService.class), 0);
+        Notification notification = new Notification.Builder(getView().getContext())
+                .setContentTitle("This is a push notification.")
+                .setContentText("Scoop!")
+                .build();
     }
 }
