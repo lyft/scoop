@@ -1,5 +1,6 @@
 package com.lyft.scoop.dagger;
 
+import android.content.Context;
 import android.view.View;
 import com.lyft.scoop.Scoop;
 import com.lyft.scoop.Screen;
@@ -33,6 +34,10 @@ public class DaggerInjector {
 
     public static DaggerInjector fromView(View view) {
         return Scoop.fromView(view).findService(SERVICE_NAME);
+    }
+
+    public static DaggerInjector fromContext(Context context) {
+        return Scoop.fromContext(context).findService(SERVICE_NAME);
     }
 
     public static Scoop extend(final Scoop parentScoop, final Object... modules) {
