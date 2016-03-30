@@ -7,7 +7,7 @@ import com.example.scoop.basics.ui.Keyboard;
 import com.lyft.scoop.LayoutInflater;
 import com.lyft.scoop.RouteChange;
 import com.lyft.scoop.Scoop;
-import com.lyft.scoop.ScreenScoopFactory;
+import com.lyft.scoop.ScreenScooper;
 import com.lyft.scoop.UiContainer;
 import com.lyft.scoop.ViewControllerInflater;
 import com.lyft.scoop.dagger.DaggerInjector;
@@ -22,7 +22,7 @@ public class MainUiContainer extends UiContainer {
     AppRouter appRouter;
 
     @Inject
-    ScreenScoopFactory screenScoopFactory;
+    ScreenScooper screenScooper;
 
     private ViewSubscriptions subscriptions = new ViewSubscriptions();
 
@@ -72,7 +72,7 @@ public class MainUiContainer extends UiContainer {
 
             Scoop currentScreenScoop = Scoop.fromView(getActiveView());
 
-            Scoop scoop = screenScoopFactory.createScoop(rootScoop, currentScreenScoop, routeChange.fromPath, routeChange.toPath);
+            Scoop scoop = screenScooper.create(rootScoop, currentScreenScoop, routeChange.fromPath, routeChange.toPath);
 
             // To prevent showing empty screen when activity is closed with "Back" button
             if (!routeChange.toPath.isEmpty()) {

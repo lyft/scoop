@@ -2,9 +2,9 @@ package com.lyft.scoop.dagger;
 
 import com.lyft.scoop.Scoop;
 import com.lyft.scoop.Screen;
-import com.lyft.scoop.ScreenScooper;
+import com.lyft.scoop.ScreenScoopFactory;
 
-public class DaggerScreenScooper extends ScreenScooper {
+public class DaggerScreenScoopFactory extends ScreenScoopFactory {
 
     @Override
     protected Scoop addServices(Scoop.Builder scoopBuilder, Screen screen, Scoop parentScoop) {

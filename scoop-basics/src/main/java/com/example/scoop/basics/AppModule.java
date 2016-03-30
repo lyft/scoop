@@ -3,9 +3,9 @@ package com.example.scoop.basics;
 import android.app.Application;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.scoop.DialogRouter;
-import com.lyft.scoop.ScreenScoopFactory;
 import com.lyft.scoop.ScreenScooper;
-import com.lyft.scoop.dagger.DaggerScreenScooper;
+import com.lyft.scoop.ScreenScoopFactory;
+import com.lyft.scoop.dagger.DaggerScreenScoopFactory;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -27,13 +27,13 @@ public class AppModule {
     }
 
     @Provides
-    ScreenScooper provideDaggerScreenScooper() {
-        return new DaggerScreenScooper();
+    ScreenScoopFactory provideDaggerScreenScooper() {
+        return new DaggerScreenScoopFactory();
     }
 
     @Provides
-    ScreenScoopFactory provideScreenFactory(ScreenScooper screenScooper) {
-        return new ScreenScoopFactory(screenScooper);
+    ScreenScooper provideScreenFactory(ScreenScoopFactory screenScoopFactory) {
+        return new ScreenScooper(screenScoopFactory);
     }
 
     @Singleton
