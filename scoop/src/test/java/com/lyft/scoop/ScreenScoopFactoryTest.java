@@ -6,6 +6,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -60,6 +61,7 @@ public class ScreenScoopFactoryTest {
         Scoop scoop = screenScoopFactory.createScoop(rootScoop, bScoop, fromPath, toPath);
 
         assertTrue(bScoop.isDestroyed());
+        assertFalse(aScoop.isDestroyed());
         assertEquals(aScoop, scoop);
     }
 
