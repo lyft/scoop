@@ -11,6 +11,22 @@ public class ScreenScooper {
     }
 
     public Scoop create(Scoop rootScoop, Scoop currentScreenScoop, List<Screen> fromPath, List<Screen> toPath) {
+        Scoop finalScoop = null;
+
+        if (currentScreenScoop == null) {
+            if (!toPath.isEmpty()) {
+                finalScoop = rootScoop;
+
+                for (Screen screen : toPath) {
+                    finalScoop = screenScoopFactory.createScreenScoop(screen, finalScoop);
+                }
+
+                return finalScoop;
+            }
+
+            return finalScoop;
+        }
+
         int index = incrementIndex(fromPath, toPath);
 
         return identifyRouteAndBuildScoop(index, rootScoop, currentScreenScoop, fromPath, toPath);
