@@ -254,22 +254,6 @@ public class RouterTest {
         assertEquals(1, router.routeChangeCount);
     }
 
-    @Test
-    public void sameScreen() {
-
-        Screen previous = new ScreenA();
-        Screen next = new ScreenA();
-        assertTrue(Router.sameScreen(previous, next));
-    }
-
-    @Test
-    public void differentScreen() {
-
-        Screen previous = new ScreenA();
-        Screen next = new ScreenB();
-        assertFalse(Router.sameScreen(previous, next));
-    }
-
     private void checkIfRouterBackstackIsEmpty() {
         assertEquals(false, router.goBack());
     }

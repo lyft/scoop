@@ -12,22 +12,12 @@ public class ScreenScooper {
 
     public Scoop create(Scoop rootScoop, Scoop currentScreenScoop, List<Screen> fromPath, List<Screen> toPath) {
         Scoop finalScoop = null;
-        Scoop startScoop = currentScreenScoop;
 
         Screen toPathFirstScreen = getFirstScreen(toPath);
 
-        while (!rootScoop.equals(startScoop) && startScoop != null) {
-            Screen scoopScreen = Screen.fromScoop(startScoop);
+        Scoop startScoop = findStartScoop(rootScoop, currentScreenScoop, toPathFirstScreen);
 
-            if (Router.sameScreen(scoopScreen, toPathFirstScreen)) {
-                break;
-            } else {
-                startScoop.destroy();
-                startScoop = startScoop.getParent();
-            }
-        }
-
-        if (rootScoop.equals(startScoop) || startScoop == null) {
+        if (startScoop == null) {
             if (!toPath.isEmpty()) {
                 finalScoop = rootScoop;
 
@@ -44,6 +34,23 @@ public class ScreenScooper {
         }
 
         return finalScoop;
+    }
+
+    private Scoop findStartScoop(Scoop rootScoop, Scoop startScoop, Screen toPathFirstScreen) {
+        if (rootScoop.equals(startScoop) || startScoop == null) {
+            return null;
+        }
+
+        Screen scoopScreen = Screen.fromScoop(startScoop);
+
+        if (!Screen.equals(scoopScreen, toPathFirstScreen)) {
+            startScoop.destroy();
+            startScoop = startScoop.getParent();
+
+            startScoop = findStartScoop(rootScoop, startScoop, toPathFirstScreen);
+        }
+
+        return startScoop;
     }
 
     private Screen getFirstScreen(List<Screen> path) {

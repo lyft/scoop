@@ -40,7 +40,7 @@ public abstract class Router {
 
         List<Screen> fromPath = backStack.asList();
 
-        if (sameScreen(backStack.peek(), nextScreen)) {
+        if (Screen.equals(backStack.peek(), nextScreen)) {
             return;
         }
 
@@ -57,7 +57,7 @@ public abstract class Router {
 
         Screen previousScreen = backStack.peek();
 
-        if (sameScreen(previousScreen, nextScreen)) {
+        if (Screen.equals(previousScreen, nextScreen)) {
             return;
         }
 
@@ -96,14 +96,14 @@ public abstract class Router {
         List<Screen> fromPath = backStack.asList();
 
         // do nothing if screen already top of reset
-        if (!backStack.isEmpty() && sameScreen(nextScreen, backStack.peek())) {
+        if (!backStack.isEmpty() && Screen.equals(nextScreen, backStack.peek())) {
             return;
         }
 
         while (!backStack.isEmpty()) {
             Screen topScreen = backStack.peek();
 
-            if (sameScreen(nextScreen, topScreen)) {
+            if (Screen.equals(nextScreen, topScreen)) {
                 performRouteChange(fromPath, backStack.asList(), direction);
                 return;
             }
@@ -133,12 +133,4 @@ public abstract class Router {
     }
 
     protected abstract void onRouteChanged(RouteChange routeChange);
-
-    static boolean sameScreen(Screen previous, Screen next) {
-
-        if (previous == null || next == null) {
-            return false;
-        }
-        return previous.equals(next);
-    }
 }
