@@ -1,7 +1,6 @@
 package com.example.scoop.basics.scoop;
 
 import com.lyft.scoop.RouteChange;
-import com.lyft.scoop.Scoop;
 import com.lyft.scoop.Screen;
 import rx.Observable;
 
@@ -21,11 +20,7 @@ public class DialogRouter {
         dialogRouter.replaceAllWith(screen);
     }
 
-    public void onCreate(Scoop rootScoop) {
-        dialogRouter.onCreate(rootScoop);
-    }
-
     public Observable<RouteChange> observeDialogChange() {
-        return dialogRouter.observeScreenChange();
+        return dialogRouter.observeRouteChange();
     }
 }

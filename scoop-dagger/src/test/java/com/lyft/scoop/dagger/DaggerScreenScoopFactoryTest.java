@@ -11,19 +11,19 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
-public class DaggerScreenScooperTest {
+public class DaggerScreenScoopFactoryTest {
 
     @Mock
     DaggerInjector mockDaggerInjector;
 
-    private DaggerScreenScooper daggerScreenScooper;
+    private DaggerScreenScoopFactory daggerScreenScooper;
     private Scoop.Builder scoopBuilder;
     private Scoop scoop;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        daggerScreenScooper = new DaggerScreenScooper();
+        daggerScreenScooper = new DaggerScreenScoopFactory();
         scoop = new Scoop.Builder("root").service(DaggerInjector.SERVICE_NAME, mockDaggerInjector).build();
         scoopBuilder = new Scoop.Builder("child");
     }

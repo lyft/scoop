@@ -108,7 +108,21 @@ public final class Scoop {
     }
 
     public static Scoop fromView(View view) {
-        return ((IHaveScoop) view.getContext()).getScoop();
+        if (view == null) {
+            return null;
+        }
+        return fromContext(view.getContext());
+    }
+
+    public static Scoop fromContext(Context context) {
+
+        if (!(context instanceof HaveScoop)) {
+            throw new RuntimeException("View does not implement interface: HaveScoop");
+        }
+
+        HaveScoop haveScoop = (HaveScoop) context;
+
+        return haveScoop.getScoop();
     }
 
     public LayoutInflater inflater(Context context) {
@@ -123,12 +137,12 @@ public final class Scoop {
         return inflater(viewGroup.getContext()).inflate(layoutId, viewGroup, attachToRoot);
     }
 
-    private interface IHaveScoop {
+    protected interface HaveScoop {
 
         Scoop getScoop();
     }
 
-    private static class ScoopContextWrapper extends ContextWrapper implements IHaveScoop {
+    private static class ScoopContextWrapper extends ContextWrapper implements HaveScoop {
 
         private final Scoop scoop;
 

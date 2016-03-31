@@ -1,6 +1,5 @@
 package com.example.scoop.basics;
 
-import android.app.Activity;
 import com.example.scoop.basics.scoop.DialogUiContainer;
 import com.example.scoop.basics.scoop.MainUiContainer;
 import dagger.Provides;
@@ -25,7 +24,7 @@ public class MainActivityModule {
     }
 
     @Provides
-    Activity provideActivity() {
+    MainActivity provideActivity() {
         return mainActivity;
     }
 }
