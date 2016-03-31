@@ -39,7 +39,7 @@ public class ViewControllerInflater {
 
             @Override
             public void onViewDetachedFromWindow(View v) {
-                viewController.detach(view);
+                viewController.detach();
                 view.setTag(VIEW_CONTROLLER_TAG, null);
                 Scoop.viewBinder.unbind(viewController);
             }

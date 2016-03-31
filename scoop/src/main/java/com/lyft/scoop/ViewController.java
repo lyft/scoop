@@ -8,23 +8,9 @@ public abstract class ViewController {
     private Scoop scoop;
     private View view;
 
-    final void attach(View view) {
-        this.attached = true;
-        this.view = view;
-        onAttach();
-    }
+    protected abstract int layoutId();
 
     public void onAttach() {}
-
-    protected final boolean attached() {
-        return this.attached;
-    }
-
-    final void detach(View view) {
-        onDetach();
-        this.view = null;
-        this.attached = false;
-    }
 
     public void onDetach() {}
 
@@ -35,10 +21,24 @@ public abstract class ViewController {
         return this.view;
     }
 
-    protected abstract int layoutId();
+    protected final boolean attached() {
+        return this.attached;
+    }
 
     protected Scoop getScoop() {
         return scoop;
+    }
+
+    void attach(View view) {
+        this.attached = true;
+        this.view = view;
+        onAttach();
+    }
+
+    void detach() {
+        onDetach();
+        this.view = null;
+        this.attached = false;
     }
 
     void setScoop(Scoop scoop) {
@@ -47,8 +47,7 @@ public abstract class ViewController {
 
     static ViewController fromView(View view) {
         if (view != null) {
-            ViewController viewController = (ViewController) view.getTag(ViewControllerInflater.VIEW_CONTROLLER_TAG);
-            return viewController;
+            return (ViewController) view.getTag(ViewControllerInflater.VIEW_CONTROLLER_TAG);
         }
 
         return null;
