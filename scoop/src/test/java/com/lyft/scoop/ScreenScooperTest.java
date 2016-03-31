@@ -208,7 +208,6 @@ public class ScreenScooperTest {
         assertEquals(aScoop, cScoop.getParent().getParent());
     }
 
-
     // [ A ] - > [ A, B, C ]
     @Test
     public void createScoopFromAPathToABCPathNullCurrentScoop() {
@@ -344,7 +343,60 @@ public class ScreenScooperTest {
         assertFalse(aScoop.isDestroyed());
         assertFalse(bScoop.isDestroyed());
         assertFalse(cScoop.isDestroyed());
-        assertEquals(rootScoop, cScoop.getParent().getParent());
+        assertEquals(rootScoop, cScoop.getParent().getParent().getParent());
+    }
+
+    // [ A, B ] - > [ A, B, C ]
+    @Test
+    public void createScoopFromABPathToABCPathNullCurrentScoop() {
+
+        List<Screen> fromPath = Arrays.<Screen>asList(new ScreenA(), new ScreenB());
+        List<Screen> toPath = Arrays.<Screen>asList(new ScreenA(), new ScreenB(), new ScreenC());
+
+        Scoop cScoop = screenScooper.create(rootScoop, null, fromPath, toPath);
+
+        assertFalse(rootScoop.isDestroyed());
+        assertFalse(cScoop.getParent().getParent().isDestroyed());
+        assertFalse(cScoop.getParent().isDestroyed());
+        assertFalse(cScoop.isDestroyed());
+        assertEquals(rootScoop, cScoop.getParent().getParent().getParent());
+    }
+
+    // [ A, B, C ] - > [ A, B, D ]
+    @Test
+    public void createScoopFromABCPathToABDPath() {
+
+        List<Screen> fromPath = Arrays.<Screen>asList(new ScreenA(), new ScreenB(), new ScreenC());
+        List<Screen> toPath = Arrays.<Screen>asList(new ScreenA(), new ScreenB(), new ScreenD());
+
+        Scoop aScoop = screenScoopFactory.createScreenScoop(new ScreenA(), rootScoop);
+        Scoop bScoop = screenScoopFactory.createScreenScoop(new ScreenB(), aScoop);
+        Scoop cScoop = screenScoopFactory.createScreenScoop(new ScreenC(), bScoop);
+
+        Scoop dScoop = screenScooper.create(rootScoop, cScoop, fromPath, toPath);
+
+        assertFalse(rootScoop.isDestroyed());
+        assertFalse(aScoop.isDestroyed());
+        assertFalse(bScoop.isDestroyed());
+        assertFalse(dScoop.isDestroyed());
+        assertTrue(cScoop.isDestroyed());
+        assertEquals(rootScoop, dScoop.getParent().getParent().getParent());
+    }
+
+    // [ A, B, C ] - > [ A, B, D ]
+    @Test
+    public void createScoopFromABCPathToABDPathNullCurrentScoop() {
+
+        List<Screen> fromPath = Arrays.<Screen>asList(new ScreenA(), new ScreenB(), new ScreenC());
+        List<Screen> toPath = Arrays.<Screen>asList(new ScreenA(), new ScreenB(), new ScreenD());
+
+        Scoop dScoop = screenScooper.create(rootScoop, null, fromPath, toPath);
+
+        assertFalse(rootScoop.isDestroyed());
+        assertFalse(dScoop.getParent().getParent().isDestroyed());
+        assertFalse(dScoop.getParent().isDestroyed());
+        assertFalse(dScoop.isDestroyed());
+        assertEquals(rootScoop, dScoop.getParent().getParent().getParent());
     }
 
     static class ScreenA extends Screen {

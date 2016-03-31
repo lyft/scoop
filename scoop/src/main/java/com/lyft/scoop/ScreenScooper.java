@@ -1,5 +1,6 @@
 package com.lyft.scoop;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ScreenScooper {
@@ -13,51 +14,61 @@ public class ScreenScooper {
     public Scoop create(Scoop rootScoop, Scoop currentScreenScoop, List<Screen> fromPath, List<Screen> toPath) {
         Scoop finalScoop = null;
 
-        Screen toPathFirstScreen = getFirstScreen(toPath);
+        List<Scoop> scoops = getCurrentScoops(fromPath, currentScreenScoop);
 
-        Scoop startScoop = findStartScoop(rootScoop, currentScreenScoop, toPathFirstScreen);
+        int index = 0;
 
-        if (startScoop == null) {
-            if (!toPath.isEmpty()) {
+        while (index < fromPath.size() && currentScreenScoop != null) {
+            Screen fromScreen = safeElementGet(fromPath, index);
+            Screen toScreen = safeElementGet(toPath, index);
+
+            Scoop scoop = scoops.get(index);
+
+            if (Screen.equals(fromScreen, toScreen)) {
+                finalScoop = scoop;
+            } else {
+                scoop.destroy();
+                break;
+            }
+
+            index++;
+        }
+
+        while (index < toPath.size()) {
+            Screen toScreen = safeElementGet(toPath, index);
+
+            if (finalScoop == null) {
                 finalScoop = rootScoop;
+            }
 
-                for (Screen screen : toPath) {
-                    finalScoop = screenScoopFactory.createScreenScoop(screen, finalScoop);
-                }
-            }
-        } else {
-            finalScoop = startScoop;
-            for (int i = 1; i < toPath.size(); i++) {
-                Screen screen = toPath.get(i);
-                finalScoop = screenScoopFactory.createScreenScoop(screen, finalScoop);
-            }
+            finalScoop = screenScoopFactory.createScreenScoop(toScreen, finalScoop);
+
+            index++;
         }
 
         return finalScoop;
     }
 
-    private Scoop findStartScoop(Scoop rootScoop, Scoop startScoop, Screen toPathFirstScreen) {
-        if (rootScoop.equals(startScoop) || startScoop == null) {
-            return null;
+    private ArrayList<Scoop> getCurrentScoops(List<Screen> fromPath, Scoop currentScreenScoop) {
+
+        ArrayList<Scoop> scoops = new ArrayList<>();
+
+        Scoop startScoop = currentScreenScoop;
+
+        if (startScoop != null) {
+            for (int i = 0; i < fromPath.size(); i++) {
+                scoops.add(0, startScoop);
+                startScoop = startScoop.getParent();
+            }
         }
 
-        Screen scoopScreen = Screen.fromScoop(startScoop);
-
-        if (!Screen.equals(scoopScreen, toPathFirstScreen)) {
-            startScoop.destroy();
-            startScoop = startScoop.getParent();
-
-            startScoop = findStartScoop(rootScoop, startScoop, toPathFirstScreen);
-        }
-
-        return startScoop;
+        return scoops;
     }
 
-    private Screen getFirstScreen(List<Screen> path) {
-        if (path.isEmpty()) {
-            return null;
+    private <T> T safeElementGet(List<T> fromPath, int i) {
+        if (i < fromPath.size()) {
+            return fromPath.get(i);
         }
-
-        return path.get(0);
+        return null;
     }
 }
