@@ -1,25 +1,24 @@
 package com.example.scoop.basics.scoop;
 
-import com.lyft.scoop.Router;
+import com.jakewharton.rxrelay.BehaviorRelay;
 import com.lyft.scoop.RouteChange;
-import com.lyft.scoop.ScreenScooper;
+import com.lyft.scoop.Router;
 import rx.Observable;
-import rx.subjects.BehaviorSubject;
 
 public class AppRouter extends Router {
 
-    private final BehaviorSubject<RouteChange> screenChangeSubject = BehaviorSubject.create();
+    private final BehaviorRelay<RouteChange> routeChangeRelay = BehaviorRelay.create();
 
-    public AppRouter(ScreenScooper screenScooper, boolean hasEmptyStack) {
-        super(screenScooper, hasEmptyStack);
-    }
-
-    public Observable<RouteChange> observeScreenChange() {
-        return screenChangeSubject.asObservable();
+    public AppRouter(boolean hasEmptyStack) {
+        super(hasEmptyStack);
     }
 
     @Override
-    protected void onScoopChanged(RouteChange change) {
-        screenChangeSubject.onNext(change);
+    protected void onRouteChanged(RouteChange routeChange) {
+        routeChangeRelay.call(routeChange);
+    }
+
+    public Observable<RouteChange> observeRouteChange() {
+        return routeChangeRelay.asObservable();
     }
 }

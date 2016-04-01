@@ -1,9 +1,14 @@
 package com.example.scoop.basics;
 
 import android.app.Application;
+import android.app.NotificationManager;
+import android.content.Context;
+import com.example.scoop.basics.androidservices.SampleIntentService;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.scoop.DialogRouter;
-import com.lyft.scoop.dagger.DaggerScreenScooper;
+import com.lyft.scoop.ScreenScoopFactory;
+import com.lyft.scoop.ScreenScooper;
+import com.lyft.scoop.dagger.DaggerScreenScoopFactory;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -11,6 +16,7 @@ import javax.inject.Singleton;
 @Module(
         injects = {
                 App.class,
+                SampleIntentService.class
         },
         includes = {
         },
@@ -24,22 +30,26 @@ public class AppModule {
         this.app = app;
     }
 
-    @Singleton
     @Provides
-    DaggerScreenScooper provideDaggerScreenScooper() {
-        return new DaggerScreenScooper();
+    ScreenScoopFactory provideDaggerScreenScooper() {
+        return new DaggerScreenScoopFactory();
+    }
+
+    @Provides
+    ScreenScooper provideScreenFactory(ScreenScoopFactory screenScoopFactory) {
+        return new ScreenScooper(screenScoopFactory);
     }
 
     @Singleton
     @Provides
-    AppRouter provideAppRouter(DaggerScreenScooper daggerScreenScooper) {
-        return new AppRouter(daggerScreenScooper, false);
+    AppRouter provideAppRouter() {
+        return new AppRouter(false);
     }
 
     @Singleton
     @Provides
-    DialogRouter provideDialogRouter(DaggerScreenScooper daggerScreenScooper) {
-        return new DialogRouter(new AppRouter(daggerScreenScooper, true));
+    DialogRouter provideDialogRouter() {
+        return new DialogRouter(new AppRouter(true));
     }
 
     @Singleton
@@ -48,4 +58,9 @@ public class AppModule {
         return app;
     }
 
+    @Singleton
+    @Provides
+    NotificationManager provideNotificationManager() {
+        return (NotificationManager) app.getSystemService(Context.NOTIFICATION_SERVICE);
+    }
 }

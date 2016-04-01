@@ -18,6 +18,8 @@ public class App extends MultiDexApplication {
         Stetho.initializeWithDefaults(this);
         Timber.plant(new Timber.DebugTree());
 
+        Timber.d("onCreate");
+
         Scoop.setViewBinder(new ButterKnifeViewBinder());
 
         applicationGraph = ObjectGraph.create(new AppModule(this));

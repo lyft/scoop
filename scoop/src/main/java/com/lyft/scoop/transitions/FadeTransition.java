@@ -33,6 +33,7 @@ public class FadeTransition extends ObjectAnimatorTransition {
     @Override
     public void performTranslate(final ViewGroup root, final View from, View to, final TransitionListener transitionListener) {
         Animator animator = createAnimator(from, to);
+
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -40,20 +41,23 @@ public class FadeTransition extends ObjectAnimatorTransition {
                 transitionListener.onTransitionCompleted();
             }
         });
+
         animator.start();
     }
 
     private Animator createAnimator(View from, View to) {
         AnimatorSet set = new AnimatorSet();
-        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(from, View.ALPHA, 1f, 0f).setDuration(fadeTime);
-        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(to, View.ALPHA, 0f, 1f).setDuration(fadeTime);
+        if (from != null) {
+            ObjectAnimator fadeOut = ObjectAnimator.ofFloat(from, View.ALPHA, 1f, 0f).setDuration(fadeTime);
+            fadeOut.setInterpolator(interpolator);
+            set.play(fadeOut);
+        }
 
-        fadeOut.setInterpolator(interpolator);
-        fadeIn.setInterpolator(interpolator);
-
-        set.play(fadeOut);
-        set.play(fadeIn);
-
+        if (to != null) {
+            ObjectAnimator fadeIn = ObjectAnimator.ofFloat(to, View.ALPHA, 0f, 1f).setDuration(fadeTime);
+            fadeIn.setInterpolator(interpolator);
+            set.play(fadeIn);
+        }
         return set;
     }
 }
