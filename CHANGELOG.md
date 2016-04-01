@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 0.3.11 *(2016-3-31)*
+----------------------------
+
+Migrated scoop creation from Router to UI layer
+
 Version 0.3.10 *(2016-3-22)*
 ----------------------------
 
