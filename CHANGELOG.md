@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 0.3.12 *(2016-4-4)*
+----------------------------
+
+Removing ConcurrentModificationException bug in Scoop
+
 Version 0.3.11 *(2016-3-31)*
 ----------------------------
 
