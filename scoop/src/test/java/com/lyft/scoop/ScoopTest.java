@@ -15,6 +15,7 @@ import static org.junit.Assert.fail;
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = Config.NONE)
 public class ScoopTest {
+
     private static final Scoop TEST_SCOOP = new Scoop.Builder("root").build();
 
     @Test
@@ -67,7 +68,7 @@ public class ScoopTest {
     }
 
     @Test
-    public void destroyRootScoop() {
+    public void destroyChildScoop() {
         FooService service1 = new FooService();
 
         Scoop rootScoop = new Scoop.Builder("root")
@@ -118,7 +119,50 @@ public class ScoopTest {
         } catch (RuntimeException e) {
             //Expected result
         }
+    }
 
+    public void destroyRootScoop() {
+        FooService service1 = new FooService();
+
+        Scoop rootScoop = new Scoop.Builder("root")
+                .service("foo_service_1", service1)
+                .build();
+
+        FooService childService1 = new FooService();
+
+        Scoop childScoop1 = new Scoop.Builder("child1", rootScoop)
+                .service("child_service_1", childService1)
+                .build();
+
+        FooService childService2 = new FooService();
+
+        Scoop childScoop2 = new Scoop.Builder("child2", rootScoop)
+                .service("child_service_2", childService2)
+                .build();
+
+        FooService service3 = new FooService();
+
+        Scoop grandChildScoop = new Scoop.Builder("grand_child", childScoop1)
+                .service("foo_service_3", service3)
+                .build();
+
+        rootScoop.destroy();
+
+        Assert.assertTrue(rootScoop.isDestroyed());
+        Assert.assertNull(rootScoop.findChild("child"));
+        Assert.assertNotNull(rootScoop.findService("foo_service_1"));
+
+        Assert.assertTrue(childScoop1.isDestroyed());
+        Assert.assertNotNull(childScoop1.getParent());
+        Assert.assertNull(childScoop1.findChild("grand_child"));
+        Assert.assertNotNull(childScoop1.findService("foo_service_1"));
+        Assert.assertNotNull(childScoop1.findService("child_service_1"));
+
+        Assert.assertTrue(grandChildScoop.isDestroyed());
+        Assert.assertNotNull(grandChildScoop.getParent());
+        Assert.assertNotNull(grandChildScoop.findService("foo_service_1"));
+        Assert.assertNotNull(grandChildScoop.findService("child_service_1"));
+        Assert.assertNotNull(grandChildScoop.findService("foo_service_3"));
     }
 
     static class FooService {
