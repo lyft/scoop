@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 public final class Scoop {
 
@@ -30,7 +32,10 @@ public final class Scoop {
     }
 
     public void destroy() {
-        for (Map.Entry<String, Scoop> entry : this.children.entrySet()) {
+        final Set<Map.Entry<String, Scoop>> entries = this.children.entrySet();
+
+        final Set<Map.Entry<String, Scoop>> entriesCopy = new HashSet<>(entries);
+        for (Map.Entry<String, Scoop> entry : entriesCopy) {
             entry.getValue().destroy();
         }
 
