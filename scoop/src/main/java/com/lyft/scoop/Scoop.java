@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -30,15 +31,22 @@ public final class Scoop {
     }
 
     public void destroy() {
-        for (Map.Entry<String, Scoop> entry : this.children.entrySet()) {
-            entry.getValue().destroy();
-        }
-
-        this.destroyed = true;
+        destroyFromParent();
 
         if (parent != null) {
             parent.children.remove(this.getName());
         }
+    }
+
+    private void destroyFromParent() {
+        Iterator<Map.Entry<String, Scoop>> iterator = this.children.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, Scoop> entry = iterator.next();
+            entry.getValue().destroyFromParent();
+            iterator.remove();
+        }
+
+        this.destroyed = true;
     }
 
     boolean isDestroyed() {
