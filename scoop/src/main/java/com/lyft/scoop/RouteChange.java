@@ -21,11 +21,11 @@ public class RouteChange {
                 this.direction);
     }
 
-    private Screen previousScreen() {
+    public Screen previousScreen() {
         return getScreenFromPath(fromPath);
     }
 
-    private Screen nextScreen() {
+    public Screen nextScreen() {
         return getScreenFromPath(toPath);
     }
 
