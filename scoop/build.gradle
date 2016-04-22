@@ -1,5 +1,7 @@
 import com.android.builder.core.BuilderConstants;
+
 apply plugin: 'com.android.library'
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -8,7 +10,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         versionName VERSION_NAME
     }
-    
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7

@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.androidservices.SampleIntentService;
@@ -17,17 +18,16 @@ import com.example.scoop.basics.ui.paramsample.screen.ParametrizedScreen;
 import com.example.scoop.basics.ui.transitions.TransitionsScreen;
 import com.example.scoop.basics.ui.wizardsample.screen.EnterFirstNameScreen;
 import com.lyft.scoop.ViewController;
-import javax.inject.Inject;
 
 public class DemosController extends ViewController {
 
-    private AppRouter appRouter;
-    private NotificationManager notificationManager;
+    private final AppRouter appRouter;
+    private final NotificationManager notificationManager;
 
     ViewSubscriptions viewSubscriptions = new ViewSubscriptions();
 
-    @Inject
     public DemosController(AppRouter appRouter, NotificationManager notificationManager) {
+        Log.i("DemosController", "DemosController");
         this.appRouter = appRouter;
         this.notificationManager = notificationManager;
     }
