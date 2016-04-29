@@ -1,5 +1,9 @@
 Change Log
 ==========
+Version 0.3.13 *(2016-4-4)*
+----------------------------
+
+Expose functionality for peeking into Router's backstack
 
 Version 0.3.12 *(2016-4-4)*
 ----------------------------
