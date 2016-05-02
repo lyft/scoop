@@ -4,14 +4,18 @@ import android.view.View;
 
 public abstract class ViewController {
 
+    private boolean isDetaching = false;
     private boolean attached;
     private Scoop scoop;
     private View view;
 
     final void attach(View view) {
-        this.attached = true;
         this.view = view;
         onAttach();
+        this.attached = true;
+        if (this.isDetaching) {
+            detach(view);
+        }
     }
 
     public void onAttach() {}
@@ -21,9 +25,13 @@ public abstract class ViewController {
     }
 
     final void detach(View view) {
-        onDetach();
-        this.view = null;
-        this.attached = false;
+        this.isDetaching = true;
+        if(this.attached) {
+            onDetach();
+            this.view = null;
+            this.attached = false;
+            this.isDetaching = false;
+        }
     }
 
     public void onDetach() {}
