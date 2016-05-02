@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 0.3.14 *(2016-5-2)*
+----------------------------
+
+Only call detach in ViewControllers when attach has been called first.
+
 Version 0.3.13 *(2016-4-29)*
 ----------------------------
 
