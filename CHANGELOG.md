@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 0.3.16 *(2016-5-3)*
+----------------------------
+
+Ensure getView is available during onAttach in ViewController.
+
 Version 0.3.15 *(2016-5-2)*
 ----------------------------
 
