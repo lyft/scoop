@@ -10,6 +10,7 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
@@ -47,11 +48,13 @@ public class ViewControllerTest {
         @Override
         public void onAttach() {
             variable = TEST_RESULT;
+            assertNotNull("There is no view in onAttach.", getView());
         }
 
         @Override
         public void onDetach() {
-            variable.toString();
+            assertNotNull("Variable is not available in onDetach.", variable);
+            assertNotNull("There is no view in onDetach.", getView());
         }
 
         @Override

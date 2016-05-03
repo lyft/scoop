@@ -43,7 +43,7 @@ public abstract class ViewController {
     public void onDetach() {}
 
     public View getView() {
-        if (!attached) {
+        if (view == null) {
             throw new IllegalStateException("View accessed while ViewController is detached.");
         }
         return this.view;
