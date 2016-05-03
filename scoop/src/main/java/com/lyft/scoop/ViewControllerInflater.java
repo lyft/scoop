@@ -5,8 +5,6 @@ import android.view.ViewGroup;
 
 public class ViewControllerInflater {
 
-    static final int VIEW_CONTROLLER_TAG = 0x80000001;
-
     protected ViewController createViewController(Scoop scoop, Class<? extends ViewController> clazz) {
         try {
             return clazz.newInstance();
@@ -32,16 +30,13 @@ public class ViewControllerInflater {
         final View.OnAttachStateChangeListener viewAttachListener = new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
-                Scoop.viewBinder.bind(viewController, v);
                 viewController.attach(view);
-                view.setTag(VIEW_CONTROLLER_TAG, viewController);
+
             }
 
             @Override
             public void onViewDetachedFromWindow(View v) {
                 viewController.detach(view);
-                view.setTag(VIEW_CONTROLLER_TAG, null);
-                Scoop.viewBinder.unbind(viewController);
             }
         };
 
