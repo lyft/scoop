@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 0.3.15 *(2016-5-2)*
+----------------------------
+
+Adding butterknife binding to viewcontroller.
+
 Version 0.3.14 *(2016-5-2)*
 ----------------------------
 
