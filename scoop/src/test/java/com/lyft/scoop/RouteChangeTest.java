@@ -9,7 +9,6 @@ import static junit.framework.Assert.assertNull;
 
 public class RouteChangeTest {
     private static final TransitionDirection ENTER_TRANSITION = TransitionDirection.ENTER;
-    private static final Scoop TEST_SCOOP = new Scoop.Builder(null, null).build();
 
     @Test
     public void screenEmptyPath() {
@@ -17,11 +16,10 @@ public class RouteChangeTest {
         List<Screen> toPath = Arrays.<Screen>asList();
 
         RouteChange routeChange = new RouteChange(fromPath, toPath, ENTER_TRANSITION);
-        ScreenSwap screenSwap = routeChange.toScreenSwap(TEST_SCOOP);
+        ScreenSwap screenSwap = routeChange.toScreenSwap();
 
         assertNull(screenSwap.next);
         assertNull(screenSwap.previous);
-        assertEquals(TEST_SCOOP, screenSwap.scoop);
         assertEquals(ENTER_TRANSITION, screenSwap.direction);
     }
 
@@ -32,11 +30,10 @@ public class RouteChangeTest {
         List<Screen> toPath = Arrays.<Screen>asList(new ScreenA());
 
         RouteChange routeChange = new RouteChange(fromPath, toPath, ENTER_TRANSITION);
-        ScreenSwap screenSwap = routeChange.toScreenSwap(TEST_SCOOP);
+        ScreenSwap screenSwap = routeChange.toScreenSwap();
 
         assertEquals(new ScreenA(), screenSwap.next);
         assertEquals(new ScreenA(), screenSwap.previous);
-        assertEquals(TEST_SCOOP, screenSwap.scoop);
         assertEquals(ENTER_TRANSITION, screenSwap.direction);
     }
 
@@ -47,11 +44,10 @@ public class RouteChangeTest {
         List<Screen> toPath = Arrays.<Screen>asList(new ScreenA(), new ScreenB());
 
         RouteChange routeChange = new RouteChange(fromPath, toPath, ENTER_TRANSITION);
-        ScreenSwap screenSwap = routeChange.toScreenSwap(TEST_SCOOP);
+        ScreenSwap screenSwap = routeChange.toScreenSwap();
 
         assertEquals(new ScreenB(), screenSwap.next);
         assertEquals(new ScreenB(), screenSwap.previous);
-        assertEquals(TEST_SCOOP, screenSwap.scoop);
         assertEquals(ENTER_TRANSITION, screenSwap.direction);
     }
 

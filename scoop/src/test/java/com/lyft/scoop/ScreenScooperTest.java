@@ -9,6 +9,7 @@ import org.junit.Test;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ScreenScooperTest {
@@ -174,6 +175,34 @@ public class ScreenScooperTest {
         assertFalse(aScoop.isDestroyed());
         assertFalse(rootScoop.isDestroyed());
         assertEquals(aScoop, scoop);
+    }
+
+    // [ A ] - > [ B ] // [ B ] - > [ C ] // [ C ] - > [ C ]
+    @Test
+    public void createScoopFromABPathToBCPathToCCPath() {
+
+        List<Screen> fromPath = Arrays.<Screen>asList(new ScreenA());
+        List<Screen> toPath = Arrays.<Screen>asList(new ScreenB());
+
+        Scoop aScoop = screenScoopFactory.createScreenScoop(new ScreenA(), rootScoop);
+
+        Scoop bScoop = screenScooper.create(rootScoop, aScoop, fromPath, toPath);
+
+        assertNotEquals(aScoop, bScoop);
+
+        fromPath = Arrays.<Screen>asList(new ScreenB());
+        toPath = Arrays.<Screen>asList(new ScreenC());
+
+        Scoop cScoop = screenScooper.create(rootScoop, bScoop, fromPath, toPath);
+
+        assertNotEquals(bScoop, cScoop);
+
+        fromPath = Arrays.<Screen>asList(new ScreenC());
+        toPath = Arrays.<Screen>asList(new ScreenC());
+
+        Scoop scoop = screenScooper.create(rootScoop, cScoop, fromPath, toPath);
+
+        assertNotEquals(bScoop, scoop);
     }
 
     // [ A, B, C ] - > [ A ]

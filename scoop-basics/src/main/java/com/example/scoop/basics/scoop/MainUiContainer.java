@@ -6,7 +6,6 @@ import com.example.scoop.basics.rx.ViewSubscriptions;
 import com.example.scoop.basics.ui.Keyboard;
 import com.lyft.scoop.LayoutInflater;
 import com.lyft.scoop.RouteChange;
-import com.lyft.scoop.Scoop;
 import com.lyft.scoop.ScreenScooper;
 import com.lyft.scoop.UiContainer;
 import com.lyft.scoop.ViewControllerInflater;
@@ -47,6 +46,11 @@ public class MainUiContainer extends UiContainer {
     }
 
     @Override
+    protected ScreenScooper getScreenScooper() {
+        return screenScooper;
+    }
+
+    @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
 
@@ -67,16 +71,9 @@ public class MainUiContainer extends UiContainer {
     private Action1<RouteChange> onRouteChange = new Action1<RouteChange>() {
         @Override
         public void call(RouteChange routeChange) {
-
-            Scoop rootScoop = Scoop.fromView(MainUiContainer.this);
-
-            Scoop currentScreenScoop = Scoop.fromView(getActiveView());
-
-            Scoop scoop = screenScooper.create(rootScoop, currentScreenScoop, routeChange.fromPath, routeChange.toPath);
-
             // To prevent showing empty screen when activity is closed with "Back" button
             if (!routeChange.toPath.isEmpty()) {
-                goTo(routeChange.toScreenSwap(scoop));
+                goTo(routeChange);
                 Keyboard.hideKeyboard(MainUiContainer.this);
             }
         }

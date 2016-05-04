@@ -12,7 +12,7 @@ import java.util.ArrayDeque;
 
 public abstract class UiContainer extends FrameLayout implements HandleBack, TransitionListener {
 
-    private ArrayDeque<ScreenSwap> screenSwapQueue = new ArrayDeque<>();
+    private ArrayDeque<RouteChange> screenSwapQueue = new ArrayDeque<>();
     private boolean isTransitioning;
     private View active;
 
@@ -40,21 +40,21 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         return new LayoutInflater();
     }
 
+    protected ScreenScooper getScreenScooper() {
+        return new ScreenScooper(new ScreenScoopFactory());
+    }
+
     public boolean onBack() {
         return childCanGoBack();
     }
 
-    public View getActiveView() {
-        return active;
-    }
-
-    public void goTo(ScreenSwap screenSwap) {
+    public void goTo(RouteChange routeChange) {
         if (screenSwapQueue.isEmpty()) {
-            screenSwapQueue.add(screenSwap);
+            screenSwapQueue.add(routeChange);
 
-            swap(screenSwap);
+            swap(routeChange);
         } else {
-            screenSwapQueue.add(screenSwap);
+            screenSwapQueue.add(routeChange);
         }
     }
 
@@ -127,21 +127,24 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         }
     }
 
-    private void swap(ScreenSwap screenSwap) {
+    private void swap(RouteChange routeChange) {
+        final Scoop currentScoop = getActiveScoop(routeChange);
+        final ScreenSwap screenSwap = routeChange.toScreenSwap();
+        Screen previousScreen = screenSwap.previous;
         Screen nextScreen = screenSwap.next;
         final View prevView = active;
 
-        if (active != null && screenSwap.previous != null) {
-            screenSwap.previous.saveViewState(active);
+        if (active != null && previousScreen != null) {
+            previousScreen.saveViewState(active);
         }
 
         if (nextScreen == null) {
             active = null;
         } else if (nextScreen.getController() != null) {
-            active = inflateControllerView(screenSwap, nextScreen);
+            active = inflateControllerView(nextScreen, currentScoop);
             nextScreen.restoreViewState(active);
         } else {
-            active = inflateLayout(screenSwap, nextScreen);
+            active = inflateLayout(nextScreen, currentScoop);
             nextScreen.restoreViewState(active);
         }
 
@@ -150,12 +153,12 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         transition.transition(this, prevView, active, this);
     }
 
-    private View inflateControllerView(ScreenSwap screenChange, Screen nextScreen) {
-        return getViewControllerInflater().inflateViewController(screenChange.scoop, nextScreen.getController(), this);
+    private View inflateControllerView(Screen nextScreen, final Scoop scoop) {
+        return getViewControllerInflater().inflateViewController(scoop, nextScreen.getController(), this);
     }
 
-    private View inflateLayout(ScreenSwap screenChange, Screen nextScreen) {
-        return getLayoutInflater().inflateView(screenChange.scoop, nextScreen, this);
+    private View inflateLayout(Screen nextScreen, final Scoop scoop) {
+        return getLayoutInflater().inflateView(scoop, nextScreen, this);
     }
 
     private ScreenTransition getTransition(ScreenSwap screenChange) {
@@ -185,6 +188,14 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         HandleBack handleBack = (HandleBack) object;
 
         return handleBack.onBack();
+    }
+
+    Scoop getActiveScoop(final RouteChange routeChange) {
+        Scoop rootScoop = Scoop.fromView(this);
+
+        Scoop currentScreenScoop = Scoop.fromView(active);
+
+        return getScreenScooper().create(rootScoop, currentScreenScoop, routeChange.fromPath, routeChange.toPath);
     }
 
     private TransitionListener getTransitionListener() {

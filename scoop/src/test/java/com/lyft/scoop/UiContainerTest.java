@@ -50,7 +50,7 @@ public class UiContainerTest {
     }
 
     private ScreenSwap createRouteChange(final Screen previous, final Screen next) {
-        return new ScreenSwap(null, previous, next, null);
+        return new ScreenSwap(previous, next, null);
     }
 
     @EnterTransition(ForwardSlideTransition.class)
