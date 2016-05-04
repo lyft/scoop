@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 0.3.17 *(2016-5-3)*
+----------------------------
+
+Moving ScreenScooper into the UIContainer to ensure active screen is always used.
+
 Version 0.3.16 *(2016-5-3)*
 ----------------------------
 
