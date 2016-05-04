@@ -14,9 +14,8 @@ public class RouteChange {
         this.direction = direction;
     }
 
-    public ScreenSwap toScreenSwap(Scoop scoop) {
-        return new ScreenSwap(scoop,
-                this.previousScreen(),
+    public ScreenSwap toScreenSwap() {
+        return new ScreenSwap(this.previousScreen(),
                 this.nextScreen(),
                 this.direction);
     }
