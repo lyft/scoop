@@ -3,8 +3,7 @@ package com.example.scoop.basics;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.scoop.DialogRouter;
 import com.example.scoop.basics.scoop.DialogUiContainer;
@@ -12,17 +11,21 @@ import com.example.scoop.basics.scoop.MainUiContainer;
 import com.example.scoop.basics.ui.DemoScreen;
 import com.lyft.scoop.Scoop;
 import com.lyft.scoop.dagger.DaggerInjector;
-import dagger.ObjectGraph;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import dagger.ObjectGraph;
 import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Bind(R.id.screen_container)
+    @BindView(R.id.screen_container)
     MainUiContainer mainUiContainer;
 
-    @Bind(R.id.dialog_container)
+    @BindView(R.id.dialog_container)
     DialogUiContainer dialogContainer;
 
     @Inject
