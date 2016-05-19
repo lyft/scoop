@@ -11,11 +11,11 @@ import android.view.ViewGroup;
 import com.lyft.scoop.TransitionListener;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
-public class VeritcalSlideTransition extends ObjectAnimatorTransition {
+public class VerticalSlideTransition extends ObjectAnimatorTransition {
 
     private boolean isUpward;
 
-    public VeritcalSlideTransition(boolean downward) {
+    public VerticalSlideTransition(boolean downward) {
         this.isUpward = downward;
     }
 
