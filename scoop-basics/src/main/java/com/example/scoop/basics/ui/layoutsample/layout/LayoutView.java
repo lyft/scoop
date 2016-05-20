@@ -4,15 +4,18 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.ui.layoutsample.LayoutInjectData;
 import com.example.scoop.basics.ui.layoutsample.screen.LayoutScreen;
 import com.lyft.scoop.Screen;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class LayoutView extends FrameLayout{
 
@@ -22,10 +25,10 @@ public class LayoutView extends FrameLayout{
     @Inject
     LayoutInjectData layoutInjectData;
 
-    @Bind(R.id.inject_text_view)
+    @BindView(R.id.inject_text_view)
     TextView injectTextView;
 
-    @Bind(R.id.param_text_view)
+    @BindView(R.id.param_text_view)
     TextView paramTextView;
 
     public LayoutView(Context context, AttributeSet attrs) {

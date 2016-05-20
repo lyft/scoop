@@ -1,18 +1,28 @@
 package com.example.scoop.basics.scoop;
 
 import android.view.View;
-import butterknife.ButterKnife;
+
 import com.lyft.scoop.ViewBinder;
+
+import java.util.WeakHashMap;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class ButterKnifeViewBinder implements ViewBinder {
 
+    private WeakHashMap<Object, Unbinder> unbinders = new WeakHashMap<>();
+
     @Override
     public void bind(Object object, View view) {
-        ButterKnife.bind(object, view);
+        unbinders.put(object, ButterKnife.bind(object, view));
     }
 
     @Override
     public void unbind(Object object) {
-        ButterKnife.unbind(object);
+        Unbinder unbinder = unbinders.get(object);
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
     }
 }

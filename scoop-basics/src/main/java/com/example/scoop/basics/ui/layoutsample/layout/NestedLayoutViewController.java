@@ -3,21 +3,24 @@ package com.example.scoop.basics.ui.layoutsample.layout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import butterknife.Bind;
-import butterknife.OnClick;
+
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.ui.layoutsample.module.NestedViewModule;
 import com.lyft.scoop.ViewController;
 import com.lyft.scoop.dagger.DaggerInjector;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 public class NestedLayoutViewController extends ViewController {
 
-    @Bind(R.id.nested_layout_parent)
+    @BindView(R.id.nested_layout_parent)
     FrameLayout nestedLayoutParent;
 
-    @Bind(R.id.add_view_button)
+    @BindView(R.id.add_view_button)
     Button button;
 
     private AppRouter appRouter;
