@@ -6,8 +6,6 @@ import android.view.ViewGroup;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.example.scoop.basics.scoop.AppRouter;
-import com.example.scoop.basics.scoop.DialogRouter;
-import com.example.scoop.basics.scoop.DialogUiContainer;
 import com.example.scoop.basics.scoop.MainUiContainer;
 import com.example.scoop.basics.ui.DemoScreen;
 import com.lyft.scoop.Scoop;
@@ -22,14 +20,8 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.screen_container)
     MainUiContainer mainUiContainer;
 
-    @Bind(R.id.dialog_container)
-    DialogUiContainer dialogContainer;
-
     @Inject
     AppRouter appRouter;
-
-    @Inject
-    DialogRouter dialogRouter;
 
     private CompositeSubscription subscriptions = new CompositeSubscription();
     private Scoop activityScoop;
@@ -85,15 +77,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        if (dialogContainer.onBack()) {
-            return;
-        }
-
         if (mainUiContainer.onBack()) {
-            return;
-        }
-
-        if (dialogRouter.dismiss()) {
             return;
         }
 

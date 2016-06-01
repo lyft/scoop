@@ -1,6 +1,5 @@
 package com.example.scoop.basics;
 
-import com.example.scoop.basics.scoop.DialogUiContainer;
 import com.example.scoop.basics.scoop.MainUiContainer;
 import dagger.Provides;
 
@@ -8,7 +7,6 @@ import dagger.Provides;
         injects = {
                 MainActivity.class,
                 MainUiContainer.class,
-                DialogUiContainer.class
         },
         addsTo = AppModule.class,
         includes = {

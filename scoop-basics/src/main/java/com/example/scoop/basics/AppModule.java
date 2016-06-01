@@ -5,7 +5,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import com.example.scoop.basics.androidservices.SampleIntentService;
 import com.example.scoop.basics.scoop.AppRouter;
-import com.example.scoop.basics.scoop.DialogRouter;
 import com.lyft.scoop.ScreenScoopFactory;
 import com.lyft.scoop.ScreenScooper;
 import com.lyft.scoop.dagger.DaggerScreenScoopFactory;
@@ -44,12 +43,6 @@ public class AppModule {
     @Provides
     AppRouter provideAppRouter() {
         return new AppRouter(false);
-    }
-
-    @Singleton
-    @Provides
-    DialogRouter provideDialogRouter() {
-        return new DialogRouter(new AppRouter(true));
     }
 
     @Singleton
