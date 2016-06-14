@@ -45,14 +45,6 @@ public class DemosController extends ViewController {
     @Override
     public void onAttach() {
         super.onAttach();
-        Timber.d("asdf show 1");
-        dialogRouter.show(new Dialog());
-
-        Timber.d("asdf dismiss");
-        dialogRouter.dismiss();
-
-        Timber.d("asdf show 2");
-        dialogRouter.show(new Dialog());
     }
 
     @Override
