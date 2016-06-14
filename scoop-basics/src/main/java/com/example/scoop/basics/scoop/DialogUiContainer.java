@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import com.example.scoop.basics.rx.ViewSubscriptions;
 import com.example.scoop.basics.ui.Keyboard;
+import com.example.scoop.basics.ui.transitions.dialogtransitions.screen.Dialog;
 import com.lyft.scoop.LayoutInflater;
 import com.lyft.scoop.RouteChange;
 import com.lyft.scoop.ScreenScooper;
@@ -58,6 +59,8 @@ public class DialogUiContainer extends UiContainer {
             return;
         }
 
+        dialogRouter.show(new Dialog());
+        dialogRouter.dismiss();
         subscriptions.add(dialogRouter.observeDialogChange(), onDialogChanged);
     }
 

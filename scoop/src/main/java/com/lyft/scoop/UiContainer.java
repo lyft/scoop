@@ -2,6 +2,7 @@ package com.lyft.scoop;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -150,6 +151,10 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
 
         isTransitioning = true;
         final ScreenTransition transition = getTransition(screenSwap);
+
+        if (active == null) {
+            Log.d("UiContainer", "asdf null active view");
+        }
         transition.transition(this, prevView, active, this);
     }
 
