@@ -10,25 +10,30 @@ import com.example.scoop.basics.R;
 import com.example.scoop.basics.androidservices.SampleIntentService;
 import com.example.scoop.basics.rx.ViewSubscriptions;
 import com.example.scoop.basics.scoop.AppRouter;
+import com.example.scoop.basics.scoop.DialogRouter;
 import com.example.scoop.basics.ui.layoutsample.screen.LayoutScreen;
 import com.example.scoop.basics.ui.layoutsample.screen.NestedLayoutScreen;
 import com.example.scoop.basics.ui.navigationsample.screen.AScreen;
 import com.example.scoop.basics.ui.paramsample.screen.ParametrizedScreen;
 import com.example.scoop.basics.ui.transitions.TransitionsScreen;
+import com.example.scoop.basics.ui.transitions.dialogtransitions.screen.Dialog;
 import com.example.scoop.basics.ui.wizardsample.screen.EnterFirstNameScreen;
 import com.lyft.scoop.ViewController;
 import javax.inject.Inject;
+import timber.log.Timber;
 
 public class DemosController extends ViewController {
 
     private AppRouter appRouter;
+    private final DialogRouter dialogRouter;
     private NotificationManager notificationManager;
 
     ViewSubscriptions viewSubscriptions = new ViewSubscriptions();
 
     @Inject
-    public DemosController(AppRouter appRouter, NotificationManager notificationManager) {
+    public DemosController(AppRouter appRouter, DialogRouter dialogRouter, NotificationManager notificationManager) {
         this.appRouter = appRouter;
+        this.dialogRouter = dialogRouter;
         this.notificationManager = notificationManager;
     }
 
@@ -40,6 +45,14 @@ public class DemosController extends ViewController {
     @Override
     public void onAttach() {
         super.onAttach();
+        Timber.d("asdf show 1");
+        dialogRouter.show(new Dialog());
+
+        Timber.d("asdf dismiss");
+        dialogRouter.dismiss();
+
+        Timber.d("asdf show 2");
+        dialogRouter.show(new Dialog());
     }
 
     @Override
