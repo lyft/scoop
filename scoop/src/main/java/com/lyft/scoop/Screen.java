@@ -10,6 +10,9 @@ public class Screen {
 
     private transient SparseArray<Parcelable> viewState;
 
+    private ScreenResult currentResult;
+    private ScreenResult previousResult;
+
     public Screen() {
         viewState = new SparseArray<Parcelable>();
     }
@@ -80,5 +83,21 @@ public class Screen {
 
     public boolean equals(Object a, Object b) {
         return (a == b) || (a != null && a.equals(b));
+    }
+
+    public void setScreenResult(ScreenResult result) {
+        this.currentResult = result;
+    }
+
+    ScreenResult getScreenResult() {
+        return this.currentResult;
+    }
+
+    public ScreenResult getPreviousScreenResult() {
+        return previousResult;
+    }
+
+    void setPreviousScreenResult(ScreenResult previousResult) {
+        this.previousResult = previousResult;
     }
 }

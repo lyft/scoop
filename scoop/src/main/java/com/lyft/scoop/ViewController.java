@@ -11,6 +11,10 @@ public abstract class ViewController {
     private Scoop scoop;
     private View view;
 
+    public void setResult(ScreenResult screenResult) {
+        Screen.fromController(this).setScreenResult(screenResult);
+    }
+
     final void attach(View view) {
         this.view = view;
         Scoop.viewBinder.bind(this, view);

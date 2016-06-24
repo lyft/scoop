@@ -4,6 +4,7 @@ import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.ui.transitions.standardtransitions.screen.HorizontalSlideScreen;
+import com.lyft.scoop.ScreenResult;
 import com.lyft.scoop.ViewController;
 import javax.inject.Inject;
 
@@ -23,6 +24,10 @@ public class FadeController extends ViewController {
     @Override
     public void onAttach() {
         super.onAttach();
+
+        FadeResult fadeResult = new FadeResult();
+        fadeResult.setMessage("hello");
+        setResult(fadeResult);
     }
 
     @Override
@@ -33,5 +38,17 @@ public class FadeController extends ViewController {
     @OnClick(R.id.next_button)
     public void goNext() {
         appRouter.goTo(new HorizontalSlideScreen());
+    }
+
+    public static class FadeResult extends ScreenResult {
+        String message;
+
+        void setMessage(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return this.message;
+        }
     }
 }
