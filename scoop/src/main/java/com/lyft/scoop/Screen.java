@@ -85,7 +85,7 @@ public class Screen {
         return (a == b) || (a != null && a.equals(b));
     }
 
-    public void setScreenResult(ScreenResult result) {
+    void setScreenResult(ScreenResult result) {
         this.currentResult = result;
     }
 

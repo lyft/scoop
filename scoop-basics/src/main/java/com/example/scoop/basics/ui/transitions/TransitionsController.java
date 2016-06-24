@@ -2,7 +2,6 @@ package com.example.scoop.basics.ui.transitions;
 
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
-import com.example.scoop.basics.rx.RxViewController;
 import com.example.scoop.basics.rx.ViewSubscriptions;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.scoop.DialogRouter;
@@ -10,9 +9,10 @@ import com.example.scoop.basics.ui.transitions.customtransition.screen.AutoTrans
 import com.example.scoop.basics.ui.transitions.dialogtransitions.screen.Dialog;
 import com.example.scoop.basics.ui.transitions.dialogtransitions.screen.DialogDisableOnBack;
 import com.example.scoop.basics.ui.transitions.standardtransitions.screen.FadeScreen;
+import com.lyft.scoop.ViewController;
 import javax.inject.Inject;
 
-public class TransitionsController extends RxViewController {
+public class TransitionsController extends ViewController {
 
     private AppRouter appRouter;
     private DialogRouter dialogRouter;
