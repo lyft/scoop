@@ -5,21 +5,26 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.androidservices.SampleIntentService;
+import com.example.scoop.basics.rx.RxBinder;
+import com.example.scoop.basics.rx.RxViewController;
 import com.example.scoop.basics.rx.ViewSubscriptions;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.ui.layoutsample.screen.LayoutScreen;
 import com.example.scoop.basics.ui.layoutsample.screen.NestedLayoutScreen;
 import com.example.scoop.basics.ui.navigationsample.screen.AScreen;
 import com.example.scoop.basics.ui.paramsample.screen.ParametrizedScreen;
+import com.example.scoop.basics.ui.resultsample.controller.ResultViewController;
+import com.example.scoop.basics.ui.resultsample.screen.ResultScreen;
 import com.example.scoop.basics.ui.transitions.TransitionsScreen;
 import com.example.scoop.basics.ui.wizardsample.screen.EnterFirstNameScreen;
-import com.lyft.scoop.ViewController;
 import javax.inject.Inject;
+import rx.functions.Action1;
 
-public class DemosController extends ViewController {
+public class DemosController extends RxViewController {
 
     private AppRouter appRouter;
     private NotificationManager notificationManager;
@@ -40,6 +45,8 @@ public class DemosController extends ViewController {
     @Override
     public void onAttach() {
         super.onAttach();
+
+        new RxBinder().bind(observePreviousResult(ResultViewController.InputResult.class), onResultScreenResult);
     }
 
     @Override
@@ -97,4 +104,16 @@ public class DemosController extends ViewController {
 
         notificationManager.notify(100, notification);
     }
+
+    @OnClick(R.id.result_button)
+    public void goToResultSample() {
+        appRouter.goTo(new ResultScreen());
+    }
+
+    private Action1<ResultViewController.InputResult> onResultScreenResult = new Action1<ResultViewController.InputResult>() {
+        @Override
+        public void call(ResultViewController.InputResult screenResult) {
+            Toast.makeText(getView().getContext(), "Input was: " + screenResult.getResult(), Toast.LENGTH_LONG).show();
+        }
+    };
 }
