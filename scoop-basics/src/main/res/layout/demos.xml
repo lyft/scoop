@@ -1,57 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/window_background"
     >
-    <Button
-        android:id="@+id/navigation_sample_button"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/span80"
-        android:text="Navigation sample"
-        />
 
-    <Button
-        android:id="@+id/parametrized_button"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/span80"
-        android:text="Parametrized screen"
-        />
+        android:layout_height="wrap_content"
+        android:background="@color/window_background"
+        android:orientation="vertical"
+        >
 
-    <Button
-        android:id="@+id/transitions_button"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/span80"
-        android:text="Transitions"
-        />
+        <Button
+            android:id="@+id/navigation_sample_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/span80"
+            android:text="Navigation sample"
+            />
 
-    <Button
-        android:id="@+id/wizard_sample_button"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/span80"
-        android:text="Wizard sample"
-        />
+        <Button
+            android:id="@+id/parametrized_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/span80"
+            android:text="Parametrized screen"
+            />
 
-    <Button
-        android:id="@+id/layout_sample_button"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/span80"
-        android:text="Layout sample"
-        />
+        <Button
+            android:id="@+id/transitions_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/span80"
+            android:text="Transitions"
+            />
 
-    <Button
-        android:id="@+id/nested_layout_sample_button"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/span80"
-        android:text="Nested layout sample"
-        />
+        <Button
+            android:id="@+id/wizard_sample_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/span80"
+            android:text="Wizard sample"
+            />
 
-    <Button
-        android:id="@+id/notification_button"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/span80"
-        android:text="Notification sample"
-        />
+        <Button
+            android:id="@+id/layout_sample_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/span80"
+            android:text="Layout sample"
+            />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/nested_layout_sample_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/span80"
+            android:text="Nested layout sample"
+            />
+
+        <Button
+            android:id="@+id/notification_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/span80"
+            android:text="Notification sample"
+            />
+
+        <Button
+            android:id="@+id/result_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/span80"
+            android:text="Result sample"
+            />
+    </LinearLayout>
+</ScrollView>

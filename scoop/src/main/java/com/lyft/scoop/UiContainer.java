@@ -141,6 +141,10 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         if (nextScreen == null) {
             active = null;
         } else if (nextScreen.getController() != null) {
+            if (previousScreen != null) {
+                ScreenResult previousScreenResult = previousScreen.getScreenResult();
+                nextScreen.setPreviousScreenResult(previousScreenResult);
+            }
             active = inflateControllerView(nextScreen, currentScoop);
             nextScreen.restoreViewState(active);
         } else {
