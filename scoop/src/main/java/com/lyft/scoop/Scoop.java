@@ -5,7 +5,6 @@ import android.content.ContextWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -18,7 +17,7 @@ public final class Scoop {
     private String name;
     private Scoop parent;
     private Map<String, Object> services;
-    private HashMap<String, Scoop> children = new LinkedHashMap<>();
+    private Map<String, Scoop> children = new LinkedHashMap<>();
     private boolean destroyed;
 
     private Scoop(String name, Scoop parent, Map<String, Object> services) {
