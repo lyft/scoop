@@ -4,6 +4,8 @@ import android.support.multidex.MultiDexApplication;
 import com.example.scoop.basics.scoop.ButterKnifeViewBinder;
 import com.facebook.stetho.Stetho;
 import com.lyft.scoop.Scoop;
+import com.lyft.scoop.ViewBinder;
+import com.lyft.scoop.ViewBinderFactory;
 import dagger.ObjectGraph;
 import timber.log.Timber;
 
@@ -20,7 +22,7 @@ public class App extends MultiDexApplication {
 
         Timber.d("onCreate");
 
-        Scoop.setViewBinder(new ButterKnifeViewBinder());
+        Scoop.setViewBinderFactory(VIEW_BINDER_FACTORY);
 
         applicationGraph = ObjectGraph.create(new AppModule(this));
     }
@@ -28,4 +30,11 @@ public class App extends MultiDexApplication {
     public ObjectGraph getApplicationGraph() {
         return applicationGraph;
     }
+
+    private static final ViewBinderFactory VIEW_BINDER_FACTORY = new ViewBinderFactory() {
+        @Override
+        public ViewBinder create(Object object) {
+            return new ButterKnifeViewBinder();
+        }
+    };
 }

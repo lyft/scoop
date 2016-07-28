@@ -13,7 +13,7 @@ import java.util.Set;
 
 public final class Scoop {
 
-    static ViewBinder viewBinder = new NoOpViewBinder();
+    static ViewBinderFactory viewBinderFactory = new NoOpViewBinderFactory();
 
     private String name;
     private Scoop parent;
@@ -108,8 +108,8 @@ public final class Scoop {
         }
     }
 
-    public static void setViewBinder(ViewBinder binder) {
-        viewBinder = binder;
+    public static void setViewBinderFactory(ViewBinderFactory factory) {
+        viewBinderFactory = factory;
     }
 
     public static Scoop fromView(View view) {
