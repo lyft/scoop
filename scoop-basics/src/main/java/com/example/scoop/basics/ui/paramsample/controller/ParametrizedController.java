@@ -1,17 +1,16 @@
 package com.example.scoop.basics.ui.paramsample.controller;
 
-import android.view.View;
 import android.widget.TextView;
-import butterknife.Bind;
+import butterknife.BindView;
 import com.example.scoop.basics.R;
+import com.example.scoop.basics.ui.BaseViewController;
 import com.example.scoop.basics.ui.paramsample.screen.ParametrizedScreen;
 import com.lyft.scoop.Screen;
-import com.lyft.scoop.ViewController;
 import javax.inject.Inject;
 
-public class ParametrizedController extends ViewController {
+public class ParametrizedController extends BaseViewController {
 
-    @Bind(R.id.param_text_view)
+    @BindView(R.id.param_text_view)
     TextView paramTextView;
 
     @Inject

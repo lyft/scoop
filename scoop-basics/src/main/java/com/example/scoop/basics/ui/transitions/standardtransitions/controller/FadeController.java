@@ -3,11 +3,12 @@ package com.example.scoop.basics.ui.transitions.standardtransitions.controller;
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.AppRouter;
+import com.example.scoop.basics.ui.BaseViewController;
 import com.example.scoop.basics.ui.transitions.standardtransitions.screen.HorizontalSlideScreen;
-import com.lyft.scoop.ViewController;
 import javax.inject.Inject;
 
-public class FadeController extends ViewController {
+public class FadeController extends BaseViewController {
+
     private AppRouter appRouter;
 
     @Inject

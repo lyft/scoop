@@ -12,8 +12,6 @@ import java.util.Set;
 
 public final class Scoop {
 
-    static ViewBinderFactory viewBinderFactory = new NoOpViewBinderFactory();
-
     private String name;
     private Scoop parent;
     private Map<String, Object> services;
@@ -105,10 +103,6 @@ public final class Scoop {
         public Scoop build() {
             return new Scoop(name, parent, services);
         }
-    }
-
-    public static void setViewBinderFactory(ViewBinderFactory factory) {
-        viewBinderFactory = factory;
     }
 
     public static Scoop fromView(View view) {

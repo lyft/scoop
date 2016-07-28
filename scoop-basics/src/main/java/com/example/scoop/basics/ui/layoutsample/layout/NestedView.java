@@ -4,16 +4,16 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.ui.layoutsample.LayoutInjectData;
 import com.lyft.scoop.dagger.DaggerInjector;
 import javax.inject.Inject;
 
-public class NestedView extends LinearLayout{
+public class NestedView extends LinearLayout {
 
-    @Bind(R.id.nested_text_view)
+    @BindView(R.id.nested_text_view)
     TextView nestedTextView;
 
     @Inject

@@ -11,6 +11,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 
 public class DaggerViewControllerInflaterTest {
+
     @Mock
     DaggerInjector mockDaggerInjector;
 

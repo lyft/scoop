@@ -3,7 +3,7 @@ package com.example.scoop.basics;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.scoop.DialogRouter;
@@ -19,10 +19,10 @@ import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Bind(R.id.screen_container)
+    @BindView(R.id.screen_container)
     MainUiContainer mainUiContainer;
 
-    @Bind(R.id.dialog_container)
+    @BindView(R.id.dialog_container)
     DialogUiContainer dialogContainer;
 
     @Inject
