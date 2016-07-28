@@ -10,12 +10,10 @@ public abstract class ViewController {
     private boolean attached;
     private Scoop scoop;
     private View view;
-    private ViewBinder viewBinder;
 
     final void attach(View view) {
         this.view = view;
-        this.viewBinder = scoop.viewBinderFactory.create(this);
-        this.viewBinder.bind(this, view);
+        Scoop.viewBinder.bind(this, view);
         view.setTag(VIEW_CONTROLLER_TAG, this);
         onAttach();
         this.attached = true;
@@ -32,11 +30,10 @@ public abstract class ViewController {
 
     final void detach(View view) {
         this.isDetaching = true;
-        if (this.attached) {
+        if(this.attached) {
             onDetach();
             view.setTag(VIEW_CONTROLLER_TAG, null);
-            this.viewBinder.unbind(this);
-            this.viewBinder = null;
+            Scoop.viewBinder.unbind(this);
             this.view = null;
             this.attached = false;
             this.isDetaching = false;
