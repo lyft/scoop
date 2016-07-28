@@ -14,7 +14,7 @@ public abstract class ViewController {
 
     final void attach(View view) {
         this.view = view;
-        this.viewBinder = scoop.viewBinderFactory.create(this);
+        this.viewBinder = Scoop.viewBinderFactory.create(this);
         this.viewBinder.bind(this, view);
         view.setTag(VIEW_CONTROLLER_TAG, this);
         onAttach();
