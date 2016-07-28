@@ -13,5 +13,5 @@ import com.lyft.scoop.transitions.FadeTransition;
 @DaggerModule(FadeModule.class)
 @EnterTransition(FadeTransition.class)
 @ExitTransition(FadeTransition.class)
-public class FadeScreen extends Screen{
+public class FadeScreen extends Screen {
 }

@@ -1,6 +1,7 @@
 package com.example.scoop.basics.ui.layoutsample;
 
 public class LayoutInjectData {
+
     private final String data;
 
     public LayoutInjectData(final String data) {

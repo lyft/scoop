@@ -14,5 +14,5 @@ import com.lyft.scoop.transitions.UpwardSlideTransition;
 @DaggerModule(VerticalSlideModule.class)
 @EnterTransition(UpwardSlideTransition.class)
 @ExitTransition(DownwardSlideTransition.class)
-public class VerticalSlideScreen extends Screen{
+public class VerticalSlideScreen extends Screen {
 }

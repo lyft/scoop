@@ -11,6 +11,7 @@ import dagger.Provides;
         library = true
 )
 public class NestedViewModule {
+
     @Provides
     public LayoutInjectData provideInjectData() {
         return new LayoutInjectData("This is injected data.");

@@ -13,5 +13,5 @@ import com.lyft.scoop.transitions.FadeTransition;
 @DaggerModule(EnterFirstNameModule.class)
 @EnterTransition(FadeTransition.class)
 @ExitTransition(FadeTransition.class)
-public class EnterFirstNameScreen extends Screen{
+public class EnterFirstNameScreen extends Screen {
 }

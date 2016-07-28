@@ -9,6 +9,7 @@ import com.example.scoop.basics.ui.navigationsample.screen.BScreen;
 import javax.inject.Inject;
 
 public class AController extends BaseViewController {
+
     private static final String TOAST_TEXT = "Successfully called \"getView()\"";
 
     private AppRouter appRouter;

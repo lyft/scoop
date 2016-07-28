@@ -13,5 +13,5 @@ import com.lyft.scoop.dagger.DaggerModule;
 @DaggerModule(AutoTransitionStartModule.class)
 @EnterTransition(AutoTransition.class)
 @ExitTransition(AutoTransition.class)
-public class AutoTransitionStartScreen extends Screen{
+public class AutoTransitionStartScreen extends Screen {
 }
