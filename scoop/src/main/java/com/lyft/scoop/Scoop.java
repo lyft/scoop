@@ -5,7 +5,6 @@ import android.content.ContextWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -13,12 +12,12 @@ import java.util.Set;
 
 public final class Scoop {
 
-    static ViewBinder viewBinder = new NoOpViewBinder();
+    static ViewBinderFactory viewBinderFactory = new NoOpViewBinderFactory();
 
     private String name;
     private Scoop parent;
     private Map<String, Object> services;
-    private HashMap<String, Scoop> children = new LinkedHashMap<>();
+    private Map<String, Scoop> children = new LinkedHashMap<>();
     private boolean destroyed;
 
     private Scoop(String name, Scoop parent, Map<String, Object> services) {
@@ -108,8 +107,8 @@ public final class Scoop {
         }
     }
 
-    public static void setViewBinder(ViewBinder binder) {
-        viewBinder = binder;
+    public static void setViewBinderFactory(ViewBinderFactory factory) {
+        viewBinderFactory = factory;
     }
 
     public static Scoop fromView(View view) {
