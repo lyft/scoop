@@ -8,6 +8,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 
 public class RouteChangeTest {
+
     private static final TransitionDirection ENTER_TRANSITION = TransitionDirection.ENTER;
 
     @Test

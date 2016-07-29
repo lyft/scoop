@@ -1,6 +1,7 @@
 package com.lyft.scoop;
 
 public class ScreenSwap {
+
     public final Screen previous;
     public final Screen next;
     public final TransitionDirection direction;

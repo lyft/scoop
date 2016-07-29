@@ -31,7 +31,6 @@ public class ViewControllerInflater {
             @Override
             public void onViewAttachedToWindow(View v) {
                 viewController.attach(view);
-
             }
 
             @Override

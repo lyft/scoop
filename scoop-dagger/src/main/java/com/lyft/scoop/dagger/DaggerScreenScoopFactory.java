@@ -12,7 +12,7 @@ public class DaggerScreenScoopFactory extends ScreenScoopFactory {
 
         DaggerModule daggerModule = screen.getClass().getAnnotation(DaggerModule.class);
 
-        if(daggerModule == null) {
+        if (daggerModule == null) {
             return scoopBuilder.service(DaggerInjector.SERVICE_NAME, parentDagger).build();
         }
 
