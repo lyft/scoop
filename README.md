@@ -52,7 +52,7 @@ ViewController
 
 This class manages a portion of the user interface as well as the interactions between that interface and the underlying data. Similar to an activity or a fragment, `ViewController` requires you to specify the layout id and has lifecycle methods. However, a `ViewController` lifecycle only has two states: "attached" and "detached".
 
-It also automatically applies view binders like [Butterknife](https://github.com/JakeWharton/butterknife). So you don't need to explicitly call ButterKnife.bind.
+You can also [use view binders like Butterknife](https://github.com/lyft/scoop/blob/master/scoop-basics/src/main/java/com/example/scoop/basics/ui/BaseViewController.java). So you don't need to explicitly call `ButterKnife.bind/unbind`.
 
 ```java
 
