@@ -12,6 +12,7 @@ import dagger.Provides;
         library = true
 )
 public class LayoutModule {
+
     @Provides
     public LayoutInjectData provideInjectData() {
         return new LayoutInjectData("This is injected data.");

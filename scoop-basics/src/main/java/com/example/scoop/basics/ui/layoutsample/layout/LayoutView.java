@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
@@ -14,7 +14,7 @@ import com.example.scoop.basics.ui.layoutsample.screen.LayoutScreen;
 import com.lyft.scoop.Screen;
 import javax.inject.Inject;
 
-public class LayoutView extends FrameLayout{
+public class LayoutView extends FrameLayout {
 
     @Inject
     AppRouter appRouter;
@@ -22,10 +22,10 @@ public class LayoutView extends FrameLayout{
     @Inject
     LayoutInjectData layoutInjectData;
 
-    @Bind(R.id.inject_text_view)
+    @BindView(R.id.inject_text_view)
     TextView injectTextView;
 
-    @Bind(R.id.param_text_view)
+    @BindView(R.id.param_text_view)
     TextView paramTextView;
 
     public LayoutView(Context context, AttributeSet attrs) {
@@ -44,7 +44,6 @@ public class LayoutView extends FrameLayout{
         final LayoutScreen layoutScreen = Screen.fromView(this);
         paramTextView.setText(layoutScreen.getParam());
         injectTextView.setText(layoutInjectData.getData());
-
     }
 
     @OnClick(R.id.go_back_button)

@@ -3,10 +3,10 @@ package com.example.scoop.basics.ui.transitions.dialogtransitions.controller;
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.DialogRouter;
-import com.lyft.scoop.ViewController;
+import com.example.scoop.basics.ui.BaseViewController;
 import javax.inject.Inject;
 
-public class DialogController extends ViewController {
+public class DialogController extends BaseViewController {
 
     private DialogRouter dialogRouter;
 

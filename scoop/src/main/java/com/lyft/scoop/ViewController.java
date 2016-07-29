@@ -4,18 +4,15 @@ import android.view.View;
 
 public abstract class ViewController {
 
-    static final int VIEW_CONTROLLER_TAG = 0x80000001;
+    private static final int VIEW_CONTROLLER_TAG = 0x80000001;
 
     private boolean isDetaching = false;
     private boolean attached;
     private Scoop scoop;
     private View view;
-    private ViewBinder viewBinder;
 
     final void attach(View view) {
         this.view = view;
-        this.viewBinder = scoop.viewBinderFactory.create(this);
-        this.viewBinder.bind(this, view);
         view.setTag(VIEW_CONTROLLER_TAG, this);
         onAttach();
         this.attached = true;
@@ -35,8 +32,6 @@ public abstract class ViewController {
         if (this.attached) {
             onDetach();
             view.setTag(VIEW_CONTROLLER_TAG, null);
-            this.viewBinder.unbind(this);
-            this.viewBinder = null;
             this.view = null;
             this.attached = false;
             this.isDetaching = false;

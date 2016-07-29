@@ -4,10 +4,10 @@ import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.rx.ViewSubscriptions;
 import com.example.scoop.basics.scoop.AppRouter;
-import com.lyft.scoop.ViewController;
+import com.example.scoop.basics.ui.BaseViewController;
 import javax.inject.Inject;
 
-public class AutoTransitionEndController extends ViewController {
+public class AutoTransitionEndController extends BaseViewController {
 
     private AppRouter appRouter;
 

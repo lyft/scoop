@@ -16,10 +16,9 @@ import com.example.scoop.basics.ui.navigationsample.screen.AScreen;
 import com.example.scoop.basics.ui.paramsample.screen.ParametrizedScreen;
 import com.example.scoop.basics.ui.transitions.TransitionsScreen;
 import com.example.scoop.basics.ui.wizardsample.screen.EnterFirstNameScreen;
-import com.lyft.scoop.ViewController;
 import javax.inject.Inject;
 
-public class DemosController extends ViewController {
+public class DemosController extends BaseViewController {
 
     private AppRouter appRouter;
     private NotificationManager notificationManager;

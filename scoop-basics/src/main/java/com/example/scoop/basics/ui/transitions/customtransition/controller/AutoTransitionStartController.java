@@ -4,11 +4,11 @@ import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.rx.ViewSubscriptions;
 import com.example.scoop.basics.scoop.AppRouter;
+import com.example.scoop.basics.ui.BaseViewController;
 import com.example.scoop.basics.ui.transitions.customtransition.screen.AutoTransitionEndScreen;
-import com.lyft.scoop.ViewController;
 import javax.inject.Inject;
 
-public class AutoTransitionStartController extends ViewController {
+public class AutoTransitionStartController extends BaseViewController {
 
     private AppRouter appRouter;
 

@@ -16,6 +16,7 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = Config.NONE)
 public class ViewControllerTest {
+
     private static final String TEST_RESULT = "TEST_RESULT";
 
     private MockViewController viewController;
@@ -26,6 +27,7 @@ public class ViewControllerTest {
         viewController = new MockViewController();
         mockView = new TestView(RuntimeEnvironment.application);
     }
+
     @Test
     public void onAttachFirst() {
         viewController.attach(mockView);
@@ -43,6 +45,7 @@ public class ViewControllerTest {
     }
 
     private class MockViewController extends ViewController {
+
         private String variable = null;
 
         @Override

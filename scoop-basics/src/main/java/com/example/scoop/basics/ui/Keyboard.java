@@ -11,12 +11,13 @@ import android.view.inputmethod.InputMethodManager;
 import java.security.InvalidParameterException;
 
 public final class Keyboard {
+
     private static InputMethodManager getInputManager(Context paramContext) {
         return (InputMethodManager) paramContext.getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
-    public static void hideKeyboard(Context paramContext, IBinder paramIBinder) {
-        getInputManager(paramContext).hideSoftInputFromWindow(paramIBinder, 0);
+    public static void hideKeyboard(Context paramContext, IBinder paramIBindViewer) {
+        getInputManager(paramContext).hideSoftInputFromWindow(paramIBindViewer, 0);
     }
 
     public static void hideKeyboard(View paramView) {
@@ -34,11 +35,13 @@ public final class Keyboard {
     }
 
     public static void showOnStart(View view) {
-        setSoftInputMode(view, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED);
+        setSoftInputMode(view,
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED);
     }
 
     public static void hideOnStart(View view) {
-        setSoftInputMode(view, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        setSoftInputMode(view,
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     private static void setSoftInputMode(View view, int inputMode) {

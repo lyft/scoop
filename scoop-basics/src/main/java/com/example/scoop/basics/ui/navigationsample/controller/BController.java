@@ -1,14 +1,13 @@
 package com.example.scoop.basics.ui.navigationsample.controller;
 
-import android.view.View;
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.AppRouter;
+import com.example.scoop.basics.ui.BaseViewController;
 import com.example.scoop.basics.ui.navigationsample.screen.CScreen;
-import com.lyft.scoop.ViewController;
 import javax.inject.Inject;
 
-public class BController extends ViewController {
+public class BController extends BaseViewController {
 
     private AppRouter appRouter;
 
@@ -25,7 +24,6 @@ public class BController extends ViewController {
     @Override
     public void onAttach() {
         super.onAttach();
-
     }
 
     @Override

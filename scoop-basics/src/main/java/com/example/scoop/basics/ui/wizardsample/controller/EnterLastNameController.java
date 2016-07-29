@@ -1,23 +1,22 @@
 package com.example.scoop.basics.ui.wizardsample.controller;
 
-import android.view.View;
 import android.widget.EditText;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.AppRouter;
+import com.example.scoop.basics.ui.BaseViewController;
 import com.example.scoop.basics.ui.Keyboard;
 import com.example.scoop.basics.ui.wizardsample.WizardSession;
 import com.example.scoop.basics.ui.wizardsample.screen.ConfirmationScreen;
-import com.lyft.scoop.ViewController;
 import javax.inject.Inject;
 
-public class EnterLastNameController extends ViewController {
+public class EnterLastNameController extends BaseViewController {
 
     private AppRouter appRouter;
     private WizardSession wizardSession;
 
-    @Bind(R.id.last_name_edit_text)
+    @BindView(R.id.last_name_edit_text)
     EditText lastNameEditText;
 
     @Inject

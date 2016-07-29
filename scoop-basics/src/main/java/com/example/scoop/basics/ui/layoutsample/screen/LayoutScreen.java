@@ -16,7 +16,7 @@ public class LayoutScreen extends Screen {
         this.param = param;
     }
 
-    public String getParam(){
+    public String getParam() {
         return this.param;
     }
 }

@@ -29,14 +29,16 @@ public class UiContainerTest {
     @Test
     public void enterTransitionWithoutDefaultConstructor() {
         exception.expect(RuntimeException.class);
-        final ScreenSwap screenSwap = createRouteChange(new ViewControllerWithTransitionWithoutDefaultConstructor(), new ViewControllerWithTransitionWithoutDefaultConstructor());
+        final ScreenSwap screenSwap = createRouteChange(new ViewControllerWithTransitionWithoutDefaultConstructor(),
+                new ViewControllerWithTransitionWithoutDefaultConstructor());
         UiContainer.getEnterTransition(screenSwap);
     }
 
     @Test
     public void exitTransitionWithoutDefaultConstructor() {
         exception.expect(RuntimeException.class);
-        final ScreenSwap screenSwap = createRouteChange(new ViewControllerWithTransitionWithoutDefaultConstructor(), new ViewControllerWithTransitionWithoutDefaultConstructor());
+        final ScreenSwap screenSwap = createRouteChange(new ViewControllerWithTransitionWithoutDefaultConstructor(),
+                new ViewControllerWithTransitionWithoutDefaultConstructor());
         UiContainer.getExitTransition(screenSwap);
     }
 

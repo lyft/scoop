@@ -4,11 +4,12 @@ import android.widget.Toast;
 import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.AppRouter;
+import com.example.scoop.basics.ui.BaseViewController;
 import com.example.scoop.basics.ui.navigationsample.screen.BScreen;
-import com.lyft.scoop.ViewController;
 import javax.inject.Inject;
 
-public class AController extends ViewController {
+public class AController extends BaseViewController {
+
     private static final String TOAST_TEXT = "Successfully called \"getView()\"";
 
     private AppRouter appRouter;

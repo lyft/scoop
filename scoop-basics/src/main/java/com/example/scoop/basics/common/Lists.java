@@ -37,7 +37,7 @@ public class Lists {
         }
     }
 
-    public static <T1, T2> List<T2> map(List<T1> list, Func1<T1,T2> converter) {
+    public static <T1, T2> List<T2> map(List<T1> list, Func1<T1, T2> converter) {
         ArrayList<T2> mappedList = new ArrayList<>(list.size());
         for (T1 item : list) {
             mappedList.add(converter.call(item));
