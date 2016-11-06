@@ -20,54 +20,109 @@ public class UiContainerTest {
     public ExpectedException exception = ExpectedException.none();
 
     @Test
-    public void getTransitions() {
-        final ScreenSwap screenSwap = createRouteChange(new ViewControllerWithTransitions(), new ViewControllerWithTransitions());
-        Assert.assertNotNull(UiContainer.getEnterTransition(screenSwap));
-        Assert.assertNotNull(UiContainer.getExitTransition(screenSwap));
+    public void getTransitionsFromScreen() {
+        final ScreenSwap enterScreenSwap =
+                new ScreenSwap(new ScreenWithTransitions(), new ScreenWithTransitions(), TransitionDirection.ENTER);
+        final ScreenSwap exitScreenSwap =
+                new ScreenSwap(new ScreenWithTransitions(), new ScreenWithTransitions(), TransitionDirection.EXIT);
+
+        final Class<? extends ScreenTransition> enterTransition = UiContainer.getTransition(null, enterScreenSwap).getClass();
+        final Class<? extends ScreenTransition> exitTransition = UiContainer.getTransition(null, exitScreenSwap).getClass();
+
+        Assert.assertEquals(enterTransition, ForwardSlideTransition.class);
+        Assert.assertEquals(exitTransition, BackwardSlideTransition.class);
+    }
+
+    @Test
+    public void getTransitionsFromViewController() {
+        final ScreenSwap enterScreenSwap =
+                new ScreenSwap(new ScreenWithoutTransitions(), new ScreenWithoutTransitions(), TransitionDirection.ENTER);
+        final ScreenSwap exitScreenSwap =
+                new ScreenSwap(new ScreenWithoutTransitions(), new ScreenWithoutTransitions(), TransitionDirection.EXIT);
+
+        final ViewControllerWithTransitions viewControllerWithTransitions = new ViewControllerWithTransitions();
+        final Class<? extends ScreenTransition> enterTransition =
+                UiContainer.getTransition(viewControllerWithTransitions, enterScreenSwap).getClass();
+        final Class<? extends ScreenTransition> exitTransition =
+                UiContainer.getTransition(viewControllerWithTransitions, exitScreenSwap).getClass();
+
+        Assert.assertEquals(enterTransition, ForwardSlideTransition.class);
+        Assert.assertEquals(exitTransition, BackwardSlideTransition.class);
+    }
+
+    @Test
+    public void useInstantTransitionIfControllerHasNoTransitions() {
+        final ScreenSwap enterScreenSwap =
+                new ScreenSwap(new ScreenWithoutTransitions(), new ScreenWithoutTransitions(), TransitionDirection.ENTER);
+        final ScreenSwap exitScreenSwap =
+                new ScreenSwap(new ScreenWithoutTransitions(), new ScreenWithoutTransitions(), TransitionDirection.EXIT);
+        final ViewController viewControllerWithoutTransitions = new ViewControllerWithoutTransitions();
+
+        final Class<? extends ScreenTransition> enterTransition =
+                UiContainer.getTransition(viewControllerWithoutTransitions, enterScreenSwap).getClass();
+        final Class<? extends ScreenTransition> exitTransition =
+                UiContainer.getTransition(viewControllerWithoutTransitions, exitScreenSwap).getClass();
+
+        Assert.assertEquals(enterTransition, InstantTransition.class);
+        Assert.assertEquals(exitTransition, InstantTransition.class);
     }
 
     @Test
     public void enterTransitionWithoutDefaultConstructor() {
         exception.expect(RuntimeException.class);
-        final ScreenSwap screenSwap = createRouteChange(new ViewControllerWithTransitionWithoutDefaultConstructor(),
-                new ViewControllerWithTransitionWithoutDefaultConstructor());
-        UiContainer.getEnterTransition(screenSwap);
+        final ScreenSwap screenSwap =
+                new ScreenSwap(new ScreenWithTransitionWithoutDefaultConstructor(), new ScreenWithTransitionWithoutDefaultConstructor(),
+                        TransitionDirection.ENTER);
+        UiContainer.getTransition(null, screenSwap);
     }
 
     @Test
     public void exitTransitionWithoutDefaultConstructor() {
         exception.expect(RuntimeException.class);
-        final ScreenSwap screenSwap = createRouteChange(new ViewControllerWithTransitionWithoutDefaultConstructor(),
-                new ViewControllerWithTransitionWithoutDefaultConstructor());
-        UiContainer.getExitTransition(screenSwap);
-    }
-
-    @Test
-    public void useInstantTransitionIfControllerHasNoTransitions() {
-        final ScreenSwap screenSwap = createRouteChange(new ViewControllerWithoutTransitions(), new ViewControllerWithoutTransitions());
-        Assert.assertEquals(InstantTransition.class,
-                UiContainer.getEnterTransition(screenSwap).getClass());
-        Assert.assertEquals(InstantTransition.class,
-                UiContainer.getExitTransition(screenSwap).getClass());
-    }
-
-    private ScreenSwap createRouteChange(final Screen previous, final Screen next) {
-        return new ScreenSwap(previous, next, null);
+        final ScreenSwap screenSwap =
+                new ScreenSwap(new ScreenWithTransitionWithoutDefaultConstructor(), new ScreenWithTransitionWithoutDefaultConstructor(),
+                        TransitionDirection.ENTER);
+        UiContainer.getTransition(null, screenSwap);
     }
 
     @EnterTransition(ForwardSlideTransition.class)
     @ExitTransition(BackwardSlideTransition.class)
     @Layout(0)
-    static class ViewControllerWithTransitions extends Screen {
+    static class ScreenWithTransitions extends Screen {
     }
 
     @EnterTransition(HorizontalSlideTransition.class)
     @ExitTransition(HorizontalSlideTransition.class)
     @Layout(0)
-    static class ViewControllerWithTransitionWithoutDefaultConstructor extends Screen {
+    static class ScreenWithTransitionWithoutDefaultConstructor extends Screen {
     }
 
-    @Layout(0)
-    static class ViewControllerWithoutTransitions extends Screen {
+    static class ScreenWithoutTransitions extends Screen {
+    }
+
+    static class ViewControllerWithTransitions extends ViewController {
+
+        @Override
+        protected Class<? extends ScreenTransition> enterTransition() {
+            return ForwardSlideTransition.class;
+        }
+
+        @Override
+        protected Class<? extends ScreenTransition> exitTransition() {
+            return BackwardSlideTransition.class;
+        }
+
+        @Override
+        protected int layoutId() {
+            return 0;
+        }
+    }
+
+    static class ViewControllerWithoutTransitions extends ViewController {
+
+        @Override
+        protected int layoutId() {
+            return 0;
+        }
     }
 }

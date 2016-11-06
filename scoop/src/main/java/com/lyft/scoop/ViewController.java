@@ -65,4 +65,12 @@ public abstract class ViewController {
 
         return null;
     }
+
+    protected Class<? extends ScreenTransition> enterTransition() {
+        return null;
+    }
+
+    protected Class<? extends ScreenTransition> exitTransition() {
+        return null;
+    }
 }

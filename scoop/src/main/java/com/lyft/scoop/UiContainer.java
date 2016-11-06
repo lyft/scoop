@@ -133,6 +133,7 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         Screen previousScreen = screenSwap.previous;
         Screen nextScreen = screenSwap.next;
         final View prevView = active;
+        ViewController viewController = null;
 
         if (active != null && previousScreen != null) {
             previousScreen.saveViewState(active);
@@ -141,7 +142,8 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         if (nextScreen == null) {
             active = null;
         } else if (nextScreen.getController() != null) {
-            active = inflateControllerView(nextScreen, currentScoop);
+            viewController = getViewControllerInflater().inflateViewController(currentScoop, nextScreen.getController(), this);
+            active = inflateViewFromController(viewController, currentScoop);
             nextScreen.restoreViewState(active);
         } else {
             active = inflateLayout(nextScreen, currentScoop);
@@ -149,23 +151,29 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         }
 
         isTransitioning = true;
-        final ScreenTransition transition = getTransition(screenSwap);
+        final ScreenTransition transition = getTransition(viewController, screenSwap);
         transition.transition(this, prevView, active, this);
     }
 
-    private View inflateControllerView(Screen nextScreen, final Scoop scoop) {
-        return getViewControllerInflater().inflateViewController(scoop, nextScreen.getController(), this);
+    private View inflateViewFromController(ViewController viewController, final Scoop scoop) {
+        View view = scoop.inflate(viewController.layoutId(), this, false);
+        ViewControllerInflater.bindViewControllerToView(view, viewController);
+        return view;
     }
 
     private View inflateLayout(Screen nextScreen, final Scoop scoop) {
         return getLayoutInflater().inflateView(scoop, nextScreen, this);
     }
 
-    private ScreenTransition getTransition(ScreenSwap screenChange) {
+    static ScreenTransition getTransition(ViewController viewController, ScreenSwap screenChange) {
         if (screenChange.direction == TransitionDirection.ENTER) {
-            return getEnterTransition(screenChange);
+            return viewController != null && viewController.enterTransition() != null
+                    ? getTransitionFromClass(viewController.enterTransition())
+                    : getEnterTransitionFromScreen(screenChange.next);
         } else {
-            return getExitTransition(screenChange);
+            return viewController != null && viewController.exitTransition() != null
+                    ? getTransitionFromClass(viewController.exitTransition())
+                    : getExitTransitionFromScreen(screenChange.previous);
         }
     }
 
@@ -190,7 +198,7 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         return handleBack.onBack();
     }
 
-    Scoop getActiveScoop(final RouteChange routeChange) {
+    private Scoop getActiveScoop(final RouteChange routeChange) {
         Scoop rootScoop = Scoop.fromView(this);
 
         Scoop currentScreenScoop = Scoop.fromView(active);
@@ -210,37 +218,37 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         return transitionListener;
     }
 
-    static ScreenTransition getEnterTransition(ScreenSwap screenChange) {
-        if (screenChange.next == null) {
+    private static ScreenTransition getTransitionFromClass(Class<? extends ScreenTransition> clazz) {
+        try {
+            return clazz.newInstance();
+        } catch (Throwable e) {
+            throw new RuntimeException("Failed to instantiate transition: " + clazz.getSimpleName(), e);
+        }
+    }
+
+    private static ScreenTransition getEnterTransitionFromScreen(Screen screen) {
+        if (screen == null) {
             return new InstantTransition();
         }
 
-        EnterTransition enterTransition = screenChange.next.getClass().getAnnotation(EnterTransition.class);
+        EnterTransition enterTransition = screen.getClass().getAnnotation(EnterTransition.class);
 
         if (enterTransition != null) {
-            try {
-                return enterTransition.value().newInstance();
-            } catch (Throwable e) {
-                throw new RuntimeException("Failed to instantiate enter transition: " + enterTransition.value().getSimpleName(), e);
-            }
+            return getTransitionFromClass(enterTransition.value());
         }
 
         return new InstantTransition();
     }
 
-    static ScreenTransition getExitTransition(ScreenSwap screenChange) {
-        if (screenChange.previous == null) {
+    private static ScreenTransition getExitTransitionFromScreen(Screen screen) {
+        if (screen == null) {
             return new InstantTransition();
         }
 
-        ExitTransition exitTransition = screenChange.previous.getClass().getAnnotation(ExitTransition.class);
+        ExitTransition exitTransition = screen.getClass().getAnnotation(ExitTransition.class);
 
         if (exitTransition != null) {
-            try {
-                return exitTransition.value().newInstance();
-            } catch (Throwable e) {
-                throw new RuntimeException("Failed to instantiate exit transition: " + exitTransition.value().getSimpleName(), e);
-            }
+            return getTransitionFromClass(exitTransition.value());
         }
 
         return new InstantTransition();
