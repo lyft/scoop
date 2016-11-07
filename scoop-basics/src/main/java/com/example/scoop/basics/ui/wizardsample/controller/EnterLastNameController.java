@@ -9,6 +9,9 @@ import com.example.scoop.basics.ui.BaseViewController;
 import com.example.scoop.basics.ui.Keyboard;
 import com.example.scoop.basics.ui.wizardsample.WizardSession;
 import com.example.scoop.basics.ui.wizardsample.screen.ConfirmationScreen;
+import com.lyft.scoop.ScreenTransition;
+import com.lyft.scoop.transitions.BackwardSlideTransition;
+import com.lyft.scoop.transitions.ForwardSlideTransition;
 import javax.inject.Inject;
 
 public class EnterLastNameController extends BaseViewController {
@@ -47,5 +50,15 @@ public class EnterLastNameController extends BaseViewController {
     public void goNext() {
         wizardSession.lastName = lastNameEditText.getText().toString();
         appRouter.goTo(new ConfirmationScreen());
+    }
+
+    @Override
+    protected Class<? extends ScreenTransition> enterTransition() {
+        return ForwardSlideTransition.class;
+    }
+
+    @Override
+    protected Class<? extends ScreenTransition> exitTransition() {
+        return BackwardSlideTransition.class;
     }
 }

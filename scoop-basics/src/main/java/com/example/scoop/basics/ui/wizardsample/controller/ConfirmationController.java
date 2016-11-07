@@ -8,6 +8,9 @@ import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.ui.BaseViewController;
 import com.example.scoop.basics.ui.DemoScreen;
 import com.example.scoop.basics.ui.wizardsample.WizardSession;
+import com.lyft.scoop.ScreenTransition;
+import com.lyft.scoop.transitions.BackwardSlideTransition;
+import com.lyft.scoop.transitions.ForwardSlideTransition;
 import javax.inject.Inject;
 
 public class ConfirmationController extends BaseViewController {
@@ -48,5 +51,15 @@ public class ConfirmationController extends BaseViewController {
     @OnClick(R.id.next_button)
     public void onClick() {
         appRouter.resetTo(new DemoScreen());
+    }
+
+    @Override
+    protected Class<? extends ScreenTransition> enterTransition() {
+        return ForwardSlideTransition.class;
+    }
+
+    @Override
+    protected Class<? extends ScreenTransition> exitTransition() {
+        return BackwardSlideTransition.class;
     }
 }

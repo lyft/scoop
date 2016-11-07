@@ -5,6 +5,8 @@ import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.ui.BaseViewController;
 import com.example.scoop.basics.ui.navigationsample.screen.CScreen;
+import com.lyft.scoop.ScreenTransition;
+import com.lyft.scoop.transitions.FadeTransition;
 import javax.inject.Inject;
 
 public class BController extends BaseViewController {
@@ -39,5 +41,15 @@ public class BController extends BaseViewController {
     @OnClick(R.id.go_to_c_button)
     public void goToB() {
         appRouter.goTo(new CScreen());
+    }
+
+    @Override
+    protected Class<? extends ScreenTransition> enterTransition() {
+        return FadeTransition.class;
+    }
+
+    @Override
+    protected Class<? extends ScreenTransition> exitTransition() {
+        return FadeTransition.class;
     }
 }

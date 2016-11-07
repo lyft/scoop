@@ -4,6 +4,9 @@ import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.DialogRouter;
 import com.example.scoop.basics.ui.BaseViewController;
+import com.example.scoop.basics.ui.transitions.dialogtransitions.SlideDownTransition;
+import com.example.scoop.basics.ui.transitions.dialogtransitions.SlideUpTransition;
+import com.lyft.scoop.ScreenTransition;
 import javax.inject.Inject;
 
 public class DialogController extends BaseViewController {
@@ -23,5 +26,15 @@ public class DialogController extends BaseViewController {
     @OnClick(R.id.dismiss_button)
     public void goToB() {
         dialogRouter.dismiss();
+    }
+
+    @Override
+    protected Class<? extends ScreenTransition> enterTransition() {
+        return SlideUpTransition.class;
+    }
+
+    @Override
+    protected Class<? extends ScreenTransition> exitTransition() {
+        return SlideDownTransition.class;
     }
 }

@@ -151,7 +151,7 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         }
 
         isTransitioning = true;
-        final ScreenTransition transition = getTransition(viewController, screenSwap);
+        final ScreenTransition transition = getTransition(viewController, screenSwap.direction);
         transition.transition(this, prevView, active, this);
     }
 
@@ -165,15 +165,15 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         return getLayoutInflater().inflateView(scoop, nextScreen, this);
     }
 
-    static ScreenTransition getTransition(ViewController viewController, ScreenSwap screenChange) {
-        if (screenChange.direction == TransitionDirection.ENTER) {
+    static ScreenTransition getTransition(ViewController viewController, TransitionDirection transitionDirection) {
+        if (transitionDirection == TransitionDirection.ENTER) {
             return viewController != null && viewController.enterTransition() != null
                     ? getTransitionFromClass(viewController.enterTransition())
-                    : getEnterTransitionFromScreen(screenChange.next);
+                    : new InstantTransition();
         } else {
             return viewController != null && viewController.exitTransition() != null
                     ? getTransitionFromClass(viewController.exitTransition())
-                    : getExitTransitionFromScreen(screenChange.previous);
+                    : new InstantTransition();
         }
     }
 
@@ -224,33 +224,5 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         } catch (Throwable e) {
             throw new RuntimeException("Failed to instantiate transition: " + clazz.getSimpleName(), e);
         }
-    }
-
-    private static ScreenTransition getEnterTransitionFromScreen(Screen screen) {
-        if (screen == null) {
-            return new InstantTransition();
-        }
-
-        EnterTransition enterTransition = screen.getClass().getAnnotation(EnterTransition.class);
-
-        if (enterTransition != null) {
-            return getTransitionFromClass(enterTransition.value());
-        }
-
-        return new InstantTransition();
-    }
-
-    private static ScreenTransition getExitTransitionFromScreen(Screen screen) {
-        if (screen == null) {
-            return new InstantTransition();
-        }
-
-        ExitTransition exitTransition = screen.getClass().getAnnotation(ExitTransition.class);
-
-        if (exitTransition != null) {
-            return getTransitionFromClass(exitTransition.value());
-        }
-
-        return new InstantTransition();
     }
 }

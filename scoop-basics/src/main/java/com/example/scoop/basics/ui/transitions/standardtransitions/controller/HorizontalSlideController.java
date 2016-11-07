@@ -5,6 +5,9 @@ import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.ui.BaseViewController;
 import com.example.scoop.basics.ui.transitions.standardtransitions.screen.VerticalSlideScreen;
+import com.lyft.scoop.ScreenTransition;
+import com.lyft.scoop.transitions.BackwardSlideTransition;
+import com.lyft.scoop.transitions.ForwardSlideTransition;
 import javax.inject.Inject;
 
 public class HorizontalSlideController extends BaseViewController {
@@ -34,5 +37,15 @@ public class HorizontalSlideController extends BaseViewController {
     @OnClick(R.id.next_button)
     public void goNext() {
         appRouter.goTo(new VerticalSlideScreen());
+    }
+
+    @Override
+    protected Class<? extends ScreenTransition> enterTransition() {
+        return ForwardSlideTransition.class;
+    }
+
+    @Override
+    protected Class<? extends ScreenTransition> exitTransition() {
+        return BackwardSlideTransition.class;
     }
 }

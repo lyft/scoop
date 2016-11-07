@@ -6,6 +6,8 @@ import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.ui.BaseViewController;
 import com.example.scoop.basics.ui.navigationsample.screen.BScreen;
+import com.lyft.scoop.ScreenTransition;
+import com.lyft.scoop.transitions.FadeTransition;
 import javax.inject.Inject;
 
 public class AController extends BaseViewController {
@@ -43,5 +45,15 @@ public class AController extends BaseViewController {
     public void toast() {
         Toast.makeText(getView().getContext(), TOAST_TEXT,
                 Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected Class<? extends ScreenTransition> enterTransition() {
+        return FadeTransition.class;
+    }
+
+    @Override
+    protected Class<? extends ScreenTransition> exitTransition() {
+        return FadeTransition.class;
     }
 }
