@@ -4,7 +4,10 @@ import butterknife.OnClick;
 import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.DialogRouter;
 import com.example.scoop.basics.ui.BaseViewController;
+import com.example.scoop.basics.ui.transitions.dialogtransitions.SlideDownTransition;
+import com.example.scoop.basics.ui.transitions.dialogtransitions.SlideUpTransition;
 import com.lyft.scoop.HandleBack;
+import com.lyft.scoop.ScreenTransition;
 import javax.inject.Inject;
 
 public class DialogDisableOnBackController extends BaseViewController implements HandleBack {
@@ -30,5 +33,15 @@ public class DialogDisableOnBackController extends BaseViewController implements
     public boolean onBack() {
         //Disable back press on this view
         return true;
+    }
+
+    @Override
+    protected ScreenTransition enterTransition() {
+        return new SlideUpTransition();
+    }
+
+    @Override
+    protected ScreenTransition exitTransition() {
+        return new SlideDownTransition();
     }
 }

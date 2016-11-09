@@ -6,6 +6,8 @@ import com.example.scoop.basics.R;
 import com.example.scoop.basics.ui.BaseViewController;
 import com.example.scoop.basics.ui.paramsample.screen.ParametrizedScreen;
 import com.lyft.scoop.Screen;
+import com.lyft.scoop.ScreenTransition;
+import com.lyft.scoop.transitions.FadeTransition;
 import javax.inject.Inject;
 
 public class ParametrizedController extends BaseViewController {
@@ -33,5 +35,15 @@ public class ParametrizedController extends BaseViewController {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    @Override
+    protected ScreenTransition enterTransition() {
+        return new FadeTransition();
+    }
+
+    @Override
+    protected ScreenTransition exitTransition() {
+        return new FadeTransition();
     }
 }

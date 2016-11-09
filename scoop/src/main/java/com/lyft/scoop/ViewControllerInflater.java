@@ -13,19 +13,19 @@ public class ViewControllerInflater {
         }
     }
 
-    public View inflateViewController(
+    public ViewController inflateViewController(
             Scoop scoop,
             Class<? extends ViewController> viewControllerClazz,
             ViewGroup viewGroup) {
 
         ViewController viewController = createViewController(scoop, viewControllerClazz);
         viewController.setScoop(scoop);
-        View view = scoop.inflate(viewController.layoutId(), viewGroup, false);
-        bindViewControllerToView(view, viewController);
-        return view;
+        return viewController;
     }
 
-    private static void bindViewControllerToView(final View view, final ViewController viewController) {
+
+
+    static void bindViewControllerToView(final View view, final ViewController viewController) {
 
         final View.OnAttachStateChangeListener viewAttachListener = new View.OnAttachStateChangeListener() {
             @Override

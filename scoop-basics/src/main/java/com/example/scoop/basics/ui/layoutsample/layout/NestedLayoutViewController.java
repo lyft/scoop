@@ -9,7 +9,9 @@ import com.example.scoop.basics.R;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.ui.BaseViewController;
 import com.example.scoop.basics.ui.layoutsample.module.NestedViewModule;
+import com.lyft.scoop.ScreenTransition;
 import com.lyft.scoop.dagger.DaggerInjector;
+import com.lyft.scoop.transitions.FadeTransition;
 import javax.inject.Inject;
 
 public class NestedLayoutViewController extends BaseViewController {
@@ -52,5 +54,15 @@ public class NestedLayoutViewController extends BaseViewController {
     @OnClick(R.id.go_back_button)
     public void goBack() {
         appRouter.goBack();
+    }
+
+    @Override
+    protected ScreenTransition enterTransition() {
+        return new FadeTransition();
+    }
+
+    @Override
+    protected ScreenTransition exitTransition() {
+        return new FadeTransition();
     }
 }

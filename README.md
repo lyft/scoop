@@ -31,8 +31,6 @@ The `Screen` class is extendable, and will provide you with the foundation for y
 ```java
 
 @ViewController(MyController.class)
-@EnterTransition(FadeTransition.class)
-@ExitTransition(FadeTransition.class)
 public class MyScreen extends Screen {
 }
 ```
@@ -57,8 +55,6 @@ You can also [use view binders like Butterknife](https://github.com/lyft/scoop/b
 ```java
 
 @ViewController(MyController.class)
-@EnterTransition(FadeTransition.class)
-@ExitTransition(FadeTransition.class)
 public class MyScreen extends Screen {
 }
 ```
@@ -94,12 +90,10 @@ The big difference from Android fragments and activities is that in Scoop we don
 Layout
 ===============
 
-A `Layout` annotation can be used similarly to `ViewController` annotation, and can accomplish the same goals. However, there is a higher degree of coupling between the controller and the view in this approach, so this implementation is generally not recommended. 
+A `Layout` annotation can be used similarly to `ViewController` annotation, and can accomplish the same goals. However, there is a higher degree of coupling between the controller and the view in this approach, so this implementation is generally not recommended.
 
 ```java
 @Layout(R.layout.my)
-@EnterTransition(FadeTransition.class)
-@ExitTransition(FadeTransition.class)
 public class MyScreen extends Screen {
 }
 ```
@@ -202,13 +196,22 @@ Transitions are animations played between moving from one `ViewController` to an
 4. Upward slide
 5. Fade
 
-To apply a transition you have to specify it for your `Screen` using `EnterTranstion`/`ExitTransition` attributes.
+To apply a transition you have to specify it for your `ViewController` by overriding `enterTransition()`/`exitTransition()` methods.
 
 ```java
-@EnterTransition(FadeTransition.class)
-@ExitTransition(FadeTransition.class)
-public class MyScreen extends Screen {
-  ...
+public class MyController extends ViewController {
+
+    @Override
+    protected ScreenTransition enterTransition() {
+        return new ForwardSlideTransition();
+    }
+
+    @Override
+    protected ScreenTransition exitTransition() {
+        return new BackwardSlideTransition();
+    }
+
+    ...
 }
 ```
 

@@ -1,6 +1,7 @@
 package com.lyft.scoop;
 
 import android.view.View;
+import com.lyft.scoop.transitions.InstantTransition;
 
 public abstract class ViewController {
 
@@ -64,5 +65,13 @@ public abstract class ViewController {
         }
 
         return null;
+    }
+
+    protected ScreenTransition enterTransition() {
+        return new InstantTransition();
+    }
+
+    protected ScreenTransition exitTransition() {
+        return new InstantTransition();
     }
 }

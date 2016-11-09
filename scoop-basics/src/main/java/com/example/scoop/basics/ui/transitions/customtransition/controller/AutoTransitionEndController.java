@@ -5,6 +5,8 @@ import com.example.scoop.basics.R;
 import com.example.scoop.basics.rx.ViewSubscriptions;
 import com.example.scoop.basics.scoop.AppRouter;
 import com.example.scoop.basics.ui.BaseViewController;
+import com.example.scoop.basics.ui.transitions.customtransition.AutoTransition;
+import com.lyft.scoop.ScreenTransition;
 import javax.inject.Inject;
 
 public class AutoTransitionEndController extends BaseViewController {
@@ -38,5 +40,15 @@ public class AutoTransitionEndController extends BaseViewController {
     @OnClick(R.id.back_button)
     public void goNext() {
         appRouter.goBack();
+    }
+
+    @Override
+    protected ScreenTransition enterTransition() {
+        return new AutoTransition();
+    }
+
+    @Override
+    protected ScreenTransition exitTransition() {
+        return new AutoTransition();
     }
 }
