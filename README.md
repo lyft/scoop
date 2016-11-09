@@ -202,13 +202,13 @@ To apply a transition you have to specify it for your `ViewController` by overri
 public class MyController extends ViewController {
 
     @Override
-    protected Class<? extends ScreenTransition> enterTransition() {
-        return ForwardSlideTransition.class;
+    protected ScreenTransition enterTransition() {
+        return new ForwardSlideTransition();
     }
 
     @Override
-    protected Class<? extends ScreenTransition> exitTransition() {
-        return BackwardSlideTransition.class;
+    protected ScreenTransition exitTransition() {
+        return new BackwardSlideTransition();
     }
 
     ...
