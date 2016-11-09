@@ -166,14 +166,14 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
     }
 
     static ScreenTransition getTransition(ViewController viewController, TransitionDirection transitionDirection) {
+        if (viewController == null) {
+            return new InstantTransition();
+        }
+
         if (transitionDirection == TransitionDirection.ENTER) {
-            return viewController != null && viewController.enterTransition() != null
-                    ? getTransitionFromClass(viewController.enterTransition())
-                    : new InstantTransition();
+            return viewController.enterTransition();
         } else {
-            return viewController != null && viewController.exitTransition() != null
-                    ? getTransitionFromClass(viewController.exitTransition())
-                    : new InstantTransition();
+            return viewController.exitTransition();
         }
     }
 
@@ -216,13 +216,5 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         }
 
         return transitionListener;
-    }
-
-    private static ScreenTransition getTransitionFromClass(Class<? extends ScreenTransition> clazz) {
-        try {
-            return clazz.newInstance();
-        } catch (Throwable e) {
-            throw new RuntimeException("Failed to instantiate transition: " + clazz.getSimpleName(), e);
-        }
     }
 }

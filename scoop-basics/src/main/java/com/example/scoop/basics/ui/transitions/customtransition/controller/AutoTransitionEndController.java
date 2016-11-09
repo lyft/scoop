@@ -43,12 +43,12 @@ public class AutoTransitionEndController extends BaseViewController {
     }
 
     @Override
-    protected Class<? extends ScreenTransition> enterTransition() {
-        return AutoTransition.class;
+    protected ScreenTransition enterTransition() {
+        return new AutoTransition();
     }
 
     @Override
-    protected Class<? extends ScreenTransition> exitTransition() {
-        return AutoTransition.class;
+    protected ScreenTransition exitTransition() {
+        return new AutoTransition();
     }
 }

@@ -40,12 +40,12 @@ public class VerticalSlideController extends BaseViewController {
     }
 
     @Override
-    protected Class<? extends ScreenTransition> enterTransition() {
-        return UpwardSlideTransition.class;
+    protected ScreenTransition enterTransition() {
+        return new UpwardSlideTransition();
     }
 
     @Override
-    protected Class<? extends ScreenTransition> exitTransition() {
-        return DownwardSlideTransition.class;
+    protected ScreenTransition exitTransition() {
+        return new DownwardSlideTransition();
     }
 }

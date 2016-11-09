@@ -40,12 +40,12 @@ public class HorizontalSlideController extends BaseViewController {
     }
 
     @Override
-    protected Class<? extends ScreenTransition> enterTransition() {
-        return ForwardSlideTransition.class;
+    protected ScreenTransition enterTransition() {
+        return new ForwardSlideTransition();
     }
 
     @Override
-    protected Class<? extends ScreenTransition> exitTransition() {
-        return BackwardSlideTransition.class;
+    protected ScreenTransition exitTransition() {
+        return new BackwardSlideTransition();
     }
 }

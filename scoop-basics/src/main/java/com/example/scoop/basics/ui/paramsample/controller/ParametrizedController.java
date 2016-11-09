@@ -38,12 +38,12 @@ public class ParametrizedController extends BaseViewController {
     }
 
     @Override
-    protected Class<? extends ScreenTransition> enterTransition() {
-        return FadeTransition.class;
+    protected ScreenTransition enterTransition() {
+        return new FadeTransition();
     }
 
     @Override
-    protected Class<? extends ScreenTransition> exitTransition() {
-        return FadeTransition.class;
+    protected ScreenTransition exitTransition() {
+        return new FadeTransition();
     }
 }

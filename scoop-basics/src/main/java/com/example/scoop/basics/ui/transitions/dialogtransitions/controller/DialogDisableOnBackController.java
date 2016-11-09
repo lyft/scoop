@@ -36,12 +36,12 @@ public class DialogDisableOnBackController extends BaseViewController implements
     }
 
     @Override
-    protected Class<? extends ScreenTransition> enterTransition() {
-        return SlideUpTransition.class;
+    protected ScreenTransition enterTransition() {
+        return new SlideUpTransition();
     }
 
     @Override
-    protected Class<? extends ScreenTransition> exitTransition() {
-        return SlideDownTransition.class;
+    protected ScreenTransition exitTransition() {
+        return new SlideDownTransition();
     }
 }
