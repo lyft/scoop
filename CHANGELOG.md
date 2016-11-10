@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 0.4.0 *(2016-11-9)*
+----------------------------
+Add support for setting transitions in ViewController.
+Remove annotation support for transitions.
+
 Version 0.3.18 *(2016-7-28)*
 ----------------------------
 
