@@ -133,7 +133,7 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         Screen previousScreen = screenSwap.previous;
         Screen nextScreen = screenSwap.next;
         final View prevView = active;
-        ViewController viewController = null;
+        ViewController nextViewController = null;
 
         if (active != null && previousScreen != null) {
             previousScreen.saveViewState(active);
@@ -142,8 +142,8 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         if (nextScreen == null) {
             active = null;
         } else if (nextScreen.getController() != null) {
-            viewController = getViewControllerInflater().inflateViewController(currentScoop, nextScreen.getController(), this);
-            active = inflateViewFromController(viewController, currentScoop);
+            nextViewController = getViewControllerInflater().inflateViewController(currentScoop, nextScreen.getController(), this);
+            active = inflateViewFromController(nextViewController, currentScoop);
             nextScreen.restoreViewState(active);
         } else {
             active = inflateLayout(nextScreen, currentScoop);
@@ -151,7 +151,12 @@ public abstract class UiContainer extends FrameLayout implements HandleBack, Tra
         }
 
         isTransitioning = true;
-        final ScreenTransition transition = getTransition(viewController, screenSwap.direction);
+        ScreenTransition transition;
+        if (screenSwap.direction == TransitionDirection.ENTER) {
+            transition = getTransition(nextViewController, screenSwap.direction);
+        } else {
+            transition = getTransition(ViewController.fromView(prevView), screenSwap.direction);
+        }
         transition.transition(this, prevView, active, this);
     }
 
