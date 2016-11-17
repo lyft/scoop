@@ -1,8 +1,14 @@
 Change Log
 ==========
 
+Version 0.4.0 *(2016-11-17)*
+----------------------------
+
+Fix bug where incorrect exit transition was used.
+
 Version 0.4.0 *(2016-11-9)*
 ----------------------------
+
 Add support for setting transitions in ViewController.
 Remove annotation support for transitions.
 
@@ -131,5 +137,3 @@ Version 0.1.0 *(2015-12-09)*
 ----------------------------
 
 Initial release.
-
-

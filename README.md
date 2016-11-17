@@ -263,7 +263,7 @@ Download
 --------
 
 ```groovy
-compile 'com.lyft:scoop:0.4.0'
+compile 'com.lyft:scoop:0.4.1'
 ```
 
 Snapshots of development version are available in [Sonatype's `snapshots` repository](https://oss.sonatype.org/content/repositories/snapshots/com/lyft/scoop/).
