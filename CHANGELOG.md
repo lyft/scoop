@@ -1,7 +1,12 @@
 Change Log
 ==========
 
-Version 0.4.0 *(2016-11-17)*
+Version 0.4.2 *(2016-11-17)*
+----------------------------
+
+Fix release artifacts.
+
+Version 0.4.1 *(2016-11-17)*
 ----------------------------
 
 Fix bug where incorrect exit transition was used.
