@@ -8,18 +8,24 @@ import com.lyft.scoop.TransitionListener;
 
 public abstract class ObjectAnimatorTransition implements ScreenTransition {
 
+
+
     @Override
     public void transition(final ViewGroup root, final View from, final View to, final TransitionListener transitionListener) {
-        if (to == null) {
-            performTranslate(root, from, to, transitionListener);
+        if (from == null) {
+            transitionListener.onTransitionCompleted();
         } else {
-            root.addView(to);
-            waitForMeasure(to, new OnMeasuredCallback() {
-                @Override
-                public void onMeasured(View view, int width, int height) {
-                    performTranslate(root, from, to, transitionListener);
-                }
-            });
+            if (to == null) {
+                performTranslate(root, from, to, transitionListener);
+            } else {
+                root.addView(to);
+                waitForMeasure(to, new OnMeasuredCallback() {
+                    @Override
+                    public void onMeasured(View view, int width, int height) {
+                        performTranslate(root, from, to, transitionListener);
+                    }
+                });
+            }
         }
     }
 
