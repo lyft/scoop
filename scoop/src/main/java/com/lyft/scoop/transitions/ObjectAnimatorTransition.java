@@ -12,13 +12,13 @@ public abstract class ObjectAnimatorTransition implements ScreenTransition {
 
     @Override
     public void transition(final ViewGroup root, final View from, final View to, final TransitionListener transitionListener) {
-        if (from == null) {
-            transitionListener.onTransitionCompleted();
+        if (to == null) {
+            performTranslate(root, from, to, transitionListener);
         } else {
-            if (to == null) {
-                performTranslate(root, from, to, transitionListener);
+            root.addView(to);
+            if (from == null) {
+                transitionListener.onTransitionCompleted();
             } else {
-                root.addView(to);
                 waitForMeasure(to, new OnMeasuredCallback() {
                     @Override
                     public void onMeasured(View view, int width, int height) {
@@ -27,6 +27,7 @@ public abstract class ObjectAnimatorTransition implements ScreenTransition {
                 });
             }
         }
+
     }
 
     protected abstract void performTranslate(ViewGroup root, View from, View to, TransitionListener transitionListener);
