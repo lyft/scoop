@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
 
 android {
     lintOptions {
@@ -36,6 +35,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    buildToolsVersion '26.0.2'
 }
 
 dependencies {
@@ -49,12 +49,12 @@ dependencies {
     compile 'com.android.support:multidex:1.0.0'
     
     compile 'com.jakewharton:butterknife:8.2.1'
-    apt 'com.jakewharton:butterknife-compiler:8.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.2.1'
 
     compile 'com.jakewharton.timber:timber:3.1.0'
     compile 'com.jakewharton.rxrelay:rxrelay:1.0.0'
     compile 'com.google.android.gms:play-services-location:8.1.0'
     compile project(':scoop')
     compile project(':scoop-dagger')
-    apt 'com.squareup.dagger:dagger-compiler:1.2.2'
+    annotationProcessor 'com.squareup.dagger:dagger-compiler:1.2.2'
 }

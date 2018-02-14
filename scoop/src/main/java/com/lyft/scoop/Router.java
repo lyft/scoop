@@ -40,7 +40,7 @@ public abstract class Router {
 
         List<Screen> fromPath = backStack.asList();
 
-        if (Screen.equals(backStack.peek(), nextScreen)) {
+        if (backStack.peek() == nextScreen) {
             return;
         }
 
@@ -57,7 +57,7 @@ public abstract class Router {
 
         Screen previousScreen = backStack.peek();
 
-        if (Screen.equals(previousScreen, nextScreen)) {
+        if (previousScreen == nextScreen) {
             return;
         }
 
