@@ -57,7 +57,7 @@ public abstract class Router {
 
         Screen previousScreen = backStack.peek();
 
-        if (Screen.equals(previousScreen, nextScreen)) {
+        if (previousScreen == nextScreen) {
             return;
         }
 
