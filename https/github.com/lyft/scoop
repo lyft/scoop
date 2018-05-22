@@ -1,0 +1,26 @@
+@ViewController(MyController.class)
+public class MyScreen extends Screen {
+}
+public class MyController extends ViewController {
+
+    @Override
+    protected int layoutId() {
+        return R.layout.my;
+    }
+
+    @Override
+    public void onAttach() {
+        super.onAttach();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+    }
+
+    @OnClick(R.id.do_smth)
+    public void doSomething() {
+
+    }
+}
