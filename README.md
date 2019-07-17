@@ -1,5 +1,9 @@
 <img src="art/scoop_logo.png" width="190" align="right" hspace="20" />
 
+Deprecation Note
+================
+The open-source version of Scoop is no longer actively maintained and does not represent the version of Scoop currently being used internally at Lyft.
+
 Scoop [![Build Status](https://travis-ci.org/lyft/scoop.svg)](https://travis-ci.org/lyft/scoop)
 =====
 
